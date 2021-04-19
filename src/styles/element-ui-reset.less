@@ -1,0 +1,127 @@
+// border reset
+
+.el-table td,
+.el-table th.is-leaf {
+  border-bottom: 1px solid #d7dde4;
+}
+.el-table--border td,
+.el-table--border th,
+.el-table__body-wrapper .el-table--border.is-scrolling-left ~ .el-table__fixed {
+  border-right: 1px solid #d7dde4;
+}
+.el-table--border,
+.el-table--group {
+  border: 1px solid #d7dde4;
+}
+.el-table th {
+  text-align: center;
+  color: #464c5b;
+  font-weight: normal;
+  background-color: #f5f7f9;
+  font-size: 13px;
+}
+.el-table td {
+  text-align: center;
+  color: #464c5b;
+  font-weight: normal;
+  font-size: 13px;
+}
+
+// primary reset
+// #1ABC9C,#4FC1B0,#16A085,#0fce96
+.el-button--primary {
+  color: #fff;
+  background-color: #16a085;
+  border-color: #16a085;
+  &:hover,
+  &:focus {
+    background-color: #1abc9c;
+    border-color: #1abc9c;
+  }
+}
+.el-tabs__item.is-active {
+  color: #16a085;
+}
+.el-tabs__active-bar {
+  background-color: #16a085;
+}
+.el-link.el-link--primary {
+  color: #16a085;
+  text-decoration: none;
+  &:hover,
+  &:focus {
+    color: #1abc9c;
+  }
+}
+.el-pager li.active {
+  color: #16a085;
+  cursor: default;
+}
+
+// el-breadcrumb
+.el-breadcrumb__inner a,
+.el-breadcrumb__inner.is-link {
+  font-weight: normal;
+  color: #9ea7b4;
+}
+.el-breadcrumb__item:last-child .el-breadcrumb__inner,
+.el-breadcrumb__item:last-child .el-breadcrumb__inner a,
+.el-breadcrumb__item:last-child .el-breadcrumb__inner a:hover,
+.el-breadcrumb__item:last-child .el-breadcrumb__inner:hover {
+  color: #464c5b;
+}
+// el-tabs
+.el-tabs__item {
+  font-weight: normal;
+  color: #657180;
+}
+// el-tabs-page
+.el-tabs__header {
+  background-color: #fff;
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+.el-tabs__content {
+  margin: 0 20px;
+  background-color: #fff;
+  padding: 20px;
+}
+.el-tabs__nav-wrap::after {
+  background-color: transparent;
+}
+
+.el-input__inner {
+  border: 1px solid #d7dde4;
+}
+.el-range-editor.el-input__inner {
+  width: auto;
+}
+.ant-cascader-picker {
+  width: 100%;
+}
+.el-date-editor .el-range-separator {
+  width: 30px;
+}
+
+//el-form
+.el-form-item__label {
+  color: #464c5b;
+}
+//el-form-page
+.el-form.el-form--inline {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -20px;
+  .el-form-item {
+    margin-right: 0;
+    width: 33.33%;
+    display: flex;
+    .el-form-item__content {
+      flex: 1;
+      padding-right: 20px;
+      .el-select {
+        width: 100%;
+      }
+    }
+  }
+}

@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Home from "../views/home.vue";
+import Layout from "@/components/Layout";
+import LayoutEmpty from "@/components/LayoutEmpty";
 
 Vue.use(VueRouter);
 
@@ -9,16 +11,193 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+    hidden: true,
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    path: "/welcome",
+    name: "Welcome",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+      import(/* webpackChunkName: "welcome" */ "../views/welcome.vue"),
   },
+  {
+    path: "/merchant",
+    name: "Merchant",
+    component: Layout,
+    redirect: {
+      name: "MerchantList",
+    },
+    meta: {
+      title: "商品管理",
+    },
+    children: [
+      {
+        path: "list",
+        name: "MerchantList",
+        component: LayoutEmpty,
+        redirect: {
+          name: "MerchantListIndex",
+        },
+        meta: {
+          title: "商户列表",
+        },
+        children: [
+          {
+            path: "index",
+            name: "MerchantListIndex",
+            component: () => import("../views/merchant/list/index.vue"),
+            meta: {
+              title: "商户列表",
+              hidden: true,
+              hiddenBreadcrumb: true,
+            },
+          },
+          {
+            path: "join",
+            name: "MerchantListJoin",
+            component: () => import("../views/merchant/list/join.vue"),
+            meta: {
+              title: "商户入驻",
+              hidden: true,
+            },
+          },
+          {
+            path: "details/:id",
+            name: "MerchantListDetails",
+            component: LayoutEmpty,
+            meta: {
+              title: "商户详情",
+              hidden: true,
+            },
+            redirect: {
+              name: "MerchantListDetailsIndex",
+            },
+            children: [
+              {
+                path: "index",
+                name: "MerchantListDetailsIndex",
+                component: () => import("../views/merchant/list/details.vue"),
+                meta: {
+                  hidden: true,
+                  hiddenBreadcrumb: true,
+                },
+              },
+              {
+                path: "add",
+                name: "MerchantListDetailsStoreAdd",
+                component: () => import("../views/merchant/store/add.vue"),
+                meta: {
+                  title: "添加门店",
+                  hidden: true,
+                },
+              },
+              {
+                path: "edit/:id",
+                name: "MerchantListDetailsStoreEdit",
+                component: () => import("../views/merchant/store/add.vue"),
+                meta: {
+                  title: "修改门店",
+                  hidden: true,
+                },
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "store",
+        name: "MerchantStore",
+        meta: {
+          title: "门店列表",
+        },
+        redirect: {
+          name: "MerchantStoreIndex",
+        },
+        component: LayoutEmpty,
+        children: [
+          {
+            path: "index",
+            name: "MerchantStoreIndex",
+            component: () => import("../views/merchant/store/index.vue"),
+            meta: {
+              hidden: true,
+              hiddenBreadcrumb: true,
+            },
+          },
+          {
+            path: "edit/:id",
+            name: "MerchantStoreEdit",
+            component: () => import("../views/merchant/store/add.vue"),
+            meta: {
+              title: "修改门店",
+              hidden: true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/setting",
+    name: "Setting",
+    component: Layout,
+    redirect: {
+      name: "SettingPlay",
+    },
+    meta: {
+      title: "系统管理",
+    },
+    children: [
+      {
+        path: "play",
+        name: "SettingPlay",
+        component: LayoutEmpty,
+        meta: {
+          title: "支付设置",
+        },
+        redirect: {
+          name: "SettingPlayIndex",
+        },
+        children: [
+          {
+            path: "index",
+            name: "SettingPlayIndex",
+            component: () => import("../views/setting/play.vue"),
+            meta: {
+              hiddenBreadcrumb: true,
+              hidden: true,
+            },
+          },
+          {
+            path: "add",
+            name: "SettingPlayAdd",
+            component: () => import("../views/setting/add-play.vue"),
+            meta: {
+              title: "添加支付方式",
+              hidden: true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: () => import("@/views/login"),
+  },
+  {
+    path: "/404",
+    name: "404",
+    component: () => import("@/views/404"),
+    hidden: true,
+  },
+  {
+    path: "/403",
+    name: "403",
+    component: () => import("@/views/403"),
+    hidden: true,
+  },
+  { path: "*", redirect: "/404", hidden: true },
 ];
 
 const router = new VueRouter({

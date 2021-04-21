@@ -94,8 +94,13 @@
         <el-col :span="12">
           <el-form-item label="服务类型:" prop="serviceType">
             <el-radio-group v-model="formInline.serviceType">
-              <el-radio label="1">实物商品</el-radio>
-              <el-radio label="2">虚拟商品</el-radio>
+              <el-radio
+                v-for="(option, index) in prestoreinfoData.serviceTypeMap"
+                :key="index"
+                :label="Object.keys(option)[0]"
+              >
+                {{ option[Object.keys(option)[0]] }}
+              </el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -221,6 +226,180 @@
           <el-form-item label="邮政编码:" prop="areaId">
             <el-input
               v-model="formInline.areaId"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="地市连锁:" prop="cityChain">
+            <el-input
+              v-model="formInline.cityChain"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="当前地市覆盖规模:" prop="cityCover">
+            <el-input
+              v-model="formInline.cityCover"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="总部名称:" prop="totalName">
+            <el-input
+              v-model="formInline.totalName"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="连锁总部地址:" prop="totalAddress">
+            <el-input
+              v-model="formInline.totalAddress"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="是否有会员运营体系:" prop="vipSystem">
+            <el-radio-group v-model="formInline.vipSystem">
+              <el-radio label="0">否</el-radio>
+              <el-radio label="1">是</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="本地地市会员数:" prop="areaId">
+            <el-input
+              v-model="formInline.areaId"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="本省会员数:" prop="cityVipNum">
+            <el-input
+              v-model="formInline.cityVipNum"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="全国会员数:" prop="countryVipNum">
+            <el-input
+              v-model="formInline.countryVipNum"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="本地市用户数:" prop="cityUserNum">
+            <el-input
+              v-model="formInline.cityUserNum"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="本身覆盖:" prop="cityCover">
+            <el-input
+              v-model="formInline.cityCover"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="全国覆盖:" prop="countryUserNum">
+            <el-input
+              v-model="formInline.countryUserNum"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="是否有线上触点:" prop="onLineContact">
+            <el-radio-group v-model="formInline.onLineContact">
+              <el-radio label="0">否</el-radio>
+              <el-radio label="1">是</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="APP名称:" prop="appName">
+            <el-input
+              v-model="formInline.appName"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="小程序名称:" prop="appletsName">
+            <el-input
+              v-model="formInline.appletsName"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="公众号名称:" prop="wxPublicName">
+            <el-input
+              v-model="formInline.wxPublicName"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="项目名称:" prop="projectName">
+            <el-input
+              v-model="formInline.projectName"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="项目规模:" prop="projectScale">
+            <el-input
+              v-model="formInline.projectScale"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="立项人:" prop="projectApprovaName">
+            <el-input
+              v-model="formInline.projectApprovaName"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="签订合作类型:" prop="cooperationType">
+            <el-input
+              v-model="formInline.cooperationType"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="商机类型:" prop="merchantType">
+            <el-select v-model="formInline.merchantType" placeholder="请选择">
+              <el-option
+                v-for="(option, index) in prestoreinfoData.merchantType"
+                :key="index"
+                :label="option"
+                :value="index"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="项目介绍:" prop="projectMessage">
+            <el-input
+              type="textarea"
+              :rows="4"
+              v-model="formInline.projectMessage"
               placeholder="请输入"
             ></el-input>
           </el-form-item>

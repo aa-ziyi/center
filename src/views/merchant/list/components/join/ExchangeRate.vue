@@ -24,7 +24,7 @@
       class="demo-form-inline"
       label-width="150px"
     >
-      <el-form-item label="支付方式:">
+      <el-form-item label="支付方式:" prop="capitalTypeList">
         <el-checkbox-group v-model="formInline.capitalTypeList">
           <el-checkbox label="capitalType1">现金</el-checkbox>
         </el-checkbox-group>
@@ -88,7 +88,9 @@ export default {
         capitalTypeList: [],
       },
       formRules: {
-        feemothod: [{ required: true, message: "请输入费率", trigger: "blur" }],
+        capitalTypeList: [
+          { required: true, message: "请选择支付方式", trigger: "change" },
+        ],
         beganamount: [
           { required: true, message: "请输入计费起始金额", trigger: "blur" },
         ],

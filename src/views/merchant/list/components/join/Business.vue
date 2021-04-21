@@ -222,7 +222,19 @@ export default {
             trigger: "blur",
           },
         ],
+        icRegno: [
+          {
+            required: true,
+            message: "请输入工商注册号",
+            trigger: "blur",
+          },
+        ],
         regCap: [
+          {
+            required: true,
+            message: "请输入注册资本",
+            trigger: "blur",
+          },
           {
             validator: validateSingleBit,
             trigger: "blur",
@@ -231,6 +243,31 @@ export default {
         email: [
           {
             validator: validateEmail,
+            trigger: "blur",
+          },
+        ],
+        taxCertifi: [
+          {
+            required: true,
+            message: "请输入纳税资质",
+            trigger: "blur",
+          },
+        ],
+        operateProduct: [
+          {
+            required: true,
+            message: "请输入国税税务登记号",
+            trigger: "blur",
+          },
+        ],
+        taxAddedRate: [
+          {
+            required: true,
+            message: "请输入增值税率",
+            trigger: "blur",
+          },
+          {
+            validator: validateSingleBit,
             trigger: "blur",
           },
         ],

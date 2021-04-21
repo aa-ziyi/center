@@ -5,18 +5,18 @@
       <el-tab-pane label="基本信息" name="base">
         <Base @next="baseNext" :prestoreinfoData="prestoreinfoData" />
       </el-tab-pane>
-    <el-tab-pane label="业务信息" name="business">
-      <Business :prestoreinfoData="prestoreinfoData" />
-    </el-tab-pane>
-    <el-tab-pane label="结算信息" name="settlement">
-      <Settlement :prestoreinfoData="prestoreinfoData" />
-    </el-tab-pane>
-    <el-tab-pane label="费率" name="exchangeRate">
-      <ExchangeRate :prestoreinfoData="prestoreinfoData" />
-    </el-tab-pane>
-    <el-tab-pane label="协议信息" name="agreement">
-      <Agreement :prestoreinfoData="prestoreinfoData" />
-    </el-tab-pane>
+      <el-tab-pane label="业务信息" name="business">
+        <Business :prestoreinfoData="prestoreinfoData" />
+      </el-tab-pane>
+      <el-tab-pane label="结算信息" name="settlement">
+        <Settlement :prestoreinfoData="prestoreinfoData" />
+      </el-tab-pane>
+      <el-tab-pane label="费率" name="exchangeRate">
+        <ExchangeRate :prestoreinfoData="prestoreinfoData" />
+      </el-tab-pane>
+      <el-tab-pane label="协议信息" name="agreement">
+        <Agreement :prestoreinfoData="prestoreinfoData" />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>

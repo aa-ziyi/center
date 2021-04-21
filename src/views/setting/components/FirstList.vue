@@ -11,7 +11,7 @@
         <el-button type="primary" @click="onSubmit">查询</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="tableData" style="width: 100%" border>
+    <el-table :data="tableData" border v-loading="tableLoading">
       <el-table-column prop="id" label="支付渠道ID" />
       <el-table-column prop="name" label="支付渠道名称" />
       <el-table-column prop="address" label="是否有效" />
@@ -23,8 +23,13 @@
           <el-button type="text" size="small" @click="handleUpdate(scope.row)">
             修改
           </el-button>
-          <el-button type="text" size="small">启用/停用</el-button>
-          <el-button type="text" size="small">删除</el-button>
+          <el-button
+            type="text"
+            size="small"
+            @click="handleChangeView(scope.row)"
+          >
+            {{ String(scope.row.isValid) == "0" ? "启用" : "停用" }}</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -43,7 +48,10 @@
 </template>
 
 <script>
-import { StoreGetPaymentList } from "@/api/setting/play";
+import {
+  StoreGetPaymentList,
+  StoreGetPaymentChangeview,
+} from "@/api/setting/play";
 export default {
   data() {
     return {
@@ -53,12 +61,24 @@ export default {
       curPage: 1,
       totalCount: 0,
       submitForm: {},
+      tableLoading: false,
     };
   },
   created() {
     this.getData();
   },
   methods: {
+    handleChangeView(row) {
+      StoreGetPaymentChangeview({
+        data: {
+          id: row.id,
+          isValid: String(row.isValid) === "1" ? "0" : "1",
+        },
+      }).then(() => {
+        this.$message.success("操作成功");
+        this.getData();
+      });
+    },
     handleUpdate(row) {
       this.$router.push({
         name: "SettingPlayUpdate",
@@ -71,6 +91,7 @@ export default {
       });
     },
     getData() {
+      this.tableLoading = true;
       StoreGetPaymentList({
         data: {
           type: "1",
@@ -78,14 +99,18 @@ export default {
           pageSize: this.pageSize,
           ...this.submitForm,
         },
-      }).then((res) => {
-        console.log("res", res);
-        let { list, curPage, pageSize, totalCount } = res.data;
-        this.tableData = list;
-        this.pageSize = pageSize;
-        this.curPage = curPage;
-        this.totalCount = totalCount;
-      });
+      })
+        .then((res) => {
+          console.log("res", res);
+          let { list, curPage, pageSize, totalCount } = res.data;
+          this.tableData = list;
+          this.pageSize = pageSize;
+          this.curPage = curPage;
+          this.totalCount = totalCount;
+        })
+        .finally(() => {
+          this.tableLoading = false;
+        });
     },
     handleSizeChange(value) {
       this.pageSize = value;

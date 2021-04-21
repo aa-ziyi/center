@@ -176,6 +176,24 @@ const routes = [
               hidden: true,
             },
           },
+          {
+            path: "update/:id",
+            name: "SettingPlayUpdate",
+            component: () => import("../views/setting/add-play.vue"),
+            meta: {
+              title: "修改支付方式",
+              hidden: true,
+            },
+          },
+          {
+            path: "show/:id",
+            name: "SettingPlayShow",
+            component: () => import("../views/setting/show-play.vue"),
+            meta: {
+              title: "支付方式详情",
+              hidden: true,
+            },
+          },
         ],
       },
     ],

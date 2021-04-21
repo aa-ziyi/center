@@ -4,13 +4,16 @@
       <el-link type="primary" @click="handleJoinM">添加支付方式</el-link>
     </page-header>
     <el-tabs v-model="activeName">
-      <el-tab-pane label="支付列表" name="first">
+      <el-tab-pane label="已添加支付" name="first">
+        <FirstList />
+      </el-tab-pane>
+      <el-tab-pane label="未添加支付" name="second">
         <List />
       </el-tab-pane>
-      <el-tab-pane label="支付初审" name="second">
+      <el-tab-pane label="支付初审" name="third">
         <FirstStepAudit />
       </el-tab-pane>
-      <el-tab-pane label="支付终审" name="third">
+      <el-tab-pane label="支付终审" name="frou">
         <SecondStepAudit />
       </el-tab-pane>
     </el-tabs>
@@ -19,10 +22,12 @@
 
 <script>
 import List from "./components/List";
+import FirstList from "./components/FirstList";
 import FirstStepAudit from "./components/FirstStepAudit";
 import SecondStepAudit from "./components/SecondStepAudit";
 export default {
   components: {
+    FirstList,
     List,
     FirstStepAudit,
     SecondStepAudit,

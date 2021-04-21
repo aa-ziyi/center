@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Message } from "element-ui";
-import { removeCurrentUser, getToken } from "@/utils/auth";
+import { getToken, removeToken } from "@/utils/auth";
 import router from "@/router";
 
 // create an axios instance
@@ -31,28 +31,19 @@ service.interceptors.response.use(
   (response) => {
     console.log("response", response);
     let data = response.data;
-    if (response.status == "200") {
-      return data;
-    }
-    if (data.status == "401" || data.status == 401) {
-      removeCurrentUser();
+    let { ret, msg } = data;
+    if (ret == "401" || ret == 401) {
+      removeToken();
       router.push({
         name: "login",
       });
-      return;
+      return Promise.reject(msg || "Error");
     }
-    if (data.status == "401.1" || data.status == 401.1) {
-      removeCurrentUser();
-      Message.error(data.message);
-      return Promise.reject(data.message || "Error");
+    if (ret == "0" || ret == 0) {
+      return data;
     }
-    if (data.status == "406" || data.status == 406) {
-      if (data.body.length && data.message == "") {
-        data.message = data.body[0].defaultMessage;
-      }
-    }
-    Message.error(data.message);
-    return Promise.reject(data.message || "Error");
+    Message.error(msg);
+    return Promise.reject(msg || "Error");
   },
   (error) => {
     return Promise.reject(error);

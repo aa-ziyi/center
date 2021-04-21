@@ -20,19 +20,11 @@
       <el-table-column prop="address" label="创建人" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="small"
-            @click="handleShow(scope.row, 'show')"
-          >
-            查看
+          <el-button type="text" size="small" @click="handleUpdate(scope.row)">
+            修改
           </el-button>
-          <el-button
-            type="text"
-            size="small"
-            @click="handleShow(scope.row, 'audit')"
-            >审核</el-button
-          >
+          <el-button type="text" size="small">启用/停用</el-button>
+          <el-button type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -67,23 +59,21 @@ export default {
     this.getData();
   },
   methods: {
-    handleShow(row, type) {
+    handleUpdate(row) {
       this.$router.push({
-        name: "SettingPlayShow",
+        name: "SettingPlayUpdate",
         params: {
           id: row.id,
         },
         query: {
           status: row.status,
-          type,
         },
       });
     },
     getData() {
       StoreGetPaymentList({
         data: {
-          type: "2",
-          status: "1",
+          type: "1",
           page: this.curPage,
           pageSize: this.pageSize,
           ...this.submitForm,

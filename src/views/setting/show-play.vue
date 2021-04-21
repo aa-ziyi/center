@@ -1,20 +1,19 @@
 <template>
   <div>
-    <page-header :title="$route.params.id ? '修改支付方式' : '新增支付方式'">
-    </page-header>
+    <page-header title="支付方式详情"> </page-header>
     <el-tabs v-model="activeName">
       <el-tab-pane label="基本信息" name="first">
-        <AddPlay />
+        <ShowPlay />
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
-import AddPlay from "./components/AddPlay";
+import ShowPlay from "./components/ShowPlay";
 export default {
   components: {
-    AddPlay,
+    ShowPlay,
   },
   data() {
     return {

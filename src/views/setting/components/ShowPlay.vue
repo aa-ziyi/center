@@ -140,9 +140,13 @@
         </el-col>
       </el-row>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">提交</el-button>
+        <el-button
+          type="primary"
+          @click="onSubmit"
+          v-if="$route.query.type == 'audit'"
+          >审核</el-button
+        >
         <el-button type="primary" @click="onBack">返回</el-button>
-        <el-button @click="onReset" class="ml20">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -150,22 +154,11 @@
 <script>
 import { scrollTo } from "@/utils/scroll-to.js";
 import { validateSingleBit } from "@/utils/validate";
-import {
-  setStorePaymentAdd,
-  storeGetpaymentinfo,
-  storeGetpaymenttempinfo,
-} from "@/api/setting/play";
+import { storeGetpaymenttempinfo } from "@/api/setting/play";
 export default {
   data() {
     return {
-      formInline: {
-        hebaoStatus: 1,
-        wechatPayApp: 1,
-        wechatPayH5: 1,
-        aliPayApp: 1,
-        wechatPayMp: 1,
-        aliPayH5: 1,
-      },
+      formInline: {},
       formRules: {
         hebaoFee: [
           {
@@ -189,69 +182,24 @@ export default {
     };
   },
   created() {
-    let { id } = this.$route.params;
-    if (id) {
-      this.getFormData(id);
-    } else {
-      this.initFormData();
-    }
+    this.getFormData();
   },
   methods: {
-    getFormData(id) {
-      let { status } = this.$route.query;
-      let method =
-        String(status) === "3" ? storeGetpaymentinfo : storeGetpaymenttempinfo;
-      method({
+    getFormData() {
+      storeGetpaymenttempinfo({
         data: {
-          id,
+          id: this.$route.params.id,
         },
       }).then((res) => {
         this.formInline = res.data.paymentInfo;
       });
     },
-    initFormData() {
-      this.formInline = {
-        hebaoStatus: 1,
-        wechatPayApp: 1,
-        wechatPayH5: 1,
-        aliPayApp: 1,
-        wechatPayMp: 1,
-        aliPayH5: 1,
-      };
-    },
-    onSubmit() {
-      this.$refs["baseForm"].validate((valid) => {
-        if (valid) {
-          this.saveData();
-        } else {
-          this.$nextTick(() => {
-            var isError = document.getElementsByClassName("is-error");
-            if (isError && isError.length) {
-              scrollTo(isError[0].offsetTop - 130, 500);
-            }
-          });
-          return false;
-        }
-      });
-    },
+
+    onSubmit() {},
     onBack() {
       this.$router.push({
         name: "SettingPlay",
       });
-    },
-    saveData() {
-      setStorePaymentAdd({ data: this.formInline }).then((res) => {
-        this.$message({
-          type: "success",
-          message: res.msg,
-        });
-        this.$router.push({
-          name: "SettingPlay",
-        });
-      });
-    },
-    onReset() {
-      this.initFormData();
     },
   },
 };

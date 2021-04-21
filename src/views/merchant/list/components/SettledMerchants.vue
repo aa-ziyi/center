@@ -16,7 +16,6 @@
         <el-input v-model="formInline.user" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="所在城市:">
-        {{ formInline.citys }}
         <area-cascader v-model="formInline.citys" />
       </el-form-item>
       <el-form-item label="商户状态:">

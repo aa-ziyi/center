@@ -2,6 +2,7 @@ import store from "store";
 
 const CURRENT_USER = "CURRENT_USER";
 const TOKEN = "TOKEN";
+const AREA = "AREA";
 
 export function removeCurrentUser() {
   return store.remove(CURRENT_USER);
@@ -26,3 +27,4 @@ export function setToken(token) {
 export function removeToken() {
   return store.remove(TOKEN);
 }
+

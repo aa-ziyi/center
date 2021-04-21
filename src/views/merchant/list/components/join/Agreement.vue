@@ -11,6 +11,8 @@
           v-model="formInline.value1"
           type="date"
           placeholder="选择日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
         >
         </el-date-picker
       ></el-form-item>
@@ -19,6 +21,8 @@
           v-model="formInline.value1"
           type="date"
           placeholder="选择日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
         >
         </el-date-picker>
       </el-form-item>
@@ -27,32 +31,38 @@
           v-model="formInline.value1"
           type="date"
           placeholder="选择日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
         >
         </el-date-picker>
       </el-form-item>
       <el-form-item label="上传决策纪要:" prop="name">
-        <el-upload
-          class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          accept
-        >
-          <el-button size="small">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">
-            支持扩展名：.rar .zip .doc .docx .pdf .jpg..
-          </div>
-        </el-upload>
+        <el-button @click="handleClickFile('file1')">上传文件</el-button>
+        {{ formInline.file1 }}
+        <input
+          type="file"
+          accept="image/png,image/jpeg,image/gif,image/jpg"
+          @change="($event) => uploadImg($event, 'file1')"
+          ref="file1"
+          style="display: none"
+        />
+        <div class="el-upload__tip">
+          支持扩展名：.rar .zip .doc .docx .pdf .jpg..
+        </div>
       </el-form-item>
       <el-form-item label="上传签署协议:" prop="name">
-        <el-upload
-          class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          accept
-        >
-          <el-button size="small">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">
-            支持扩展名：.rar .zip .doc .docx .pdf .jpg...
-          </div>
-        </el-upload>
+        <el-button @click="handleClickFile('file2')">上传文件</el-button>
+        {{ formInline.file2 }}
+        <input
+          type="file"
+          accept="image/png,image/jpeg,image/gif,image/jpg"
+          @change="($event) => uploadImg($event, 'file2')"
+          ref="file2"
+          style="display: none"
+        />
+        <div class="el-upload__tip">
+          支持扩展名：.rar .zip .doc .docx .pdf .jpg..
+        </div>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">保存费率</el-button>
@@ -77,6 +87,14 @@ export default {
   },
   created() {},
   methods: {
+    handleClickFile(file) {
+      this.$refs[file].click(); //上传文件
+    },
+    uploadImg($event, fileName) {
+      let file = $event.target.files[0];
+      console.log("file", file);
+      this.$set(this.formInline, fileName, file);
+    },
     onSubmit() {
       this.$refs["baseForm"].validate((valid) => {
         if (valid) {

@@ -82,7 +82,6 @@ export function validateEmail(rule, value, callback) {
 }
 
 export function validatePositiveInteger(rule, value, callback) {
-  console.log(rule, "rule");
   const positiveInteger = /^[0-9]*$/;
   if (value && !positiveInteger.test(value)) {
     callback(new Error(rule.message || "请填写大于等于0的正整数"));
@@ -92,9 +91,9 @@ export function validatePositiveInteger(rule, value, callback) {
 }
 export function validateSingleBit(rule, value, callback) {
   console.log(rule, 89898);
-  const singleBit = /^[0-9]+([.][0-9]{1}){0,1}$/;
+  const singleBit = /^[0-9]+([.][0-9]{1,2}){0,1}$/;
   if (value && !singleBit.test(value)) {
-    callback(new Error(rule.message || "请输入数字，允许一位小数点"));
+    callback(new Error(rule.message || "请输入数字，允许两位小数点"));
   } else {
     callback();
   }
@@ -108,18 +107,18 @@ export function validateCode(rule, value, callback) {
   }
 }
 
-export function validateLength(rule, value, callback) {
-  let length = rule.length || 20;
-  if (value && value.length > length) {
-    callback(new Error(rule.message || "请输入20个字"));
+export function validatePostalCode(rule, value, callback) {
+  const codeReg = /^[0-9]{6}$/;
+  if (value && !codeReg.test(value)) {
+    callback(new Error(rule.message || "请输入6位数字的邮政编码"));
   } else {
     callback();
   }
 }
-
-export function validateAcquaintance(rule, value, callback) {
-  if (value < 0 || value > 10000) {
-    callback(new Error("请输入0～10000范围内的数字"));
+export function validateLength(rule, value, callback) {
+  let length = rule.length || 20;
+  if (value && value.length > length) {
+    callback(new Error(rule.message || "请输入20个字"));
   } else {
     callback();
   }

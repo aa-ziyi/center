@@ -24,7 +24,11 @@
                 <el-input v-model="formData.smsCode" placeholder="验证码" />
               </el-col>
               <el-col :span="12">
-                <el-button class="ml20" :loading="loading" @click="onSubmit">
+                <el-button
+                  class="ml20"
+                  :loading="loading"
+                  @click="handleLoginCode"
+                >
                   获取手机验证码
                 </el-button>
               </el-col>
@@ -195,9 +199,12 @@ export default {
       }
     };
     return {
-      formData: {},
+      formData: {
+        code: "wuli",
+        password: "123456",
+      },
       loading: false,
-      showLogin: false,
+      showLogin: true,
       verifyCodeUrl:
         "http://118.24.122.189:8009/store-center/image/code?rpid=2012",
       rules: {
@@ -260,7 +267,15 @@ export default {
       this.$refs["register-form"].resetFields();
     },
     handleLoginCode() {
-      getNotLoginmsg().then((res) => {
+      if (!this.registerFormData.code) {
+        this.$message("请输先入账号");
+        return;
+      }
+      getNotLoginmsg({
+        data: {
+          code: this.formData.code,
+        },
+      }).then((res) => {
         if (res.data) {
           this.$set(this.formData, "smsCode", res.data);
         }
@@ -289,7 +304,6 @@ export default {
       });
     },
     onRegister() {
-      jse.setPublicKey(publicKey);
       let code = jse.encrypt(this.registerFormData.code);
       let password = jse.encrypt(this.registerFormData.password);
       console.log(code);
@@ -300,14 +314,13 @@ export default {
           mainRegisty({
             data: {
               ...other,
-              rpid: "2012",
+              rpid: "201202",
               code,
               password,
             },
           })
-            .then((res) => {
-              setToken(res);
-              // this.showLogin = !this.showLogin;
+            .then(() => {
+              this.showLogin = !this.showLogin;
             })
             .finally(() => {
               this.loading = false;
@@ -319,18 +332,18 @@ export default {
       this.$refs["form"].validate((validate) => {
         if (validate) {
           this.loading = true;
-          jse.setPublicKey(publicKey);
-          let code = jse.encrypt(this.registerFormData.code);
-          let password = jse.encrypt(this.registerFormData.password);
+          let code = jse.encrypt(this.formData.code);
+          let password = jse.encrypt(this.formData.password);
           mainLogin({
             data: {
               ...this.formData,
               code,
               password,
+              rpid: "2012",
             },
           })
             .then((res) => {
-              setToken(res);
+              setToken(res.token);
               this.$router.push("/");
             })
             .finally(() => {

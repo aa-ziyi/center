@@ -5,11 +5,11 @@
     :options="options"
     :show-search="{ filter }"
     v-on="$listeners"
+    placeholder="请选择"
   />
 </template>
 
 <script>
-import axios from "axios";
 import { Cascader } from "ant-design-vue";
 import "ant-design-vue/lib/cascader/style/index.css";
 export default {
@@ -47,8 +47,8 @@ export default {
       default() {
         return {
           label: "name",
-          value: "id",
-          children: "children",
+          value: "code",
+          children: "sub",
         };
       },
     },
@@ -64,9 +64,10 @@ export default {
   },
   methods: {
     async init() {
-      const { data } = await axios.get(
-        "https://q-independent.aixuexi.com/B:1029:K/1605283200/7abe9b1de98349fb82dee02afde1c868.json"
-      );
+      // const { data } = await axios.get(
+      //   "https://q-independent.aixuexi.com/B:1029:K/1605283200/7abe9b1de98349fb82dee02afde1c868.json"
+      // );
+      let data = window.getAreaData();
       // 只显示部分省份
       if (this.filterProvince.length >= 1) {
         const brr = [];

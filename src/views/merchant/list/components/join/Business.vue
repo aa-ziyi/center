@@ -9,86 +9,150 @@
     >
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="商户性质:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="注册资本:" prop="name">
-            <el-input v-model="formInline.name" placeholder="请输入"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="所属行业:">
-            <el-select v-model="formInline.region" placeholder="请选择">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+          <el-form-item label="商户性质:" prop="merQual">
+            <el-select v-model="formInline.merQual" placeholder="请选择">
+              <el-option
+                v-for="(option, index) in prestoreinfoData.merQualMap"
+                :key="index"
+                :label="option[Object.keys(option)[0]]"
+                :value="Object.keys(option)[0]"
+              ></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="行业类型:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          <el-form-item label="注册资本:" prop="regCap">
+            <el-input
+              v-model="formInline.regCap"
+              placeholder="请输入"
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="法人名字:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          <el-form-item label="所属行业:" prop="merType">
+            <el-select
+              v-model="formInline.industryType"
+              placeholder="请选择"
+              @change="storeTypePChange"
+            >
+              <el-option
+                v-for="(option, index) in storeTypeP"
+                :key="index"
+                :label="option.name"
+                :value="option.id"
+              ></el-option>
+            </el-select>
+            <el-select v-model="formInline.merType" placeholder="请选择">
+              <el-option
+                v-for="(option, index) in storeTypeC"
+                :key="index"
+                :label="option.name"
+                :value="option.id"
+              ></el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="工商注册号:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          <el-form-item label="法人名字:" prop="corporationname">
+            <el-input
+              v-model="formInline.corporationname"
+              placeholder="请输入"
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="法人证件号码:">
+          <el-form-item label="工商注册号:" prop="icRegno">
+            <el-input
+              v-model="formInline.icRegno"
+              placeholder="请输入"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="法人证件号码:" prop="corporationidno">
             <el-row>
               <el-col :span="11">
-                <el-select v-model="formInline.region" placeholder="身份证">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
+                <el-select
+                  v-model="formInline.corporationidtype"
+                  placeholder="证件类型"
+                >
+                  <el-option
+                    v-for="(
+                      option, index
+                    ) in prestoreinfoData.corporationIdType"
+                    :key="index"
+                    :label="option[Object.keys(option)[0]]"
+                    :value="Object.keys(option)[0]"
+                  ></el-option>
                 </el-select>
               </el-col>
               <el-col :span="11" :offset="2">
-                <el-input v-model="formInline.user" placeholder=""></el-input>
+                <el-input
+                  v-model="formInline.corporationidno"
+                  placeholder=""
+                ></el-input>
               </el-col>
             </el-row>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="纳税资质:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          <el-form-item label="纳税资质:" prop="taxCertifi">
+            <el-input
+              v-model="formInline.taxCertifi"
+              placeholder="请输入"
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="经营产品:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+            <el-input
+              v-model="formInline.operateProduct"
+              placeholder="请输入"
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="国税税务登记号:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+            <el-input
+              v-model="formInline.taxCountryNo"
+              placeholder="请输入"
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="商户员工数:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          <el-form-item label="商户员工数:" prop="stafNum">
+            <el-input
+              v-model="formInline.stafNum"
+              placeholder="请输入"
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="增值税率:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+            <el-input
+              v-model="formInline.taxAddedRate"
+              placeholder="请输入"
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="商户开业日期:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+            <el-date-picker
+              v-model="formInline.opNdt"
+              type="date"
+              placeholder="选择日期"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+            >
+            </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="邮箱:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          <el-form-item label="邮箱:" prop="email">
+            <el-input
+              v-model="formInline.email"
+              placeholder="请输入"
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -96,7 +160,7 @@
             <el-input
               type="textarea"
               :rows="4"
-              v-model="formInline.user"
+              v-model="formInline.synposis"
               placeholder="请输入"
             ></el-input>
           </el-form-item>
@@ -106,7 +170,7 @@
             <el-input
               type="textarea"
               :rows="4"
-              v-model="formInline.user"
+              v-model="formInline.bsScope"
               placeholder="请输入"
             ></el-input>
           </el-form-item>
@@ -121,17 +185,84 @@
 </template>
 <script>
 import { scrollTo } from "@/utils/scroll-to.js";
+import { getStoretype } from "@/api/merchant.js";
+import {
+  validatePositiveInteger,
+  validateEmail,
+  validateSingleBit,
+} from "@/utils/validate";
 export default {
+  props: {
+    prestoreinfoData: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
+      storeTypeP: [],
+      storeTypeC: [],
       formInline: {},
       formRules: {
-        name: [{ required: true, message: "请输入活动名称", trigger: "blur" }],
+        merQual: [
+          { required: true, message: "请选择商户性质", trigger: "change" },
+        ],
+        merType: [
+          { required: true, message: "请选择所属行业", trigger: "change" },
+        ],
+        corporationname: [
+          { required: true, message: "请输入法人姓名", trigger: "blur" },
+        ],
+        corporationidno: [
+          { required: true, message: "请输入法人证件号码", trigger: "blur" },
+        ],
+        stafNum: [
+          {
+            validator: validatePositiveInteger,
+            trigger: "blur",
+          },
+        ],
+        regCap: [
+          {
+            validator: validateSingleBit,
+            trigger: "blur",
+          },
+        ],
+        email: [
+          {
+            validator: validateEmail,
+            trigger: "blur",
+          },
+        ],
       },
     };
   },
-  created() {},
+  created() {
+    getStoretype({
+      data: {
+        pId: 0,
+        type: 3,
+      },
+    }).then((res) => {
+      this.storeTypeP = res.data;
+    });
+  },
   methods: {
+    storeTypePChange(value) {
+      this.storeTypeC = [];
+      this.$set(this.formInline, "merType", "");
+      if (!value) {
+        return;
+      }
+      getStoretype({
+        data: {
+          pId: value,
+          type: 3,
+        },
+      }).then((res) => {
+        this.storeTypeC = res.data;
+      });
+    },
     onSubmit() {
       this.$refs["baseForm"].validate((valid) => {
         if (valid) {

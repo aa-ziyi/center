@@ -11,6 +11,20 @@ export function setStorePaymentAdd(option) {
     ...option,
   });
 }
+export function setStorePaymentEdit(option) {
+  return request({
+    url: "/store-center/manage/store/payment/edit",
+    method: "post",
+    ...option,
+  });
+}
+export function setStorePaymentEditUpdate(option) {
+  return request({
+    url: "/store-center/manage/store/payment/editupdate",
+    method: "post",
+    ...option,
+  });
+}
 export function storeGetpaymentinfo(option) {
   return request({
     url: "/store-center/manage/store/payment/getpaymentinfo",

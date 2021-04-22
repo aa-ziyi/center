@@ -14,10 +14,14 @@
     <el-table :data="tableData" style="width: 100%" border>
       <el-table-column prop="id" label="支付渠道ID" />
       <el-table-column prop="name" label="支付渠道名称" />
-      <el-table-column prop="address" label="是否有效" />
-      <el-table-column prop="address" label="审核状态" />
+      <el-table-column label="是否有效">
+        <template slot-scope="scope">
+          {{ String(scope.row.isValid) == "0" ? "否" : "是" }}
+        </template>
+      </el-table-column>
+      <el-table-column label="审核状态" />
       <el-table-column prop="createTime" label="创建时间" />
-      <el-table-column prop="address" label="创建人" />
+      <el-table-column prop="createUserName" label="创建人" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button
@@ -74,8 +78,9 @@ export default {
           id: row.id,
         },
         query: {
-          status: row.status,
           type,
+          step: "1",
+          activeName: "third",
         },
       });
     },

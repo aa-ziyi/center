@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <el-form
       ref="baseForm"
       :model="formInline"
@@ -11,54 +11,37 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="支付渠道ID:" prop="id" v-if="formInline.id">
-            <el-input v-model="formInline.id" placeholder="请输入"></el-input>
+            {{ formInline.id }}
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="支付渠道名称:" prop="name">
-            <el-input v-model="formInline.name" placeholder="请输入"></el-input>
+            {{ formInline.name }}
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="和包支付编号:" prop="hebaoStoreId">
-            <el-input
-              v-model="formInline.hebaoStoreId"
-              placeholder="请输入"
-            ></el-input>
+            {{ formInline.hebaoStoreId }}
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="微信应用ID:" prop="wechatAppId">
-            <el-input
-              v-model="formInline.wechatAppId"
-              placeholder="请输入"
-            ></el-input>
+            {{ formInline.wechatAppId }}
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="和包费率:" prop="hebaoFee">
-            <el-row>
-              <el-col :span="18">
-                <el-input
-                  v-model="formInline.hebaoFee"
-                  placeholder="请输入"
-                ></el-input>
-              </el-col>
-              <el-col :span="6">（%） </el-col>
-            </el-row>
+            {{ formInline.hebaoFee }}%
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="微信支付商户号:" prop="wechatMerId">
-            <el-input
-              v-model="formInline.wechatMerId"
-              placeholder="请输入"
-            ></el-input>
+            {{ formInline.wechatMerId }}%
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="和包支付" prop="hebaoStatus">
-            <el-radio-group v-model="formInline.hebaoStatus">
+            <el-radio-group v-model="formInline.hebaoStatus" disabled>
               <el-radio :label="1">支持</el-radio>
               <el-radio :label="0">不支持</el-radio>
             </el-radio-group>
@@ -66,28 +49,17 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="微信费率:" prop="wechatPayFee">
-            <el-row>
-              <el-col :span="18">
-                <el-input
-                  v-model="formInline.wechatPayFee"
-                  placeholder="请输入"
-                ></el-input>
-              </el-col>
-              <el-col :span="6">（%） </el-col>
-            </el-row>
+            {{ formInline.wechatPayFee }}%
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="支付宝应用ID:" prop="aliAppId">
-            <el-input
-              v-model="formInline.aliAppId"
-              placeholder="请输入"
-            ></el-input>
+            {{ formInline.aliAppId }}
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="微信APP支付:" prop="wechatPayApp">
-            <el-radio-group v-model="formInline.wechatPayApp">
+            <el-radio-group v-model="formInline.wechatPayApp" disabled>
               <el-radio :label="1">支持</el-radio>
               <el-radio :label="0">不支持</el-radio>
             </el-radio-group>
@@ -95,20 +67,12 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="支付宝费率:" prop="aliPayFee">
-            <el-row>
-              <el-col :span="18">
-                <el-input
-                  v-model="formInline.aliPayFee"
-                  placeholder="请输入"
-                ></el-input>
-              </el-col>
-              <el-col :span="6">（%） </el-col>
-            </el-row>
+            {{ formInline.aliPayFee }}%
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="微信H5支付:" prop="wechatPayH5">
-            <el-radio-group v-model="formInline.wechatPayH5">
+            <el-radio-group v-model="formInline.wechatPayH5" disabled>
               <el-radio :label="1">支持</el-radio>
               <el-radio :label="0">不支持</el-radio>
             </el-radio-group>
@@ -116,7 +80,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="支付宝APP支付:" prop="aliPayApp">
-            <el-radio-group v-model="formInline.aliPayApp">
+            <el-radio-group v-model="formInline.aliPayApp" disabled>
               <el-radio :label="1">支持</el-radio>
               <el-radio :label="0">不支持</el-radio>
             </el-radio-group>
@@ -124,7 +88,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="微信公众号支付:" prop="wechatPayMp">
-            <el-radio-group v-model="formInline.wechatPayMp">
+            <el-radio-group v-model="formInline.wechatPayMp" disabled>
               <el-radio :label="1">支持</el-radio>
               <el-radio :label="0">不支持</el-radio>
             </el-radio-group>
@@ -132,7 +96,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="支付宝H5支付:" prop="aliPayH5">
-            <el-radio-group v-model="formInline.aliPayH5">
+            <el-radio-group v-model="formInline.aliPayH5" disabled>
               <el-radio :label="1">支持</el-radio>
               <el-radio :label="0">不支持</el-radio>
             </el-radio-group>
@@ -142,63 +106,125 @@
       <el-form-item>
         <el-button
           type="primary"
-          @click="onSubmit"
+          @click="onSubmit('1')"
           v-if="$route.query.type == 'audit'"
-          >审核</el-button
+          >审核通过</el-button
         >
-        <el-button type="primary" @click="onBack">返回</el-button>
+        <el-button
+          class="ml20"
+          type="primary"
+          @click="onSubmit('2')"
+          v-if="$route.query.type == 'audit'"
+          >审核驳回</el-button
+        >
+        <el-button class="ml20" type="primary" @click="onBack">返回</el-button>
       </el-form-item>
     </el-form>
+    <el-dialog title="审核" :visible.sync="dialogFormVisible">
+      <el-form
+        ref="audit-form"
+        v-if="dialogFormVisible"
+        :model="auditForm"
+        :rules="auditFormRules"
+      >
+        <el-form-item label="输入原因" prop="remark">
+          <el-input
+            v-model="auditForm.remark"
+            type="textarea"
+            :rows="6"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="handleClose">取 消</el-button>
+        <el-button type="primary" @click="handleAudit">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
-import { scrollTo } from "@/utils/scroll-to.js";
-import { validateSingleBit } from "@/utils/validate";
-import { storeGetpaymenttempinfo } from "@/api/setting/play";
+import {
+  storeGetpaymenttempinfo,
+  StoreGetPaymentAduit,
+} from "@/api/setting/play";
 export default {
   data() {
     return {
+      dialogFormVisible: false,
       formInline: {},
-      formRules: {
-        hebaoFee: [
-          {
-            validator: validateSingleBit,
-            trigger: "blur",
-          },
-        ],
-        wechatPayFee: [
-          {
-            validator: validateSingleBit,
-            trigger: "blur",
-          },
-        ],
-        aliPayFee: [
-          {
-            validator: validateSingleBit,
-            trigger: "blur",
-          },
-        ],
-      },
+      auditForm: {},
+      loading: false,
     };
+  },
+  computed: {
+    auditFormRules() {
+      return {
+        remark: [
+          {
+            required: this.auditForm.status == "2",
+            message: "请输入商户名称",
+            trigger: "blur",
+          },
+        ],
+      };
+    },
   },
   created() {
     this.getFormData();
   },
   methods: {
+    handleAudit() {
+      this.$refs["audit-form"].validate((valid) => {
+        if (valid) {
+          StoreGetPaymentAduit({
+            data: {
+              id: this.formInline.id,
+              step: this.$route.query.step,
+              ...this.auditForm,
+            },
+          }).then(() => {
+            this.$message.success("操作成功");
+            this.dialogFormVisible = false;
+            this.$router.push({
+              name: "SettingPlay",
+              query: {
+                activeName: this.$route.query.activeName,
+              },
+            });
+          });
+        }
+      });
+    },
+    handleClose() {
+      this.dialogFormVisible = false;
+    },
+
     getFormData() {
+      this.loading = true;
       storeGetpaymenttempinfo({
         data: {
           id: this.$route.params.id,
         },
-      }).then((res) => {
-        this.formInline = res.data.paymentInfo;
-      });
+      })
+        .then((res) => {
+          this.formInline = res.data.paymentInfo;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
-
-    onSubmit() {},
+    onSubmit(status) {
+      this.auditForm = {
+        status,
+      };
+      this.dialogFormVisible = true;
+    },
     onBack() {
       this.$router.push({
         name: "SettingPlay",
+        query: {
+          activeName: this.$route.query.activeName,
+        },
       });
     },
   },

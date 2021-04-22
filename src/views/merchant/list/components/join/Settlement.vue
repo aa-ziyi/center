@@ -38,8 +38,11 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="资金结算账号（未知）:" prop="test">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          <el-form-item label="资金结算账号:" prop="settleAc">
+            <el-input
+              v-model="formInline.settleAc"
+              placeholder="请输入"
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -117,8 +120,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="发票开具方式(未知必填)" prop="checkList">
-            <el-radio-group v-model="formInline.checkList">
+          <el-form-item label="发票开具方式" prop="settleBillType">
+            <el-radio-group v-model="formInline.settleBillType">
               <el-radio label="wechatPayH5">按季度开</el-radio>
               <el-radio label="aliPayApp">按季度月开</el-radio>
               <el-radio label="aliPayH5">按月开</el-radio>
@@ -126,25 +129,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="支付宝应用ID:" prop="aliAppId">
-            <el-input
-              v-model="formInline.aliAppId"
-              placeholder="请输入"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
           <el-form-item label="税务证明:" prop="revPrv">
             <el-input
               v-model="formInline.revPrv"
-              placeholder="请输入"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="微信应用ID:" prop="wechatAppId">
-            <el-input
-              v-model="formInline.wechatAppId"
               placeholder="请输入"
             ></el-input>
           </el-form-item>
@@ -158,37 +145,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="支付方式:" prop="playTypes">
-            <el-checkbox-group v-model="formInline.playTypes">
-              <el-row>
-                <el-col :span="24">
-                  <el-checkbox label="hebaoStatus">和包支付</el-checkbox>
-                  <el-checkbox label="wechatPayMp">
-                    微信公众号支付
-                  </el-checkbox>
-                  <el-checkbox label="wechatPayApp">微信APP支付</el-checkbox>
-                </el-col>
-                <el-col :span="24">
-                  <el-checkbox label="wechatPayH5">微信H5支付</el-checkbox>
-                  <el-checkbox label="aliPayApp">支付宝APP支付</el-checkbox>
-                  <el-checkbox label="aliPayH5">支付宝H5支付</el-checkbox>
-                </el-col>
-              </el-row>
-            </el-checkbox-group>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
           <el-form-item label="发票邮寄地址:" prop="postAddress">
             <el-row>
               <el-col :span="8">
-                <el-select
-                  v-model="formInline.region"
-                  placeholder=""
-                  style="width: 100%"
-                >
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
+                <area-cascader v-model="formInline.billAraeCode" />
               </el-col>
               <el-col :span="8" :offset="1">
                 <el-input v-model="formInline.postAddress" placeholder="请输入">
@@ -224,7 +184,7 @@ export default {
   data() {
     return {
       formInline: {
-        playTypes: ["hebaoStatus", "aliPayH5"],
+        billAraeCode: ["360000", "360100"],
       },
       formRules: {
         settleAcType: [
@@ -257,14 +217,8 @@ export default {
             validator: validatePositiveInteger,
           },
         ],
-        aliAppId: [
-          { required: true, message: "请输入支付宝应用ID", trigger: "blur" },
-        ],
         revPrv: [
           { required: true, message: "请输入税务证明", trigger: "blur" },
-        ],
-        wechatAppId: [
-          { required: true, message: "请输入微信应用ID", trigger: "blur" },
         ],
         icpNo: [
           { required: true, message: "请输入ICP资质编号", trigger: "blur" },
@@ -280,7 +234,7 @@ export default {
       this.$refs["baseForm"].validate((valid) => {
         if (valid) {
           console.log("valid");
-          this.$emit("next");
+          this.$emit("next", this.formInline);
         } else {
           this.$nextTick(() => {
             var isError = document.getElementsByClassName("is-error");

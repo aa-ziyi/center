@@ -13,6 +13,7 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   (config) => {
+    console.log("config", config);
     const token = getToken();
     if (token) {
       config.headers["token"] = token;

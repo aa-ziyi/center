@@ -10,7 +10,7 @@
       {{ formInline }}
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="商户编号:" v-if="formInline.id">
+          <el-form-item label="商户编号:">
             <el-input v-model="formInline.id" placeholder="请输入"></el-input>
           </el-form-item>
         </el-col>
@@ -54,18 +54,17 @@
         </el-col>
 
         <el-col :span="12">
-          <el-form-item
-            label="支付信息编号:"
-            prop="user"
-            v-if="formInline.user"
-          >
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          <el-form-item label="支付信息编号:" prop="paymentId" v-if="isAdmin">
+            <el-input
+              v-model="formInline.paymentId"
+              placeholder="请输入"
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="商户分类:" prop="storeType">
             <el-select
-              v-model="formInline.storeType1"
+              v-model="formInline.storeTypeP"
               placeholder="一级分类"
               clearable
               @change="storeTypePChange"
@@ -78,7 +77,7 @@
               ></el-option>
             </el-select>
             <el-select
-              v-model="formInline.storeType2"
+              v-model="formInline.storeType"
               placeholder="二级分类"
               clearable
             >
@@ -93,15 +92,15 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="服务类型:" prop="serviceType">
-            <el-radio-group v-model="formInline.serviceType">
-              <el-radio
+            <el-checkbox-group v-model="formInline.serviceType">
+              <el-checkbox
                 v-for="(option, index) in prestoreinfoData.serviceTypeMap"
                 :key="index"
                 :label="Object.keys(option)[0]"
               >
                 {{ option[Object.keys(option)[0]] }}
-              </el-radio>
-            </el-radio-group>
+              </el-checkbox>
+            </el-checkbox-group>
           </el-form-item>
         </el-col>
 
@@ -207,11 +206,15 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
+          <el-form-item label="归属地市:" prop="areaCode">
+            <area-cascader v-model="formInline.areaCode" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item label="公司地址:" prop="storeAddress">
-            {{ formInline.city }}
             <el-row>
               <el-col :span="12">
-                <area-cascader v-model="formInline.city" />
+                <area-cascader v-model="formInline.companyAreaCode" />
               </el-col>
               <el-col :span="12">
                 <el-input
@@ -271,17 +274,17 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="本地地市会员数:" prop="areaId">
+          <el-form-item label="本地地市会员数:" prop="cityVipNum">
             <el-input
-              v-model="formInline.areaId"
+              v-model="formInline.cityVipNum"
               placeholder="请输入"
             ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="本省会员数:" prop="cityVipNum">
+          <el-form-item label="本省会员数:" prop="provinceVipNum">
             <el-input
-              v-model="formInline.cityVipNum"
+              v-model="formInline.provinceVipNum"
               placeholder="请输入"
             ></el-input>
           </el-form-item>
@@ -303,9 +306,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="本身覆盖:" prop="cityCover">
+          <el-form-item label="本省覆盖:" prop="provinceUserNum">
             <el-input
-              v-model="formInline.cityCover"
+              v-model="formInline.provinceUserNum"
               placeholder="请输入"
             ></el-input>
           </el-form-item>
@@ -426,6 +429,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     let validateEndDate = (rule, value, callback) => {
@@ -439,16 +446,23 @@ export default {
     return {
       storeTypeP: [],
       storeTypeC: [],
+
       formInline: {
-        id: 1,
-        user: 1,
         pStoreId: "0",
         invoiceForChanl: "0",
+        vipSystem: "0",
+        onLineContact: "0",
+        serviceType: [],
+        companyAreaCode: ["360000", "360100"],
+        areaCode: ["360000", "360100"],
       },
       formRules: {
         name: [{ required: true, message: "请输入商户名称", trigger: "blur" }],
         createSoruce: [
           { required: true, message: "请选择商户来源", trigger: "change" },
+        ],
+        areaCode: [
+          { required: true, message: "请选择归属地市", trigger: "change" },
         ],
         storeLevel: [
           { required: true, message: "请选择商户级别", trigger: "change" },
@@ -456,6 +470,9 @@ export default {
         storeType: [{ required: true, message: "请选择商户分类" }],
         serviceType: [
           { required: true, message: "请选择服务类型", trigger: "change" },
+        ],
+        paymentId: [
+          { required: true, message: "请输入支付信息编号", trigger: "blur" },
         ],
         bsManagerPhone: [
           {
@@ -536,7 +553,7 @@ export default {
   methods: {
     storeTypePChange(value) {
       this.storeTypeC = [];
-      this.$set(this.formInline, "storeType2", "");
+      this.$set(this.formInline, "storeType", "");
       if (!value) {
         return;
       }
@@ -552,7 +569,7 @@ export default {
     onSubmit() {
       this.$refs["baseForm"].validate((valid) => {
         if (valid) {
-          this.$emit("next");
+          this.$emit("next", this.formInline);
         } else {
           this.$nextTick(() => {
             var isError = document.getElementsByClassName("is-error");

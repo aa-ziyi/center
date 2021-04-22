@@ -13,7 +13,7 @@
       <el-tab-pane label="支付初审" name="third">
         <FirstStepAudit />
       </el-tab-pane>
-      <el-tab-pane label="支付终审" name="frou">
+      <el-tab-pane label="支付终审" name="fourth">
         <SecondStepAudit />
       </el-tab-pane>
     </el-tabs>
@@ -36,6 +36,9 @@ export default {
     return {
       activeName: "first",
     };
+  },
+  created() {
+    this.activeName = this.$route.query.activeName || "first";
   },
   methods: {
     handleJoinM() {

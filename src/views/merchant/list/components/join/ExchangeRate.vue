@@ -81,6 +81,7 @@
 </template>
 <script>
 import { scrollTo } from "@/utils/scroll-to.js";
+import { validateSingleBit } from "@/utils/validate";
 export default {
   data() {
     return {
@@ -91,11 +92,22 @@ export default {
         capitalTypeList: [
           { required: true, message: "请选择支付方式", trigger: "change" },
         ],
+        feemothod: [
+          {
+            validator: validateSingleBit,
+          },
+        ],
         beganamount: [
           { required: true, message: "请输入计费起始金额", trigger: "blur" },
+          {
+            validator: validateSingleBit,
+          },
         ],
         minfeeamount: [
           { required: true, message: "请输入最低收费金额", trigger: "blur" },
+          {
+            validator: validateSingleBit,
+          },
         ],
         effortdate: [
           { required: true, message: "请输入生效日期", trigger: "blur" },
@@ -113,7 +125,7 @@ export default {
       this.$refs["baseForm"].validate((valid) => {
         if (valid) {
           console.log("valid");
-          this.$emit("next");
+          this.$emit("next", this.formInline);
         } else {
           this.$nextTick(() => {
             var isError = document.getElementsByClassName("is-error");

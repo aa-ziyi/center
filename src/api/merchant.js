@@ -19,3 +19,62 @@ export function getStoretype(option) {
     ...option,
   });
 }
+
+export function storetAdd(option) {
+  return request({
+    url: "/store-center/manage/store/add",
+    method: "post",
+    ...option,
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+}
+
+export function storetAddbyself(option) {
+  return request({
+    url: "/store-center/manage/store/addbyself",
+    method: "post",
+    ...option,
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+}
+
+export function getStoretList(option) {
+  return request({
+    url: "/store-center/manage/store/list",
+    method: "post",
+    ...option,
+  });
+}
+
+// 3.22商户修改(终审后的修改)
+export function getStoretEditUpdate(option) {
+  return request({
+    url: "/store-center/manage/store/list",
+    method: "post",
+    ...option,
+  });
+}
+
+export function getStoreEdit(option) {
+  return request({
+    url: "/store-center/manage/store/edit",
+    method: "post",
+    ...option,
+  });
+}
+//终审后的查询
+export function storeGetstoreinfo(option) {
+  return request({
+    url: "/store-center/manage/store/getstoreinfo",
+    method: "post",
+    ...option,
+  });
+}
+//除审后的查询
+export function storeGetStoreTempInfo(option) {
+  return request({
+    url: "/store-center/manage/store/getstoretempinfo",
+    method: "post",
+    ...option,
+  });
+}

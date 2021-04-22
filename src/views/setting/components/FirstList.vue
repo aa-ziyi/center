@@ -14,22 +14,51 @@
     <el-table :data="tableData" border v-loading="tableLoading">
       <el-table-column prop="id" label="支付渠道ID" />
       <el-table-column prop="name" label="支付渠道名称" />
-      <el-table-column prop="address" label="是否有效" />
-      <el-table-column prop="address" label="审核状态" />
+      <el-table-column label="是否有效">
+        <template slot-scope="scope">
+          {{ String(scope.row.isValid) == "0" ? "否" : "是" }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="createUserName" label="审核状态">
+        <template slot-scope="scope">
+          <div>
+            {{ scope.row.status }}<br />
+            <span
+              v-if="String(scope.row.updateStatus) == '1'"
+              class="color-danger"
+            >
+              (有变更)
+            </span>
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="createTime" label="创建时间" />
       <el-table-column prop="address" label="创建人" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="handleUpdate(scope.row)">
-            修改
-          </el-button>
-          <el-button
-            type="text"
-            size="small"
-            @click="handleChangeView(scope.row)"
-          >
-            {{ String(scope.row.isValid) == "0" ? "启用" : "停用" }}</el-button
-          >
+          <div v-if="String(scope.row.updateStatus) == '1'">
+            <el-button type="text" size="small" @click="handleShow(scope.row)">
+              查看
+            </el-button>
+          </div>
+          <div v-else>
+            <el-button
+              type="text"
+              size="small"
+              @click="handleUpdate(scope.row)"
+            >
+              修改
+            </el-button>
+            <el-button
+              type="text"
+              size="small"
+              @click="handleChangeView(scope.row)"
+            >
+              {{
+                String(scope.row.isValid) == "0" ? "启用" : "停用"
+              }}</el-button
+            >
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -68,6 +97,18 @@ export default {
     this.getData();
   },
   methods: {
+    handleShow(row) {
+      this.$router.push({
+        name: "SettingPlayShow",
+        params: {
+          id: row.id,
+        },
+        query: {
+          type: "show",
+          activeName: "first",
+        },
+      });
+    },
     handleChangeView(row) {
       StoreGetPaymentChangeview({
         data: {
@@ -87,6 +128,7 @@ export default {
         },
         query: {
           status: row.status,
+          activeName: "first",
         },
       });
     },

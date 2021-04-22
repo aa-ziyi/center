@@ -304,7 +304,7 @@ export default {
       this.$refs["baseForm"].validate((valid) => {
         if (valid) {
           console.log("valid");
-          this.$emit("next");
+          this.$emit("next", this.formInline);
         } else {
           this.$nextTick(() => {
             var isError = document.getElementsByClassName("is-error");

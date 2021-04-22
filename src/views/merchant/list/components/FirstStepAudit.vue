@@ -81,6 +81,7 @@
 </template>
 
 <script>
+import { getStoretList } from "@/api/merchant";
 export default {
   data() {
     return {
@@ -120,15 +121,78 @@ export default {
       ],
     };
   },
-  created() {},
+  created() {
+    this.getData();
+  },
   methods: {
-    handleShowClick(row) {
+    handleShow(row) {
       this.$router.push({
-        name: "MerchantListDetails",
+        name: "SettingPlayShow",
         params: {
           id: row.id,
         },
+        query: {
+          type: "show",
+          activeName: "first",
+        },
       });
+    },
+    handleChangeView(row) {
+      // StoreGetPaymentChangeview({
+      //   data: {
+      //     id: row.id,
+      //     isValid: String(row.isValid) === "1" ? "0" : "1",
+      //   },
+      // }).then(() => {
+      //   this.$message.success("操作成功");
+      //   this.getData();
+      // });
+    },
+    handleUpdate(row) {
+      this.$router.push({
+        name: "SettingPlayUpdate",
+        params: {
+          id: row.id,
+        },
+        query: {
+          status: row.status,
+          activeName: "first",
+        },
+      });
+    },
+    getData() {
+      this.tableLoading = true;
+      getStoretList({
+        data: {
+          type: "2",
+          status: "1",
+          page: this.curPage,
+          pageSize: this.pageSize,
+          ...this.submitForm,
+        },
+      })
+        .then((res) => {
+          let { list, curPage, pageSize, totalCount } = res.data;
+          this.tableData = list;
+          this.pageSize = pageSize;
+          this.curPage = curPage;
+          this.totalCount = totalCount;
+        })
+        .finally(() => {
+          this.tableLoading = false;
+        });
+    },
+    handleSizeChange(value) {
+      this.pageSize = value;
+      this.getData();
+    },
+    handleCurrentChange(value) {
+      this.curPage = value;
+      this.getData();
+    },
+    onSubmit() {
+      this.submitForm = { ...this.formInline };
+      this.getData();
     },
   },
 };

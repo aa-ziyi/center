@@ -8,17 +8,17 @@
       <el-tab-pane label="已入驻" name="settled">
         <SettledMerchants />
       </el-tab-pane>
-      <el-tab-pane label="未入驻" name="unsettled">
-        <FirstStepAudit />
+      <el-tab-pane label="未入驻" name="unSettledMerchants">
+        <UnSettledMerchants />
       </el-tab-pane>
-      <el-tab-pane label="商户初审 " name="second">
-        <SecondStepAudit />
+      <el-tab-pane label="商户初审 " name="merchantOneStep">
+        <MerchantOneStep />
       </el-tab-pane>
-      <el-tab-pane label="商户终审" name="third">
-        <ThirdStepAudit />
+      <el-tab-pane label="商户终审" name="merchantTwoStep">
+        <MerchantTwoStep />
       </el-tab-pane>
-      <el-tab-pane label="协议签订" name="fifth">
-        <FifthStepAudit />
+      <el-tab-pane label="协议签订" name="merchantThreeStep">
+        <MerchantThreeStep />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -26,17 +26,17 @@
 
 <script>
 import SettledMerchants from "./components/SettledMerchants";
-import FirstStepAudit from "./components/FirstStepAudit";
-import SecondStepAudit from "./components/SecondStepAudit";
-import ThirdStepAudit from "./components/ThirdStepAudit";
-import FifthStepAudit from "./components/FifthStepAudit";
+import UnSettledMerchants from "./components/UnSettledMerchants";
+import MerchantOneStep from "./components/MerchantOneStep";
+import MerchantTwoStep from "./components/MerchantTwoStep";
+import MerchantThreeStep from "./components/MerchantThreeStep";
 export default {
   components: {
     SettledMerchants,
-    FirstStepAudit,
-    SecondStepAudit,
-    ThirdStepAudit,
-    FifthStepAudit,
+    UnSettledMerchants,
+    MerchantOneStep,
+    MerchantTwoStep,
+    MerchantThreeStep,
   },
   data() {
     return {

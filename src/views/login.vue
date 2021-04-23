@@ -308,10 +308,10 @@ export default {
     },
     handleImgClick() {
       this.verifyCodeUrl = "";
-      this.$nextTick(() => {
+      setTimeout(() => {
         this.verifyCodeUrl =
           "http://118.24.122.189:8009/store-center/image/code?rpid=2012";
-      });
+      }, 500);
     },
     onRegister() {
       let code = jse.encrypt(this.registerFormData.code);

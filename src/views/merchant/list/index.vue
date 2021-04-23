@@ -25,11 +25,11 @@
 </template>
 
 <script>
-import SettledMerchants from "./components/SettledMerchants";
-import UnSettledMerchants from "./components/UnSettledMerchants";
-import MerchantOneStep from "./components/MerchantOneStep";
-import MerchantTwoStep from "./components/MerchantTwoStep";
-import MerchantThreeStep from "./components/MerchantThreeStep";
+import SettledMerchants from "./components/index/SettledMerchants";
+import UnSettledMerchants from "./components/index/UnSettledMerchants";
+import MerchantOneStep from "./components/index/MerchantOneStep";
+import MerchantTwoStep from "./components/index/MerchantTwoStep";
+import MerchantThreeStep from "./components/index/MerchantThreeStep";
 export default {
   components: {
     SettledMerchants,

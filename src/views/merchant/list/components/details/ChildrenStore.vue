@@ -4,15 +4,15 @@
       <div>
         商户名称：九江权益商户<span class="ml20"> 商户编号： 1171309</span>
       </div>
-      <el-button type="primary" plain @click="handleAddStore"
-        >添加账号</el-button
-      >
+      <el-button type="primary" plain @click="handleAddStore">
+        添加子商户
+      </el-button>
     </div>
     <el-form
       :inline="true"
       :model="formInline"
       class="demo-form-inline"
-      label-width="90px"
+      label-width="80px"
     >
       <el-form-item label="子商户编号:">
         <el-input v-model="formInline.user" placeholder="请输入"></el-input>
@@ -35,24 +35,34 @@
         <el-button @click="onSubmit" class="ml20">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="tableData" style="width: 100%" border>
-      <el-table-column prop="date" label="子商户编号" />
-      <el-table-column prop="name" label="子商户名称" />
+    <el-table :data="tableData" v-loading="tableLoading" border>
+      <el-table-column prop="storeId" label="子商户编号">
+        <template slot-scope="scope">
+          <div class="link-primary" @click="handleGoDetails(scope.row)">
+            {{ scope.row.storeId }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="name" label="子商户名称">
+        <template slot-scope="scope">
+          <div class="link-primary" @click="handleGoDetails(scope.row)">
+            {{ scope.row.name }}
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="address" label="所在地" />
       <el-table-column prop="address" label="审核状态" />
       <el-table-column prop="address" label="是否生效" />
       <el-table-column prop="address" label="创建时间" />
-      <el-table-column fixed="right" label="操作" width="100">
+      <el-table-column fixed="right" label="操作" width="150">
         <template slot-scope="scope">
           <el-button
-            @click="handleShowClick(scope.row)"
             type="text"
             size="small"
-            >查看</el-button
+            @click="handleGoDetails(scope.row)"
           >
-          <el-button type="text" size="small">修改</el-button>
-          <!-- 或 -->
-          <el-button type="text" size="small">下架</el-button>
+            查看
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -71,18 +81,77 @@
 </template>
 
 <script>
+import { getStoretList } from "@/api/merchant";
 export default {
   data() {
     return {
       formInline: {},
       tableData: [],
+      pageSize: 10,
+      curPage: 1,
+      totalCount: 0,
+      submitForm: {},
+      tableLoading: false,
     };
   },
+  created() {
+    this.getData();
+  },
   methods: {
+    handleGoDetails(row) {
+      this.$router.push({
+        name: "MerchantListDetailsChildrenStoreDetail",
+        params: {
+          ...this.$router.params,
+          childrenId: row.storeId,
+          childrenStatus: row.status,
+        },
+        query: {
+          activeName: "second",
+        },
+      });
+    },
     handleAddStore() {
       this.$router.push({
         name: "MerchantListDetailsChildrenStoreAdd",
+        query: {
+          activeName: "third",
+        },
       });
+    },
+    getData() {
+      this.tableLoading = true;
+      getStoretList({
+        data: {
+          pStoreId: this.$route.params.id,
+          type: "2",
+          page: this.curPage,
+          pageSize: this.pageSize,
+          ...this.submitForm,
+        },
+      })
+        .then((res) => {
+          let { list, curPage, pageSize, totalCount } = res.data;
+          this.tableData = list;
+          this.pageSize = pageSize;
+          this.curPage = curPage;
+          this.totalCount = totalCount;
+        })
+        .finally(() => {
+          this.tableLoading = false;
+        });
+    },
+    handleSizeChange(value) {
+      this.pageSize = value;
+      this.getData();
+    },
+    handleCurrentChange(value) {
+      this.curPage = value;
+      this.getData();
+    },
+    onSubmit() {
+      this.submitForm = { ...this.formInline };
+      this.getData();
     },
   },
 };

@@ -168,13 +168,11 @@ import {
   validateCode,
   validatePassword,
 } from "@/utils/validate";
-
+import JSEncrypt from "jsencrypt";
 let publicKey =
   "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjRy8pwFscUzeE9gMkoB39zxvifIKXcXIaQxvxy9KQDYQS8nKgyFyRrdFvxbDyKBZ41d1AqcY2heCJ7SGVKJKfsF97wQ8oPvnRmwBjQ1COGlXvjbjrRHzVMjRbPxXiHc6OP7VMGxm++hEEIBe8sjrMuVQFoDABNfFH5OjEgj0WfunyyP2sLuQIkwKvkOI9/We7X+eLlcACGIHH4ewqwFmyxmozcl850cYgBTWXPFpWyxDI7gTETxb6S+QRuwgy4cE5iHM9MTNqTXfJB1cIe8UlnwJkWo1Dhf5cyPyYxv0tLA4QARefbdPvmsmE237j5FzcoEh+UkpOrUTzCBiWf+PXQIDAQAB";
-let jse = new window.JSEncrypt();
+let jse = new JSEncrypt();
 jse.setPublicKey(publicKey);
-var code = jse.encrypt("123456");
-console.log(code);
 export default {
   data() {
     let checkCode = async (rule, value, callback) => {
@@ -263,6 +261,18 @@ export default {
   methods: {
     handleShowRegister() {
       this.showLogin = !this.showLogin;
+      this.registerFormData = {
+        code: "wulitest123",
+        name: "wulitest123",
+        password: "123456",
+        cofpassword: "123456",
+        phone: "17682314600",
+        mail: "2298606212@qq.com",
+      };
+      this.formData = {
+        code: "wuli",
+        password: "123456",
+      };
       this.$refs["form"].resetFields();
       this.$refs["register-form"].resetFields();
     },
@@ -314,7 +324,7 @@ export default {
           mainRegisty({
             data: {
               ...other,
-              rpid: "201202",
+              rpid: "2012",
               code,
               password,
             },

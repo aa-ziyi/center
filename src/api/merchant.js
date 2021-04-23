@@ -94,3 +94,49 @@ export function storeChangeView(option) {
     ...option,
   });
 }
+
+export function storeAccountAdd(option) {
+  return request({
+    url: "/store-center/acount/add",
+    method: "post",
+    ...option,
+  });
+}
+export function storeAcountListacount(option) {
+  return request({
+    url: "/store-center/acount/listacount",
+    method: "post",
+    ...option,
+  });
+}
+
+export function storeAcountView(option) {
+  return request({
+    url: "/store-center/acount/view",
+    method: "post",
+    ...option,
+  });
+}
+
+export function storeAcountEdit(option) {
+  return request({
+    url: "/store-center/acount/edit",
+    method: "post",
+    ...option,
+  });
+}
+export function storeAcountStopacount(option) {
+  return request({
+    url: "/store-center/acount/stopacount",
+    method: "post",
+    ...option,
+  });
+}
+
+export function storeManageChlidAdd(option) {
+  return request({
+    url: "/store-center/store/manage/chlid/add",
+    method: "post",
+    ...option,
+  });
+}

@@ -109,7 +109,7 @@ const routes = [
                 },
               },
               {
-                path: "store/edit/:id",
+                path: "store/edit/:storeId",
                 name: "MerchantListDetailsStoreEdit",
                 component: () => import("../views/merchant/store/add.vue"),
                 meta: {
@@ -127,7 +127,7 @@ const routes = [
                 },
               },
               {
-                path: "account/edit/:id",
+                path: "account/edit/:accountId",
                 name: "MerchantListDetailsAccountEdit",
                 component: () => import("../views/merchant/account/add.vue"),
                 meta: {
@@ -141,17 +141,16 @@ const routes = [
                 component: () =>
                   import("../views/merchant/children-store/add.vue"),
                 meta: {
-                  title: "添加账号",
+                  title: "添加子商户",
                   hidden: true,
                 },
               },
               {
-                path: "children-store/edit/:id",
-                name: "MerchantListDetailsChildrenStoreEdit",
-                component: () =>
-                  import("../views/merchant/children-store/add.vue"),
+                path: "children-store/detail/:childrenId/:childrenStatus",
+                name: "MerchantListDetailsChildrenStoreDetail",
+                component: () => import("../views/merchant/list/c-details.vue"),
                 meta: {
-                  title: "修改账号",
+                  title: "子商户详情",
                   hidden: true,
                 },
               },

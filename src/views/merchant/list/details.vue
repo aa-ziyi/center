@@ -1,24 +1,37 @@
 <template>
-  <div>
+  <div v-loading="!baseData.id">
     <page-header title="商户列表"> </page-header>
-    <el-tabs v-model="activeName" class="details-el-tabs">
-      <el-tab-pane label="商户资料" name="first"> <Base /></el-tab-pane>
+    <el-tabs
+      v-model="activeName"
+      class="details-el-tabs"
+      @tab-click="tableClick"
+    >
+      <el-tab-pane label="商户资料" name="first">
+        <MerchantsDetails
+          :status="$route.params.status"
+          @change="onDataChange"
+        />
+      </el-tab-pane>
       <el-tab-pane label="门店管理" name="second"> <Store /></el-tab-pane>
       <el-tab-pane label="账户管理" name="third"><Account /></el-tab-pane>
-      <el-tab-pane label="子商户管理" name="fourth">
+      <el-tab-pane
+        label="子商户管理"
+        name="fourth"
+        v-if="baseData && String(baseData.isPstore) == '1'"
+      >
         <ChildrenStore />
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 <script>
-import Base from "./components/details/Base";
 import Store from "./components/details/Store";
 import Account from "./components/details/Account";
 import ChildrenStore from "./components/details/ChildrenStore";
+import MerchantsDetails from "./components/MerchantsDetails";
 export default {
   components: {
-    Base,
+    MerchantsDetails,
     Store,
     Account,
     ChildrenStore,
@@ -26,9 +39,26 @@ export default {
   data() {
     return {
       activeName: "first",
+      baseData: {},
     };
   },
-  methods: {},
+  created() {
+    this.activeName = this.$route.query.activeName || "first";
+  },
+  methods: {
+    tableClick() {
+      // 避免刷新没有到第一个tab
+      if (this.$route.query.activeName) {
+        this.$router.push({
+          name: this.$route.name,
+          params: this.$route.params,
+        });
+      }
+    },
+    onDataChange(data) {
+      this.baseData = data;
+    },
+  },
 };
 </script>
 

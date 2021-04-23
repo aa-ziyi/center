@@ -323,6 +323,10 @@ export default {
       type: String,
       default: "",
     },
+    id: {
+      type: String,
+      default: "",
+    },
   },
   data() {
     return {
@@ -340,12 +344,13 @@ export default {
         String(this.status) == "3" ? storeGetstoreinfo : storeGetStoreTempInfo;
       method({
         data: {
-          id: this.$route.params.id,
+          id: this.id || this.$route.params.id,
         },
       })
         .then((res) => {
           this.formInline = res.data.storeInfo;
           this.payMenthodInfo = res.data.payMenthodInfo;
+          this.$emit("change", this.formInline);
         })
         .finally(() => {
           this.loading = false;

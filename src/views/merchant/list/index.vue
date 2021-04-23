@@ -8,7 +8,7 @@
       <el-tab-pane label="已入驻" name="settled">
         <SettledMerchants />
       </el-tab-pane>
-      <el-tab-pane label="未入驻" name="first">
+      <el-tab-pane label="未入驻" name="unsettled">
         <FirstStepAudit />
       </el-tab-pane>
       <el-tab-pane label="商户初审 " name="second">

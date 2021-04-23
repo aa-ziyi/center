@@ -203,8 +203,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="是否主商户:" prop="pStoreId">
-            <el-radio-group v-model="formInline.pStoreId">
+          <el-form-item label="是否主商户:" prop="isPstore">
+            <el-radio-group v-model="formInline.isPstore">
               <el-radio label="0">否</el-radio>
               <el-radio label="1">是</el-radio>
             </el-radio-group>
@@ -458,7 +458,7 @@ export default {
       storeTypeP: [],
       storeTypeC: [],
       formInline: {
-        pStoreId: "0",
+        isPstore: "0",
         invoiceForChanl: "0",
         vipSystem: "0",
         onLineContact: "0",

@@ -8,13 +8,13 @@
       <el-tab-pane label="已入驻" name="settled">
         <SettledMerchants />
       </el-tab-pane>
-      <el-tab-pane label="商户初审" name="first">
+      <el-tab-pane label="未入驻" name="first">
         <FirstStepAudit />
       </el-tab-pane>
-      <el-tab-pane label="商户终审" name="second">
+      <el-tab-pane label="商户初审 " name="second">
         <SecondStepAudit />
       </el-tab-pane>
-      <el-tab-pane label="商户复核" name="third">
+      <el-tab-pane label="商户终审" name="third">
         <ThirdStepAudit />
       </el-tab-pane>
       <el-tab-pane label="协议签订" name="fifth">

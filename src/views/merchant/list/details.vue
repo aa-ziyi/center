@@ -1,8 +1,6 @@
 <template>
   <div>
-    <page-header title="商户列表">
-      <el-image style="width: 100px; height: 100px" :src="url"></el-image>
-    </page-header>
+    <page-header title="商户列表"> </page-header>
     <el-tabs v-model="activeName" class="details-el-tabs">
       <el-tab-pane label="商户资料" name="first"> <Base /></el-tab-pane>
       <el-tab-pane label="门店管理" name="second"> <Store /></el-tab-pane>

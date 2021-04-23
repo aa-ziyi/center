@@ -46,23 +46,19 @@
       </el-form-item>
     </el-form>
     <el-table :data="tableData" style="width: 100%" border>
-      <el-table-column prop="date" label="商户编号" />
+      <el-table-column prop="storeId" label="商户编号" />
       <el-table-column prop="name" label="商户名称" />
-      <el-table-column prop="address" label="商户来源" />
-      <el-table-column prop="address" label="商户级别" />
-      <el-table-column prop="address" label="分类" />
-      <el-table-column prop="address" label="费率" />
-      <el-table-column prop="address" label="创建时间" />
+      <el-table-column prop="createSource" label="商户来源" />
+      <el-table-column prop="storeLevel" label="商户级别" />
+      <el-table-column prop="storeType" label="分类" />
+      <el-table-column prop="fixfee" label="费率" />
+      <el-table-column prop="createTime" label="创建时间" />
       <el-table-column prop="address" label="审核状态" />
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
-          <el-button
-            @click="handleShowClick(scope.row)"
-            type="text"
-            size="small"
-            >查看</el-button
+          <el-button @click="handleUpdate(scope.row)" type="text" size="small"
+            >修改</el-button
           >
-          <el-button type="text" size="small">审核</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -86,39 +82,7 @@ export default {
   data() {
     return {
       formInline: {},
-      tableData: [
-        {
-          id: 1,
-          date: "7991171313",
-          name: "萍乡权益商户",
-          address: "萍乡大商户",
-        },
-        {
-          date: "7991171313",
-          name: "萍乡权益商户",
-          address: "萍乡大商户",
-        },
-        {
-          date: "7991171313",
-          name: "萍乡权益商户",
-          address: "萍乡大商户",
-        },
-        {
-          date: "7991171313",
-          name: "萍乡权益商户",
-          address: "萍乡大商户",
-        },
-        {
-          date: "7991171313",
-          name: "萍乡权益商户",
-          address: "萍乡大商户",
-        },
-        {
-          date: "7991171313",
-          name: "萍乡权益商户",
-          address: "萍乡大商户",
-        },
-      ],
+      tableData: [],
     };
   },
   created() {
@@ -137,17 +101,6 @@ export default {
         },
       });
     },
-    handleChangeView(row) {
-      // StoreGetPaymentChangeview({
-      //   data: {
-      //     id: row.id,
-      //     isValid: String(row.isValid) === "1" ? "0" : "1",
-      //   },
-      // }).then(() => {
-      //   this.$message.success("操作成功");
-      //   this.getData();
-      // });
-    },
     handleUpdate(row) {
       this.$router.push({
         name: "SettingPlayUpdate",
@@ -165,7 +118,7 @@ export default {
       getStoretList({
         data: {
           type: "2",
-          status: "1",
+          status: "4,6",
           page: this.curPage,
           pageSize: this.pageSize,
           ...this.submitForm,

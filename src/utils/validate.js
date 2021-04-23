@@ -74,10 +74,10 @@ export function isArray(arg) {
 }
 
 export function validateEmail(rule, value, callback) {
-  if (value && validEmail(value)) {
-    callback();
-  } else {
+  if (value && !validEmail(value)) {
     callback(new Error(rule.message || "请输入正确的邮箱"));
+  } else {
+    callback();
   }
 }
 

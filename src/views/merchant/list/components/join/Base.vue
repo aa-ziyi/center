@@ -58,7 +58,12 @@
             <el-input
               v-model="formInline.paymentId"
               placeholder="请输入"
+              style="display: none"
             ></el-input>
+            {{ formInline.paymentId }}
+            <a class="link-primary" @click="handleCheckPaymentId">
+              {{ formInline.paymentId ? "修改" : "选择" }}支付方式
+            </a>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -413,17 +418,22 @@
         <el-button @click="onReset" class="ml20">重置</el-button>
       </el-form-item>
     </el-form>
+    <paymentDialog v-model="paymentDialogVisible" @check="onCheckPaymentId" />
   </div>
 </template>
 <script>
 import { scrollTo } from "@/utils/scroll-to.js";
 import { getStoretype } from "@/api/merchant.js";
+import paymentDialog from "./paymentDialog";
 import {
   validateSingleBit,
   phoneNumber,
   validatePostalCode,
 } from "@/utils/validate";
 export default {
+  components: {
+    paymentDialog,
+  },
   props: {
     prestoreinfoData: {
       type: Object,
@@ -444,9 +454,9 @@ export default {
       }
     };
     return {
+      paymentDialogVisible: false,
       storeTypeP: [],
       storeTypeC: [],
-
       formInline: {
         pStoreId: "0",
         invoiceForChanl: "0",
@@ -458,6 +468,9 @@ export default {
       },
       formRules: {
         name: [{ required: true, message: "请输入商户名称", trigger: "blur" }],
+        shortName: [
+          { required: true, message: "请输入商户简称", trigger: "blur" },
+        ],
         createSoruce: [
           { required: true, message: "请选择商户来源", trigger: "change" },
         ],
@@ -551,6 +564,12 @@ export default {
     });
   },
   methods: {
+    onCheckPaymentId(obj) {
+      this.$set(this.formInline, "paymentId", obj.id);
+    },
+    handleCheckPaymentId() {
+      this.paymentDialogVisible = true;
+    },
     storeTypePChange(value) {
       this.storeTypeC = [];
       this.$set(this.formInline, "storeType", "");

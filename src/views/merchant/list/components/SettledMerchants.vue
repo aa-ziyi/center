@@ -40,22 +40,29 @@
       </el-form-item>
     </el-form>
     <el-table :data="tableData" style="width: 100%" border>
-      <el-table-column prop="date" label="商户编号" />
-      <el-table-column prop="name" label="商户名称" />
-      <el-table-column prop="address" label="商户来源" />
-      <el-table-column prop="address" label="商户级别" />
-      <el-table-column prop="address" label="分类" />
-      <el-table-column prop="address" label="费率" />
-      <el-table-column prop="address" label="创建时间" />
+      <el-table-column prop="storeId" label="商户编号">
+        <template slot-scope="scope">
+          <div class="link-primary" @click="handleGoDetails(scope.row)">
+            {{ scope.row.storeId }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="name" label="商户名称">
+        <template slot-scope="scope">
+          <div class="link-primary" @click="handleGoDetails(scope.row)">
+            {{ scope.row.name }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="createSource" label="商户来源" />
+      <el-table-column prop="storeLevel" label="商户级别" />
+      <el-table-column prop="storeType" label="分类" />
+      <el-table-column prop="fixfee" label="费率" />
+      <el-table-column prop="createTime" label="创建时间" />
       <el-table-column prop="address" label="审核状态" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <div v-if="String(scope.row.updateStatus) == '1'">
-            <el-button type="text" size="small" @click="handleShow(scope.row)">
-              查看
-            </el-button>
-          </div>
-          <div v-else>
+          <div>
             <el-button
               type="text"
               size="small"
@@ -68,10 +75,8 @@
               size="small"
               @click="handleChangeView(scope.row)"
             >
-              {{
-                String(scope.row.isValid) == "0" ? "启用" : "停用"
-              }}</el-button
-            >
+              {{ String(scope.row.isValid) == "0" ? "上架" : "下架" }}
+            </el-button>
           </div>
         </template>
       </el-table-column>
@@ -80,94 +85,80 @@
       class="mt20"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="currentPage4"
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
+      :current-page="curPage"
+      :page-sizes="[10, 20, 50, 100]"
+      :page-size="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="400"
+      :total="totalCount"
     >
     </el-pagination>
   </div>
 </template>
 
 <script>
-import { getStoretList } from "@/api/merchant";
+import { getStoretList, storeChangeView } from "@/api/merchant";
 export default {
   data() {
     return {
       formInline: {
         citys: [],
       },
-      tableData: [
-        {
-          date: "7991171313",
-          name: "萍乡权益商户",
-          address: "萍乡大商户",
-        },
-        {
-          date: "7991171313",
-          name: "萍乡权益商户",
-          address: "萍乡大商户",
-        },
-        {
-          date: "7991171313",
-          name: "萍乡权益商户",
-          address: "萍乡大商户",
-        },
-        {
-          date: "7991171313",
-          name: "萍乡权益商户",
-          address: "萍乡大商户",
-        },
-        {
-          date: "7991171313",
-          name: "萍乡权益商户",
-          address: "萍乡大商户",
-        },
-        {
-          date: "7991171313",
-          name: "萍乡权益商户",
-          address: "萍乡大商户",
-        },
-      ],
+      tableData: [],
+      pageSize: 10,
+      curPage: 1,
+      totalCount: 0,
+      submitForm: {},
+      tableLoading: false,
     };
   },
   created() {
     this.getData();
   },
   methods: {
-    handleShow(row) {
+    handleGoDetails(row) {
       this.$router.push({
-        name: "SettingPlayShow",
+        name: "MerchantListDetails",
         params: {
-          id: row.id,
+          id: row.storeId,
+          status: row.status,
         },
         query: {
-          type: "show",
-          activeName: "first",
+          activeName: "second",
         },
       });
     },
     handleChangeView(row) {
-      // StoreGetPaymentChangeview({
-      //   data: {
-      //     id: row.id,
-      //     isValid: String(row.isValid) === "1" ? "0" : "1",
-      //   },
-      // }).then(() => {
-      //   this.$message.success("操作成功");
-      //   this.getData();
-      // });
+      this.$confirm(
+        `此操作将${
+          String(row.isValid) === "1" ? "下架" : "上架"
+        }该商户，是否继续?`,
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      ).then(() => {
+        storeChangeView({
+          data: {
+            id: row.storeId,
+            isValid: String(row.isValid) === "1" ? "0" : "1",
+          },
+        }).then(() => {
+          this.$message.success("操作成功");
+          this.getData();
+        });
+      });
     },
     handleUpdate(row) {
       this.$router.push({
-        name: "SettingPlayUpdate",
+        name: "MerchantListUpdate",
         params: {
-          id: row.id,
+          id: row.storeId,
+          status: row.status,
         },
         query: {
-          status: row.status,
-          activeName: "first",
+          activeName: "settled",
         },
       });
     },

@@ -73,7 +73,9 @@
         </div>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">保存费率</el-button>
+        <el-button type="primary">上一项</el-button>
+        <el-button type="primary" @click="onSubmit">提交</el-button>
+        <el-button type="primary" @click="onSubmit">存为草稿</el-button>
       </el-form-item>
     </el-form>
   </div>

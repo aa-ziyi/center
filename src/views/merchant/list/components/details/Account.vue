@@ -4,7 +4,9 @@
       <div>
         商户名称：九江权益商户<span class="ml20"> 商户编号： 1171309</span>
       </div>
-      <el-button type="primary" plain>添加账号</el-button>
+      <el-button type="primary" plain @click="handleAddStore">
+        添加账号
+      </el-button>
     </div>
     <el-form
       :inline="true"
@@ -73,6 +75,13 @@ export default {
       formInline: {},
       tableData: [],
     };
+  },
+  methods: {
+    handleAddStore() {
+      this.$router.push({
+        name: "MerchantListDetailsAccountAdd",
+      });
+    },
   },
 };
 </script>

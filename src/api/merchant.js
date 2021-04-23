@@ -78,3 +78,19 @@ export function storeGetStoreTempInfo(option) {
     ...option,
   });
 }
+
+export function storeAduit(option) {
+  return request({
+    url: "/store-center/manage/store/aduit",
+    method: "post",
+    ...option,
+  });
+}
+
+export function storeChangeView(option) {
+  return request({
+    url: "/store-center/manage/store/changeview",
+    method: "post",
+    ...option,
+  });
+}

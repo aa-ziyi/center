@@ -61,7 +61,25 @@ const routes = [
             },
           },
           {
-            path: "details/:id",
+            path: "update/:id/:status",
+            name: "MerchantListUpdate",
+            component: () => import("../views/merchant/list/join.vue"),
+            meta: {
+              title: "商户编辑",
+              hidden: true,
+            },
+          },
+          {
+            path: "audit/:id/:status",
+            name: "MerchantListAudit",
+            component: () => import("../views/merchant/list/audit.vue"),
+            meta: {
+              title: "商户审核",
+              hidden: true,
+            },
+          },
+          {
+            path: "details/:id/:status",
             name: "MerchantListDetails",
             component: LayoutEmpty,
             meta: {
@@ -82,7 +100,7 @@ const routes = [
                 },
               },
               {
-                path: "add",
+                path: "store/add",
                 name: "MerchantListDetailsStoreAdd",
                 component: () => import("../views/merchant/store/add.vue"),
                 meta: {
@@ -91,11 +109,49 @@ const routes = [
                 },
               },
               {
-                path: "edit/:id",
+                path: "store/edit/:id",
                 name: "MerchantListDetailsStoreEdit",
                 component: () => import("../views/merchant/store/add.vue"),
                 meta: {
                   title: "修改门店",
+                  hidden: true,
+                },
+              },
+              {
+                path: "account/add",
+                name: "MerchantListDetailsAccountAdd",
+                component: () => import("../views/merchant/account/add.vue"),
+                meta: {
+                  title: "添加账号",
+                  hidden: true,
+                },
+              },
+              {
+                path: "account/edit/:id",
+                name: "MerchantListDetailsAccountEdit",
+                component: () => import("../views/merchant/account/add.vue"),
+                meta: {
+                  title: "修改账号",
+                  hidden: true,
+                },
+              },
+              {
+                path: "children-store/add",
+                name: "MerchantListDetailsChildrenStoreAdd",
+                component: () =>
+                  import("../views/merchant/children-store/add.vue"),
+                meta: {
+                  title: "添加账号",
+                  hidden: true,
+                },
+              },
+              {
+                path: "children-store/edit/:id",
+                name: "MerchantListDetailsChildrenStoreEdit",
+                component: () =>
+                  import("../views/merchant/children-store/add.vue"),
+                meta: {
+                  title: "修改账号",
                   hidden: true,
                 },
               },

@@ -2,13 +2,12 @@
   <div>
     <el-table :data="tableData" style="width: 100%" border>
       <el-table-column prop="index" label="序号" />
-      <el-table-column prop="date" label="费率类型" />
-      <el-table-column prop="name" label="费率（%）" />
-      <el-table-column prop="address" label="生效日期" />
-      <el-table-column prop="address" label="失效日期" />
-      <el-table-column prop="address" label="计费起始金额（元）" />
-      <el-table-column prop="address" label="最低收费金额（元）" />
-      <el-table-column prop="address" label="最高收费金额（元）" />
+      <el-table-column prop="capitalTypeList" label="费率类型" />
+      <el-table-column prop="feemothod" label="费率（%）" />
+      <el-table-column prop="effortdate" label="生效日期" />
+      <el-table-column prop="expirydate" label="失效日期" />
+      <el-table-column prop="beganamount" label="计费起始金额（元）" />
+      <el-table-column prop="minfeeamount" label="最低收费金额（元）" />
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
           <el-button type="text" size="small">修改</el-button>
@@ -74,9 +73,13 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">保存费率</el-button>
+        <el-button type="primary" @click="onSubmit(false)">保存费率</el-button>
       </el-form-item>
     </el-form>
+    <div>
+      <el-button type="primary">上一项</el-button>
+      <el-button type="primary" @click="saveData">下一项</el-button>
+    </div>
   </div>
 </template>
 <script>
@@ -121,11 +124,15 @@ export default {
   },
   created() {},
   methods: {
-    onSubmit() {
+    onSubmit(isNext) {
       this.$refs["baseForm"].validate((valid) => {
         if (valid) {
           console.log("valid");
-          this.$emit("next", this.formInline);
+          this.tableData.push(this.formInline);
+          this.formInline = {};
+          if (isNext) {
+            this.$emit("next", this.tableData);
+          }
         } else {
           this.$nextTick(() => {
             var isError = document.getElementsByClassName("is-error");
@@ -136,6 +143,14 @@ export default {
           return false;
         }
       });
+    },
+    saveData() {
+      if (this.tableData.length) {
+        this.$emit("next", this.tableData);
+        return;
+      } else {
+        this.onSubmit(true);
+      }
     },
     onReset() {},
   },

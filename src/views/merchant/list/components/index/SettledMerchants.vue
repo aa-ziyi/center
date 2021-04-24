@@ -123,7 +123,7 @@ export default {
           status: row.status,
         },
         query: {
-          activeName: "second",
+          activeName: "settled",
         },
       });
     },

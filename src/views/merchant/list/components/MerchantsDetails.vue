@@ -34,7 +34,7 @@
           </el-col>
 
           <el-col :span="12">
-            <el-form-item label="支付信息编号:" prop="paymentId" v-if="isAdmin">
+            <el-form-item label="支付信息编号:" prop="paymentId">
               {{ formInline.paymentId }}
             </el-form-item>
           </el-col>
@@ -112,6 +112,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="归属地市:" prop="areaCode">
+              {{ formInline.areaCode }}
               <area-cascader v-model="formInline.areaCode" />
             </el-form-item>
           </el-col>
@@ -119,7 +120,7 @@
             <el-form-item label="公司地址:" prop="storeAddress">
               <el-row>
                 <el-col :span="12">
-                  <area-cascader v-model="formInline.companyAreaCode" />
+                  <!-- <area-cascader v-model="formInline.companyAreaCode" /> -->
                 </el-col>
                 <el-col :span="12">
                   {{ formInline.storeAddress }}
@@ -349,6 +350,12 @@ export default {
       })
         .then((res) => {
           this.formInline = res.data.storeInfo;
+          this.formInline = {
+            ...this.formInline,
+            areaCode: this.formInline.areaCode
+              ? [this.formInline.areaCode]
+              : [],
+          };
           this.payMenthodInfo = res.data.payMenthodInfo;
           this.$emit("change", this.formInline);
         })

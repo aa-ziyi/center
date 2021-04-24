@@ -12,8 +12,12 @@
           @change="onDataChange"
         />
       </el-tab-pane>
-      <el-tab-pane label="门店管理" name="second"> <Store /></el-tab-pane>
-      <el-tab-pane label="账户管理" name="third"><Account /></el-tab-pane>
+      <el-tab-pane label="门店管理" name="second">
+        <Store />
+      </el-tab-pane>
+      <el-tab-pane label="账户管理" name="third">
+        <Account />
+      </el-tab-pane>
       <el-tab-pane
         label="子商户管理"
         name="fourth"
@@ -40,15 +44,21 @@ export default {
     return {
       activeName: "first",
       baseData: {},
+      currentTabs: ["first", "second", "third", "fourth"],
     };
   },
   created() {
-    this.activeName = this.$route.query.activeName || "first";
+    let { activeName } = this.$route.query;
+    this.activeName =
+      activeName && this.currentTabs.indexOf(activeName) > -1
+        ? activeName
+        : "first";
   },
   methods: {
     tableClick() {
       // 避免刷新没有到第一个tab
-      if (this.$route.query.activeName) {
+      let { activeName } = this.$route.query;
+      if (activeName && this.currentTabs.indexOf(activeName) > -1) {
         this.$router.push({
           name: this.$route.name,
           params: this.$route.params,

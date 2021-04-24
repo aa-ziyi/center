@@ -67,11 +67,11 @@
       class="mt20"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="currentPage4"
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
+      :current-page="curPage"
+      :page-sizes="[10, 20, 50, 100]"
+      :page-size="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="400"
+      :total="totalCount"
     >
     </el-pagination>
   </div>
@@ -84,6 +84,11 @@ export default {
     return {
       formInline: {},
       tableData: [],
+      pageSize: 10,
+      curPage: 1,
+      totalCount: 0,
+      submitForm: {},
+      tableLoading: false,
     };
   },
   created() {
@@ -98,7 +103,7 @@ export default {
         },
         query: {
           type: "show",
-          activeName: "first",
+          activeName: "merchantThreeStep",
         },
       });
     },

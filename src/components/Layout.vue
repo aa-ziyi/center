@@ -9,7 +9,9 @@
           <el-breadcrumb-item
             v-for="route in currentMatched"
             :key="route.name"
-            :to="{ name: route.name }"
+            :to="{
+              name: route.name,
+            }"
           >
             {{ route.meta && route.meta.title }}
           </el-breadcrumb-item>

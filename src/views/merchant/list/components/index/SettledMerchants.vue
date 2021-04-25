@@ -50,13 +50,7 @@
       </el-form-item>
     </el-form>
     <el-table :data="tableData" style="width: 100%" border>
-      <el-table-column prop="storeId" label="商户编号">
-        <template slot-scope="scope">
-          <div class="link-primary" @click="handleGoDetails(scope.row)">
-            {{ scope.row.storeId }}
-          </div>
-        </template>
-      </el-table-column>
+      <el-table-column prop="storeId" label="商户编号" />
       <el-table-column prop="name" label="商户名称">
         <template slot-scope="scope">
           <div class="link-primary" @click="handleGoDetails(scope.row)">

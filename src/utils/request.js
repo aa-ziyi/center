@@ -43,7 +43,7 @@ service.interceptors.response.use(
     if (ret == "0" || ret == 0) {
       return data;
     }
-    Message.error(msg);
+    Message.error(msg || "服务器异常");
     return Promise.reject(msg || "Error");
   },
   (error) => {

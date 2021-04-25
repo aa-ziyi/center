@@ -2,7 +2,6 @@
   <div>
     <el-card>
       <div slot="header">商户编号： 商户名称： 状态：</div>
-      {{ formInline }}
       <div>基本信息</div>
       <el-form :model="formInline" label-width="150px">
         <el-row :gutter="20">

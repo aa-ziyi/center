@@ -1,6 +1,14 @@
 <template>
   <div v-loading="!baseData.id">
-    <page-header title="商户列表"> </page-header>
+    <page-header title="商户列表">
+      <el-button
+        icon="el-icon-back"
+        circle
+        size="mini"
+        type="primary"
+        @click="handleBack"
+      ></el-button>
+    </page-header>
     <el-tabs
       v-model="activeName"
       class="details-el-tabs"
@@ -12,16 +20,16 @@
           @change="onDataChange"
         />
       </el-tab-pane>
-      <el-tab-pane label="门店管理" name="second">
+      <el-tab-pane label="门店管理" name="second" v-if="showOp">
         <Store />
       </el-tab-pane>
-      <el-tab-pane label="账户管理" name="third">
+      <el-tab-pane label="账户管理" name="third" v-if="showOp">
         <Account />
       </el-tab-pane>
       <el-tab-pane
         label="子商户管理"
         name="fourth"
-        v-if="baseData && String(baseData.isPstore) == '1'"
+        v-if="showOp && baseData && String(baseData.isPstore) == '1'"
       >
         <ChildrenStore />
       </el-tab-pane>
@@ -45,6 +53,7 @@ export default {
       activeName: "first",
       baseData: {},
       currentTabs: ["first", "second", "third", "fourth"],
+      showOp: false,
     };
   },
   created() {
@@ -53,6 +62,7 @@ export default {
       activeName && this.currentTabs.indexOf(activeName) > -1
         ? activeName
         : "first";
+    this.showOp = String(this.$route.params.status) == "3";
   },
   methods: {
     tableClick() {
@@ -67,6 +77,14 @@ export default {
     },
     onDataChange(data) {
       this.baseData = data;
+    },
+    handleBack() {
+      this.$router.push({
+        name: "MerchantList",
+        query: {
+          activeName: this.$route.query.activeName,
+        },
+      });
     },
   },
 };

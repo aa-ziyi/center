@@ -55,7 +55,13 @@
     </el-form>
     <el-table :data="tableData" style="width: 100%" border>
       <el-table-column prop="storeId" label="商户编号" />
-      <el-table-column prop="name" label="商户名称" />
+      <el-table-column prop="name" label="商户名称">
+        <template slot-scope="scope">
+          <div class="link-primary" @click="handleGoDetails(scope.row)">
+            {{ scope.row.name }}
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="createSource" label="商户来源" />
       <el-table-column prop="storeLevel" label="商户级别" />
       <el-table-column prop="storeType" label="分类" />
@@ -112,14 +118,14 @@ export default {
     this.getData();
   },
   methods: {
-    handleShow(row) {
+    handleGoDetails(row) {
       this.$router.push({
-        name: "SettingPlayShow",
+        name: "MerchantListDetails",
         params: {
-          id: row.id,
+          id: row.storeId,
+          status: row.status,
         },
         query: {
-          type: "show",
           activeName: "unSettledMerchants",
         },
       });

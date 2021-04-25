@@ -1,12 +1,9 @@
 <template>
   <div>
     <page-header title="商户列表">
-      <el-link type="primary" @click="handleJoinM" v-has="'merchant-list'">
-        添加线上商户
-      </el-link>
+      <el-link type="primary" @click="handleJoinM"> 添加线上商户 </el-link>
     </page-header>
-
-    <el-tabs v-model="activeName">
+    <el-tabs v-model="activeName" @tab-click="tableClick">
       <el-tab-pane label="已入驻" name="settled">
         <SettledMerchants :prestoreinfoData="prestoreinfoData" />
       </el-tab-pane>
@@ -45,9 +42,21 @@ export default {
     return {
       activeName: "settled",
       prestoreinfoData: {},
+      currentTabs: [
+        "settled",
+        "unSettledMerchants",
+        "merchantOneStep",
+        "merchantTwoStep",
+        "merchantThreeStep",
+      ],
     };
   },
   created() {
+    let { activeName } = this.$route.query;
+    this.activeName =
+      activeName && this.currentTabs.indexOf(activeName) > -1
+        ? activeName
+        : "settled";
     getPrestoreinfo().then((res) => {
       this.prestoreinfoData = res.data;
     });
@@ -57,6 +66,16 @@ export default {
     }
   },
   methods: {
+    tableClick() {
+      // 避免刷新没有到第一个tab
+      let { activeName } = this.$route.query;
+      if (activeName && this.currentTabs.indexOf(activeName) > -1) {
+        this.$router.push({
+          name: this.$route.name,
+          params: this.$route.params,
+        });
+      }
+    },
     handleJoinM() {
       this.$router.push({
         name: "MerchantListJoin",

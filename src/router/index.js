@@ -49,6 +49,7 @@ const routes = [
               title: "商户列表",
               hidden: true,
               hiddenBreadcrumb: true,
+              activeName: "MerchantList",
             },
           },
           {
@@ -58,6 +59,7 @@ const routes = [
             meta: {
               title: "商户入驻",
               hidden: true,
+              activeName: "MerchantList",
             },
           },
           {
@@ -67,6 +69,7 @@ const routes = [
             meta: {
               title: "商户编辑",
               hidden: true,
+              activeName: "MerchantList",
             },
           },
           {
@@ -76,6 +79,7 @@ const routes = [
             meta: {
               title: "商户审核",
               hidden: true,
+              activeName: "MerchantList",
             },
           },
           {
@@ -85,6 +89,7 @@ const routes = [
             meta: {
               title: "商户详情",
               hidden: true,
+              activeName: "MerchantList",
             },
             redirect: {
               name: "MerchantListDetailsIndex",
@@ -97,6 +102,7 @@ const routes = [
                 meta: {
                   hidden: true,
                   hiddenBreadcrumb: true,
+                  activeName: "MerchantList",
                 },
               },
               {
@@ -106,6 +112,7 @@ const routes = [
                 meta: {
                   title: "添加门店",
                   hidden: true,
+                  activeName: "MerchantList",
                 },
               },
               {
@@ -115,6 +122,7 @@ const routes = [
                 meta: {
                   title: "修改门店",
                   hidden: true,
+                  activeName: "MerchantList",
                 },
               },
               {
@@ -124,6 +132,7 @@ const routes = [
                 meta: {
                   title: "添加账号",
                   hidden: true,
+                  activeName: "MerchantList",
                 },
               },
               {
@@ -133,6 +142,7 @@ const routes = [
                 meta: {
                   title: "修改账号",
                   hidden: true,
+                  activeName: "MerchantList",
                 },
               },
               {
@@ -143,6 +153,7 @@ const routes = [
                 meta: {
                   title: "添加子商户",
                   hidden: true,
+                  activeName: "MerchantList",
                 },
               },
               {
@@ -152,6 +163,7 @@ const routes = [
                 meta: {
                   title: "子商户详情",
                   hidden: true,
+                  activeName: "MerchantList",
                 },
               },
             ],
@@ -176,6 +188,7 @@ const routes = [
             meta: {
               hidden: true,
               hiddenBreadcrumb: true,
+              activeName: "MerchantStore",
             },
           },
           {
@@ -185,6 +198,7 @@ const routes = [
             meta: {
               title: "修改门店",
               hidden: true,
+              activeName: "MerchantStore",
             },
           },
           {
@@ -194,6 +208,7 @@ const routes = [
             meta: {
               title: "审核门店",
               hidden: true,
+              activeName: "MerchantStore",
             },
           },
         ],
@@ -229,6 +244,7 @@ const routes = [
             meta: {
               hiddenBreadcrumb: true,
               hidden: true,
+              activeName: "SettingPlay",
             },
           },
           {
@@ -238,6 +254,7 @@ const routes = [
             meta: {
               title: "添加支付方式",
               hidden: true,
+              activeName: "SettingPlay",
             },
           },
           {
@@ -247,6 +264,7 @@ const routes = [
             meta: {
               title: "修改支付方式",
               hidden: true,
+              activeName: "SettingPlay",
             },
           },
           {
@@ -256,6 +274,7 @@ const routes = [
             meta: {
               title: "支付方式详情",
               hidden: true,
+              activeName: "SettingPlay",
             },
           },
         ],

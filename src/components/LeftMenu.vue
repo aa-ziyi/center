@@ -34,8 +34,14 @@ export default {
       defaultActive: "MerchantList",
     };
   },
+  watch: {
+    $route(route) {
+      console.log("route", route.meta.activeName);
+      this.defaultActive = route.meta.activeName || route.name;
+    },
+  },
   created() {
-    this.activeName = this.$route.meta.activeName || this.$route.name;
+    this.defaultActive = this.$route.meta.activeName || this.$route.name;
   },
   methods: {
     handleSelect(key) {

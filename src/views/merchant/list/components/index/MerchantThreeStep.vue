@@ -54,12 +54,12 @@
       <el-table-column prop="address" label="审核状态" />
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="handleShow(scope.row)" type="text" size="small"
-            >查看</el-button
-          >
-          <el-button @click="handleShow(scope.row)" type="text" size="small"
-            >签约</el-button
-          >
+          <el-button @click="handleShow(scope.row)" type="text" size="small">
+            查看
+          </el-button>
+          <el-button @click="handleShow(scope.row)" type="text" size="small">
+            签约
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -112,7 +112,7 @@ export default {
       getStoretList({
         data: {
           type: "2",
-          status: "2",
+          fileStatus: 0,
           page: this.curPage,
           pageSize: this.pageSize,
           ...this.submitForm,

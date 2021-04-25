@@ -4,7 +4,6 @@
       <el-link type="primary" @click="handleJoinM" v-has="'merchant-list'">
         添加线上商户
       </el-link>
-      <el-link type="primary" class="ml20">添加虚拟商户</el-link>
     </page-header>
 
     <el-tabs v-model="activeName">
@@ -12,16 +11,16 @@
         <SettledMerchants :prestoreinfoData="prestoreinfoData" />
       </el-tab-pane>
       <el-tab-pane label="未入驻" name="unSettledMerchants">
-        <UnSettledMerchants />
+        <UnSettledMerchants :prestoreinfoData="prestoreinfoData" />
       </el-tab-pane>
       <el-tab-pane label="商户初审 " name="merchantOneStep">
-        <MerchantOneStep />
+        <MerchantOneStep :prestoreinfoData="prestoreinfoData" />
       </el-tab-pane>
       <el-tab-pane label="商户终审" name="merchantTwoStep">
-        <MerchantTwoStep />
+        <MerchantTwoStep :prestoreinfoData="prestoreinfoData" />
       </el-tab-pane>
       <el-tab-pane label="协议签订" name="merchantThreeStep">
-        <MerchantThreeStep />
+        <MerchantThreeStep :prestoreinfoData="prestoreinfoData" />
       </el-tab-pane>
     </el-tabs>
   </div>

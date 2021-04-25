@@ -1,3 +1,4 @@
+import { getCurrentUser } from "./auth";
 export function jsToFormData(obj) {
   //对象转formdata格式
   let formData = new FormData();
@@ -22,12 +23,23 @@ export function jsToFormData(obj) {
   }
   return formData;
 }
-function isArray(arg) {
+
+export function hasPermission(userPermission) {
+  let { permissions = [] } = getCurrentUser || {};
+  if (!permissions.length) {
+    return false;
+  }
+  return permissions.some((code) => {
+    return code === userPermission;
+  });
+}
+
+export function isArray(arg) {
   if (typeof Array.isArray === "undefined") {
     return Object.prototype.toString.call(arg) === "[object Array]";
   }
   return Array.isArray(arg);
 }
-function isObject(obj) {
+export function isObject(obj) {
   return Object.prototype.toString.call(obj) === "[object Object]";
 }

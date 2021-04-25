@@ -6,6 +6,7 @@ import "element-ui/lib/theme-chalk/index.css";
 
 import "./permission"; // permission control
 import "@/filters/index.js";
+import "@/directive/index.js";
 import "@/components/Common";
 import "@/styles/main.less";
 

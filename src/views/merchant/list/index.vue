@@ -1,12 +1,15 @@
 <template>
   <div>
     <page-header title="商户列表">
-      <el-link type="primary" @click="handleJoinM">添加线上商户</el-link>
+      <el-link type="primary" @click="handleJoinM" v-has="'merchant-list'">
+        添加线上商户
+      </el-link>
       <el-link type="primary" class="ml20">添加虚拟商户</el-link>
     </page-header>
+
     <el-tabs v-model="activeName">
       <el-tab-pane label="已入驻" name="settled">
-        <SettledMerchants />
+        <SettledMerchants :prestoreinfoData="prestoreinfoData" />
       </el-tab-pane>
       <el-tab-pane label="未入驻" name="unSettledMerchants">
         <UnSettledMerchants />
@@ -30,6 +33,7 @@ import UnSettledMerchants from "./components/index/UnSettledMerchants";
 import MerchantOneStep from "./components/index/MerchantOneStep";
 import MerchantTwoStep from "./components/index/MerchantTwoStep";
 import MerchantThreeStep from "./components/index/MerchantThreeStep";
+import { getPrestoreinfo } from "@/api/merchant.js";
 export default {
   components: {
     SettledMerchants,
@@ -41,7 +45,17 @@ export default {
   data() {
     return {
       activeName: "settled",
+      prestoreinfoData: {},
     };
+  },
+  created() {
+    getPrestoreinfo().then((res) => {
+      this.prestoreinfoData = res.data;
+    });
+    let { id, status } = this.$route.params;
+    if (id) {
+      this.getData(status, id);
+    }
   },
   methods: {
     handleJoinM() {

@@ -12,13 +12,13 @@
       :inline="true"
       :model="formInline"
       class="demo-form-inline"
-      label-width="80px"
+      label-width="75px"
     >
       <el-form-item label="门店编号:">
-        <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+        <el-input v-model="formInline.id" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="门店名称:">
-        <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+        <el-input v-model="formInline.name" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="创建时间:">
         <el-date-picker
@@ -36,23 +36,41 @@
       </el-form-item>
     </el-form>
     <el-table :data="tableData" style="width: 100%" border>
-      <el-table-column prop="date" label="门店编号" />
+      <el-table-column prop="id" label="门店编号" />
       <el-table-column prop="name" label="门店名称" />
-      <el-table-column prop="address" label="所在地" />
-      <el-table-column prop="address" label="审核状态" />
-      <el-table-column prop="address" label="是否生效" />
-      <el-table-column prop="address" label="创建时间" />
-      <el-table-column prop="address" label="创建人" />
-      <el-table-column prop="address" label="审核状态" />
-      <el-table-column fixed="right" label="操作" width="100">
+      <el-table-column prop="areaCode" label="所在地" />
+      <el-table-column prop="status" label="审核状态" />
+      <el-table-column label="是否生效">
+        <template slot-scope="scope">
+          {{ String(scope.row.status) === "1" ? "是" : "否" }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="createTime" label="创建时间" />
+      <el-table-column prop="createUserName" label="创建人" />
+      <el-table-column fixed="right" label="操作" width="150">
         <template slot-scope="scope">
           <el-button
-            @click="handleShowClick(scope.row)"
+            v-if="
+              !(
+                String(scope.row.status) === '3' &&
+                String(scope.row.isValid) === '1'
+              )
+            "
             type="text"
             size="small"
-            >查看</el-button
+            @click="handleUpdate(scope.row)"
           >
-          <el-button type="text" size="small">修改</el-button>
+            修改
+          </el-button>
+          <el-button
+            v-if="String(scope.row.status) === '3'"
+            type="text"
+            size="small"
+            @click="handleChangeView(scope.row)"
+            >{{
+              String(scope.row.isValid) === "1" ? "冻结" : "启用"
+            }}</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -71,18 +89,100 @@
 </template>
 
 <script>
+import { shopManageList, shopManageChangeview } from "@/api/shop";
 export default {
   data() {
     return {
       formInline: {},
       tableData: [],
+      pageSize: 10,
+      curPage: 1,
+      totalCount: 0,
+      submitForm: {},
+      tableLoading: false,
     };
   },
+  created() {
+    this.getData();
+  },
   methods: {
+    handleChangeView(row) {
+      this.$confirm(
+        `此操作将${
+          String(row.isValid) === "1" ? "冻结" : "启用"
+        }该商户，是否继续?`,
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      ).then(() => {
+        shopManageChangeview({
+          data: {
+            id: row.id,
+            status: String(row.isValid) === "1" ? "0" : "1",
+          },
+        }).then(() => {
+          this.$message.success("操作成功");
+          this.getData();
+        });
+      });
+    },
     handleAddStore() {
       this.$router.push({
         name: "MerchantListDetailsStoreAdd",
+        query: {
+          type: "2", //(2商户 3 门店)
+          routeName: this.$route.name,
+          activeName: "second",
+        },
       });
+    },
+    handleUpdate(row) {
+      this.$router.push({
+        name: "MerchantListDetailsStoreEdit",
+        params: {
+          storeId: row.id,
+        },
+        query: {
+          routeName: this.$route.name,
+          activeName: "second",
+        },
+      });
+    },
+    getData() {
+      this.tableLoading = true;
+      shopManageList({
+        data: {
+          page: this.curPage,
+          pageSize: this.pageSize,
+          storeId: this.$route.params.id,
+          ...this.submitForm,
+        },
+      })
+        .then((res) => {
+          let { list, curPage, pageSize, totalCount } = res.data;
+          this.tableData = list;
+          this.pageSize = pageSize;
+          this.curPage = curPage;
+          this.totalCount = totalCount;
+        })
+        .finally(() => {
+          this.tableLoading = false;
+        });
+    },
+    handleSizeChange(value) {
+      this.pageSize = value;
+      this.getData();
+    },
+    handleCurrentChange(value) {
+      this.curPage = value;
+      this.getData();
+    },
+    onSubmit() {
+      this.submitForm = { ...this.formInline };
+      this.getData();
     },
   },
 };

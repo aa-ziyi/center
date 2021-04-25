@@ -222,13 +222,7 @@ export default {
       })
         .then(() => {
           this.$message.success("添加成功");
-          this.$router.push({
-            name: this.$route.query.routeName,
-            params: this.$route.params,
-            query: {
-              activeName: this.$route.query.activeName,
-            },
-          });
+          this.back();
         })
         .finally(() => {
           this.loading = false;

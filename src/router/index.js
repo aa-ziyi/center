@@ -179,11 +179,20 @@ const routes = [
             },
           },
           {
-            path: "edit/:id",
+            path: "edit/:storeId",
             name: "MerchantStoreEdit",
             component: () => import("../views/merchant/store/add.vue"),
             meta: {
               title: "修改门店",
+              hidden: true,
+            },
+          },
+          {
+            path: "audit/:storeId",
+            name: "MerchantStoreAudit",
+            component: () => import("../views/merchant/store/audit.vue"),
+            meta: {
+              title: "审核门店",
               hidden: true,
             },
           },

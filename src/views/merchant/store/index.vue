@@ -2,7 +2,7 @@
   <div>
     <page-header title="门店列表"> </page-header>
     <el-tabs v-model="activeName">
-      <el-tab-pane label="已入驻门店" name="first">
+      <el-tab-pane label="门店列表" name="first">
         <StoreList />
       </el-tab-pane>
       <el-tab-pane label="门店审核" name="second">

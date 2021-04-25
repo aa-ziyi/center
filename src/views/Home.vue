@@ -11,5 +11,8 @@
 export default {
   name: "Home",
   components: {},
+  created() {
+    this.$router.push("/merchant");
+  },
 };
 </script>

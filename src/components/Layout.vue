@@ -95,6 +95,7 @@ export default {
       top: 45px + 40px;
       right: 0;
       z-index: 10;
+      box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.1);
     }
   }
   .el-tabs__content {

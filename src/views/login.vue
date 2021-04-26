@@ -39,12 +39,14 @@
               </el-col>
               <el-col :span="12">
                 <el-image
-                  class="ml20"
                   v-loading="!verifyCodeUrl"
                   @click="handleImgClick"
                   style="height: 40px"
                   :src="verifyCodeUrl"
-                />
+                  class="link-primary ml20"
+                >
+                  <span slot="error">加载中</span>
+                </el-image>
               </el-col>
             </el-form-item>
             <el-form-item>
@@ -124,12 +126,14 @@
               </el-col>
               <el-col :span="12">
                 <el-image
-                  class="ml20"
+                  class="link-primary ml20"
                   v-loading="!verifyCodeUrl"
                   @click="handleImgClick"
                   style="height: 40px"
                   :src="verifyCodeUrl"
-                />
+                >
+                  <span slot="error">加载中</span>
+                </el-image>
               </el-col>
             </el-form-item>
             <el-form-item prop="mail">
@@ -308,10 +312,9 @@ export default {
     },
     handleImgClick() {
       this.verifyCodeUrl = "";
-      setTimeout(() => {
-        this.verifyCodeUrl =
-          "http://118.24.122.189:8009/store-center/image/code?rpid=2012";
-      }, 500);
+      this.$nextTick(() => {
+        this.verifyCodeUrl = `http://118.24.122.189:8009/store-center/image/code?rpid=2012&time=${new Date().getTime()}`;
+      });
     },
     onRegister() {
       let code = jse.encrypt(this.registerFormData.code);

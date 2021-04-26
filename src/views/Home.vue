@@ -1,18 +1,25 @@
 <template>
-  <div class="home">
-    <el-button type="primary">主要按钮</el-button>
-    <img alt="Vue logo" src="../assets/logo.png" />
-  </div>
+  <div class="home" v-loading="true"></div>
 </template>
 
 <script>
-// @ is an alias to /src
-
+import { getCurrentUser, getRolePathName } from "@/utils/auth";
 export default {
   name: "Home",
   components: {},
   created() {
     this.$router.push("/merchant");
+    let user = getCurrentUser() || {};
+    let name = getRolePathName(user);
+    this.$router.push({
+      name,
+    });
   },
 };
 </script>
+
+<style scoped>
+.home {
+  height: 80vh;
+}
+</style>

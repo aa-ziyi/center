@@ -14,10 +14,72 @@ const routes = [
     hidden: true,
   },
   {
-    path: "/welcome",
-    name: "Welcome",
-    component: () =>
-      import(/* webpackChunkName: "welcome" */ "../views/welcome.vue"),
+    path: "/my-merchant",
+    name: "myMerchant",
+    component: Layout,
+    redirect: {
+      name: "myMerchantDetiles",
+    },
+    meta: {
+      title: "我的商户",
+    },
+    children: [
+      {
+        path: "details",
+        name: "myMerchantDetiles",
+        component: () => import("../views/my-merchant/details.vue"),
+        meta: {
+          title: "商户详情",
+          hidden: true,
+        },
+      },
+    ],
+  },
+  {
+    path: "/merchant-apply",
+    name: "merchantApply",
+    component: Layout,
+    redirect: {
+      name: "merchantApplyBySelf",
+    },
+    meta: {
+      title: "商户自主申请入驻",
+    },
+    children: [
+      {
+        path: "by-self",
+        name: "merchantApplyBySelf",
+        component: LayoutEmpty,
+        meta: {
+          title: "首页",
+        },
+        redirect: {
+          name: "merchantApplyBySelfIndex",
+        },
+        children: [
+          {
+            path: "index",
+            name: "merchantApplyBySelfIndex",
+            component: () => import("../views/merchant-apply/index.vue"),
+            meta: {
+              hidden: true,
+              hiddenBreadcrumb: true,
+              activeName: "merchantApplyBySelf",
+            },
+          },
+          {
+            path: "join",
+            name: "merchantApplyJoin",
+            component: () => import("../views/merchant/list/join.vue"),
+            meta: {
+              title: "商户入驻",
+              hidden: true,
+              activeName: "merchantApplyBySelf",
+            },
+          },
+        ],
+      },
+    ],
   },
   {
     path: "/merchant",

@@ -26,3 +26,18 @@ export function setToken(token) {
 export function removeToken() {
   return store.remove(TOKEN);
 }
+
+export function getRolePathName(user) {
+  if (user.isAdmin) {
+    return "MerchantListIndex";
+  }
+  if (user.isStore) {
+    return "myMerchantDetiles";
+  }
+  if (user.isStoreBefore) {
+    return "merchantApplyBySelf";
+  }
+  if (user.isShop) {
+    return "MerchantStoreIndex";
+  }
+}

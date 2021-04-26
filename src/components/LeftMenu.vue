@@ -9,9 +9,15 @@
       text-color="#fff"
       active-text-color="#fff"
     >
+      <el-menu-item index="myMerchantDetiles">我的商户详情</el-menu-item>
+      <el-submenu index="merchantApplyBySelf">
+        <template slot="title">
+          <span>商户自主申请入驻</span>
+        </template>
+        <el-menu-item index="merchantApplyBySelf">首页</el-menu-item>
+      </el-submenu>
       <el-submenu index="MerchantList">
         <template slot="title">
-          <i class="el-icon-location"></i>
           <span>商户管理</span>
         </template>
         <el-menu-item index="MerchantList">商户列表</el-menu-item>
@@ -19,7 +25,6 @@
       </el-submenu>
       <el-submenu index="SettingPlay">
         <template slot="title">
-          <i class="el-icon-location"></i>
           <span>系统管理</span>
         </template>
         <el-menu-item index="SettingPlay">支付设置</el-menu-item>

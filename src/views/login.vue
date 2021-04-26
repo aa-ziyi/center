@@ -165,7 +165,7 @@ import {
   getNotLoginmsg,
   mainCheckname,
 } from "@/api/login";
-import { setToken } from "@/utils/auth";
+import { setToken, setCurrentUser, getRolePathName } from "@/utils/auth";
 import {
   validateEmail,
   phoneNumber,
@@ -356,14 +356,49 @@ export default {
             },
           })
             .then((res) => {
-              setToken(res.token);
-              this.$router.push("/");
+              let { token, roleId, ...other } = res;
+              let roleObj = this.initRole(roleId);
+              setToken(token);
+              setCurrentUser({
+                roleId,
+                ...roleObj,
+                ...other,
+              });
+              let name = getRolePathName(roleObj);
+              this.$router.push({
+                name,
+              });
             })
             .finally(() => {
               this.loading = false;
             });
         }
       });
+    },
+    initRole(roleId) {
+      // 0超级管理员  1系统管理员  2商户 3门店 4. 待入驻商户
+      let _role = String(roleId);
+      if (_role == "0" || _role == "1") {
+        return {
+          isAdmin: true,
+        };
+      }
+      if (_role == "2") {
+        return {
+          isStore: true,
+        };
+      }
+      if (_role == "3") {
+        return {
+          isShop: true,
+        };
+      }
+      if (_role == "4") {
+        return {
+          isStoreBefore: true,
+        };
+      }
+      return {};
     },
   },
 };

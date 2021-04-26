@@ -74,6 +74,7 @@ import {
   storetEdit,
 } from "@/api/merchant.js";
 import { jsToFormData } from "@/utils/tool";
+import { getCurrentUser } from "@/utils/auth";
 export default {
   components: {
     Base,
@@ -113,6 +114,9 @@ export default {
     if (this.isSign) {
       this.activeName = "agreement";
     }
+    let user = getCurrentUser();
+    console.log("user", user);
+    this.isAdmin = !!user.isAdmin;
   },
   methods: {
     getData(status, id) {
@@ -259,7 +263,7 @@ export default {
     },
     back() {
       this.$router.push({
-        name: "MerchantList",
+        name: this.$route.query.routeName || "MerchantList",
         query: {
           activeName: this.$route.query.activeName,
         },

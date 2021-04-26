@@ -2,33 +2,51 @@
   <div>
     <page-header title="商户入驻"></page-header>
     <el-tabs v-model="activeName">
-      <el-tab-pane label="基本信息" name="base">
+      <el-tab-pane label="基本信息" name="base" v-if="!isSign">
         <Base
-          @next="baseNext"
+          ref="base"
+          @valid="baseNext"
           :prestoreinfoData="prestoreinfoData"
           :isAdmin="isAdmin"
+          :editData="editData"
         />
       </el-tab-pane>
-      <el-tab-pane label="业务信息" name="business">
-        <Business @next="businessNext" :prestoreinfoData="prestoreinfoData" />
+      <el-tab-pane label="业务信息" name="business" v-if="!isSign">
+        <Business
+          ref="business"
+          @next="businessNext"
+          :prestoreinfoData="prestoreinfoData"
+          :editData="editData"
+        />
       </el-tab-pane>
-      <el-tab-pane label="结算信息" name="settlement">
+      <el-tab-pane label="结算信息" name="settlement" v-if="!isSign">
         <Settlement
           @next="settlementNext"
           :prestoreinfoData="prestoreinfoData"
+          :editData="editData"
         />
       </el-tab-pane>
-      <el-tab-pane label="支付方式" name="playType" v-if="!isAdmin">
-        <PlayType @next="PlayTypeNext" :prestoreinfoData="prestoreinfoData" />
+      <el-tab-pane label="支付方式" name="playType" v-if="!isAdmin && !isSign">
+        <PlayType
+          @next="PlayTypeNext"
+          :prestoreinfoData="prestoreinfoData"
+          :editData="editData"
+        />
       </el-tab-pane>
-      <el-tab-pane label="费率" name="exchangeRate" v-if="isAdmin">
+      <el-tab-pane label="费率" name="exchangeRate" v-if="isAdmin && !isSign">
         <ExchangeRate
           @next="exchangeRateNext"
           :prestoreinfoData="prestoreinfoData"
+          :editData="editData"
         />
       </el-tab-pane>
       <el-tab-pane label="协议信息" name="agreement" v-if="isAdmin">
-        <Agreement @next="AgreementNext" :prestoreinfoData="prestoreinfoData" />
+        <Agreement
+          @next="AgreementNext"
+          :prestoreinfoData="prestoreinfoData"
+          :isSign="isSign"
+          :editData="editData"
+        />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -46,6 +64,9 @@ import {
   storetAdd,
   storeGetStoreTempInfo,
   storeGetstoreinfo,
+  storetFilesign,
+  storetEditUpdate,
+  storetEdit,
 } from "@/api/merchant.js";
 import { jsToFormData } from "@/utils/tool";
 export default {
@@ -65,7 +86,8 @@ export default {
       freeInfo: {},
       payMentInfo: {},
       agreementData: {},
-      isAdmin: true,
+      isAdmin: false,
+      isSign: false,
       editData: {},
     };
   },
@@ -76,6 +98,10 @@ export default {
     let { id, status } = this.$route.params;
     if (id) {
       this.getData(status, id);
+    }
+    this.isSign = this.$route.name == "MerchantListSign";
+    if (this.isSign) {
+      this.activeName = "agreement";
     }
   },
   methods: {
@@ -89,10 +115,8 @@ export default {
       });
     },
     baseNext(formData) {
-      this.activeName = "base";
-      // storeTypeP移除
       let {
-        storeTypeP,
+        storeTypeP, // storeTypeP移除
         serviceType = [],
         companyAreaCode = [],
         areaCode = [],
@@ -135,7 +159,12 @@ export default {
         ...this.payMentInfo,
         ...formData,
       };
-      this.saveFormData();
+      // 校验前三个，校验不通过跳过去
+      this.validateBaseForm((valid) => {
+        if (valid) {
+          this.saveFormData();
+        }
+      });
     },
     exchangeRateNext(arryForm) {
       this.activeName = "agreement";
@@ -152,6 +181,10 @@ export default {
       });
     },
     AgreementNext(formData) {
+      if (this.isSign) {
+        this.saveSign();
+        return;
+      }
       let { contractSignTime, ...other } = formData;
       this.agreementData = {
         ...other,
@@ -159,7 +192,11 @@ export default {
       if (contractSignTime) {
         this.$set(this.formData, "contractSignTime", contractSignTime);
       }
-      this.saveAdminFormData();
+      this.validateBaseForm((valid) => {
+        if (valid) {
+          this.saveAdminFormData();
+        }
+      });
     },
     saveFormData() {
       let data = {
@@ -185,6 +222,51 @@ export default {
       storetAdd({
         data: _data,
       }).then(() => {});
+    },
+    saveSign() {
+      storetFilesign().then((res) => {
+        console.log(res);
+      });
+    },
+    validateBaseForm(callBack) {
+      this.$refs["base"].validateForm((valid) => {
+        if (!valid) {
+          this.activeName = "base";
+        } else {
+          this.validateBusinessForm(callBack);
+        }
+      });
+    },
+    validateBusinessForm(callBack) {
+      this.$refs["business"].validateForm((valid) => {
+        if (!valid) {
+          this.activeName = "business";
+        } else {
+          this.validateBaseForm(callBack);
+        }
+      });
+    },
+    validateSettlementForm(callBack) {
+      this.$refs["settlement"].validateForm((valid) => {
+        if (!valid) {
+          this.activeName = "settlement";
+        } else {
+          if (this.isAdmin) {
+            callBack();
+          } else {
+            this.validateExchangeRateForm(callBack);
+          }
+        }
+      });
+    },
+    validateExchangeRateForm(callBack) {
+      this.$refs["exchangeRate"].validateForm((valid) => {
+        if (!valid) {
+          this.activeName = "exchangeRate";
+        } else {
+          this.validateBaseForm(callBack);
+        }
+      });
     },
   },
 };

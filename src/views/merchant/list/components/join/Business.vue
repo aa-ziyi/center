@@ -197,6 +197,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    editData: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -274,6 +278,11 @@ export default {
       },
     };
   },
+  watch: {
+    editData(newData) {
+      this.initBaseData(newData);
+    },
+  },
   created() {
     getStoretype({
       data: {
@@ -285,9 +294,9 @@ export default {
     });
   },
   methods: {
-    storeTypePChange(value) {
+    storeTypePChange(value, merType) {
       this.storeTypeC = [];
-      this.$set(this.formInline, "merType", "");
+      this.$set(this.formInline, "merType", merType);
       if (!value) {
         return;
       }
@@ -316,7 +325,53 @@ export default {
         }
       });
     },
-    onReset() {},
+    initBaseData(data) {
+      let {
+        merQual,
+        regCap,
+        merPTypeDesc,
+        merType,
+        corporationname,
+        icRegno,
+        corporationidno,
+        corporationidtype,
+        taxCertifi,
+        operateProduct,
+        taxCountryNo,
+        stafNum,
+        taxAddedRate,
+        opNdt,
+        email,
+        synposis,
+        bsScope,
+      } = data.storeInfo;
+      merPTypeDesc = merPTypeDesc ? merPTypeDesc.split(",") : [];
+      this.formInline = {
+        industryType: merPTypeDesc.length > 1 ? Number(merPTypeDesc[1]) : "",
+        merType: merType || merType == 0 ? Number(merType) : "",
+        merQual,
+        regCap,
+        corporationname,
+        icRegno,
+        corporationidno,
+        corporationidtype,
+        taxCertifi,
+        operateProduct,
+        taxCountryNo,
+        stafNum,
+        taxAddedRate,
+        opNdt,
+        email,
+        synposis,
+        bsScope,
+      };
+      if (this.formInline.industryType) {
+        this.storeTypePChange(
+          this.formInline.industryType,
+          this.formInline.merType
+        );
+      }
+    },
   },
 };
 </script>

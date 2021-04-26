@@ -180,7 +180,7 @@ export default {
     },
     handleUpdate(row) {
       this.$router.push({
-        name: "MerchantListUpdate",
+        name: "MerchantListSign",
         params: {
           id: row.storeId,
           status: row.status,

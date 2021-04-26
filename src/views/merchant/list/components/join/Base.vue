@@ -7,10 +7,9 @@
       class="demo-form-inline"
       label-width="150px"
     >
-      {{ formInline }}
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item label="商户编号:">
+          <el-form-item label="商户编号:" v-if="formInline.id">
             <el-input v-model="formInline.id" placeholder="请输入"></el-input>
           </el-form-item>
         </el-col>
@@ -29,13 +28,13 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="商户来源:" prop="createSoruce">
-            <el-select v-model="formInline.createSoruce" placeholder="请选择">
+          <el-form-item label="商户来源:" prop="createSource">
+            <el-select v-model="formInline.createSource" placeholder="请选择">
               <el-option
-                v-for="(option, index) in prestoreinfoData.createSrouce"
+                v-for="(option, index) in prestoreinfoData.createSource"
                 :key="index"
                 :label="option"
-                :value="index"
+                :value="Number(index)"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -184,8 +183,8 @@
         <el-col :span="12">
           <el-form-item label="商品是否支持开发票:" prop="invoiceForChanl">
             <el-radio-group v-model="formInline.invoiceForChanl">
-              <el-radio label="0">不支持</el-radio>
-              <el-radio label="1">支持</el-radio>
+              <el-radio :label="0">不支持</el-radio>
+              <el-radio :label="1">支持</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -205,8 +204,8 @@
         <el-col :span="12">
           <el-form-item label="是否主商户:" prop="isPstore">
             <el-radio-group v-model="formInline.isPstore">
-              <el-radio label="0">否</el-radio>
-              <el-radio label="1">是</el-radio>
+              <el-radio :label="0">否</el-radio>
+              <el-radio :label="1">是</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -273,8 +272,8 @@
         <el-col :span="12">
           <el-form-item label="是否有会员运营体系:" prop="vipSystem">
             <el-radio-group v-model="formInline.vipSystem">
-              <el-radio label="0">否</el-radio>
-              <el-radio label="1">是</el-radio>
+              <el-radio :label="0">否</el-radio>
+              <el-radio :label="1">是</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -329,8 +328,8 @@
         <el-col :span="12">
           <el-form-item label="是否有线上触点:" prop="onLineContact">
             <el-radio-group v-model="formInline.onLineContact">
-              <el-radio label="0">否</el-radio>
-              <el-radio label="1">是</el-radio>
+              <el-radio :label="0">否</el-radio>
+              <el-radio :label="1">是</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -414,8 +413,7 @@
         </el-col>
       </el-row>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">下一项</el-button>
-        <el-button @click="onReset" class="ml20">重置</el-button>
+        <el-button type="primary" @click="validateForm()">下一项</el-button>
       </el-form-item>
     </el-form>
     <paymentDialog v-model="paymentDialogVisible" @check="onCheckPaymentId" />
@@ -443,6 +441,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    editData: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     let validateEndDate = (rule, value, callback) => {
@@ -458,10 +460,10 @@ export default {
       storeTypeP: [],
       storeTypeC: [],
       formInline: {
-        isPstore: "0",
-        invoiceForChanl: "0",
-        vipSystem: "0",
-        onLineContact: "0",
+        isPstore: 0,
+        invoiceForChanl: 0,
+        vipSystem: 0,
+        onLineContact: 0,
         serviceType: [],
         companyAreaCode: ["360000", "360100"],
         areaCode: ["360000", "360100"],
@@ -471,7 +473,7 @@ export default {
         shortName: [
           { required: true, message: "请输入商户简称", trigger: "blur" },
         ],
-        createSoruce: [
+        createSource: [
           { required: true, message: "请选择商户来源", trigger: "change" },
         ],
         areaCode: [
@@ -553,6 +555,11 @@ export default {
       },
     };
   },
+  watch: {
+    editData(newData) {
+      this.initBaseData(newData);
+    },
+  },
   created() {
     getStoretype({
       data: {
@@ -570,9 +577,9 @@ export default {
     handleCheckPaymentId() {
       this.paymentDialogVisible = true;
     },
-    storeTypePChange(value) {
+    storeTypePChange(value, storeType) {
       this.storeTypeC = [];
-      this.$set(this.formInline, "storeType", "");
+      this.$set(this.formInline, "storeType", storeType);
       if (!value) {
         return;
       }
@@ -585,7 +592,7 @@ export default {
         this.storeTypeC = res.data;
       });
     },
-    onSubmit() {
+    validateForm(callBack) {
       this.$refs["baseForm"].validate((valid) => {
         if (valid) {
           this.$emit("next", this.formInline);
@@ -596,11 +603,118 @@ export default {
               scrollTo(isError[0].offsetTop - 130, 500);
             }
           });
-          return false;
+        }
+        if (callBack) {
+          callBack(valid);
         }
       });
     },
-    onReset() {},
+    initBaseData(data) {
+      let {
+        storePTypeDesc,
+        areaCode,
+        companyAreaCode,
+        id,
+        name,
+        shortName,
+        createSource,
+        storeLevel,
+        paymentId,
+        storeType,
+        serviceType,
+        bsManagerPhone,
+        bsManagerName,
+        fcManagerPhone,
+        fcManagerName,
+        linkPhone,
+        linkName,
+        contractEndtime,
+        contractBegintime,
+        invoiceForChanl,
+        contractAmount,
+        isPstore,
+        storeAddress,
+        areaId,
+        cityChain,
+        cityCover,
+        totalName,
+        totalAddress,
+        vipSystem,
+        cityVipNum,
+        provinceVipNum,
+        countryVipNum,
+        cityUserNum,
+        provinceUserNum,
+        countryUserNum,
+        onLineContact,
+        appName,
+        appletsName,
+        wxPublicName,
+        projectName,
+        projectScale,
+        projectApprovaName,
+        cooperationType,
+        merchantType,
+        projectMessage,
+      } = data.storeInfo;
+      console.log("storePTypeDesc", storePTypeDesc);
+      storePTypeDesc = storePTypeDesc ? storePTypeDesc.split(",") : [];
+      console.log("storePTypeDesc", storePTypeDesc);
+      this.formInline = {
+        storeTypeP: storePTypeDesc.length > 1 ? Number(storePTypeDesc[1]) : "",
+        areaCode: areaCode ? areaCode.split(",") : [],
+        serviceType: serviceType ? serviceType.split(",") : [],
+        companyAreaCode: companyAreaCode ? companyAreaCode.split(",") : [],
+        storeType: storeType ? Number(storeType) : "",
+        isPstore: isPstore ? Number(isPstore) : 0,
+        invoiceForChanl: invoiceForChanl ? Number(invoiceForChanl) : 0,
+        vipSystem: vipSystem ? Number(vipSystem) : 0,
+        onLineContact: onLineContact ? Number(onLineContact) : 0,
+        id,
+        name,
+        shortName,
+        createSource,
+        storeLevel,
+        paymentId,
+        bsManagerPhone,
+        bsManagerName,
+        fcManagerPhone,
+        fcManagerName,
+        linkPhone,
+        linkName,
+        contractEndtime,
+        contractBegintime,
+        contractAmount,
+        storeAddress,
+        areaId,
+        cityChain,
+        cityCover,
+        totalName,
+        totalAddress,
+        cityVipNum,
+        provinceVipNum,
+        countryVipNum,
+        cityUserNum,
+        provinceUserNum,
+        countryUserNum,
+        appName,
+        appletsName,
+        wxPublicName,
+        projectName,
+        projectScale,
+        projectApprovaName,
+        cooperationType,
+        merchantType,
+        projectMessage,
+      };
+      console.log("storePTypeDesc", this.formInline);
+      if (this.formInline.storeTypeP) {
+        this.storeTypePChange(
+          this.formInline.storeTypeP,
+          this.formInline.storeType
+        );
+      }
+    },
   },
 };
 </script>

@@ -55,8 +55,8 @@
         <el-col :span="12">
           <el-form-item label="和包支付:" prop="hebaoStatus">
             <el-radio-group v-model="formInline.hebaoStatus">
-              <el-radio label="1">支持</el-radio>
-              <el-radio label="0">不支持</el-radio>
+              <el-radio :label="1">支持</el-radio>
+              <el-radio :label="0">不支持</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -84,8 +84,8 @@
         <el-col :span="12">
           <el-form-item label="微信APP支付:" prop="wechatPayApp">
             <el-radio-group v-model="formInline.wechatPayApp">
-              <el-radio label="1">支持</el-radio>
-              <el-radio label="0">不支持</el-radio>
+              <el-radio :label="1">支持</el-radio>
+              <el-radio :label="0">不支持</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -106,32 +106,32 @@
         <el-col :span="12">
           <el-form-item label="微信H5支付:" prop="wechatPayH5">
             <el-radio-group v-model="formInline.wechatPayH5">
-              <el-radio label="1">支持</el-radio>
-              <el-radio label="0">不支持</el-radio>
+              <el-radio :label="1">支持</el-radio>
+              <el-radio :label="0">不支持</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="支付宝APP支付:" prop="aliPayApp">
             <el-radio-group v-model="formInline.aliPayApp">
-              <el-radio label="1">支持</el-radio>
-              <el-radio label="0">不支持</el-radio>
+              <el-radio :label="1">支持</el-radio>
+              <el-radio :label="0">不支持</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="微信公众号支付:" prop="wechatPayMp">
             <el-radio-group v-model="formInline.wechatPayMp">
-              <el-radio label="1">支持</el-radio>
-              <el-radio label="0">不支持</el-radio>
+              <el-radio :label="1">支持</el-radio>
+              <el-radio :label="0">不支持</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="支付宝H5支付:" prop="aliPayH5">
             <el-radio-group v-model="formInline.aliPayH5">
-              <el-radio label="1">支持</el-radio>
-              <el-radio label="0">不支持</el-radio>
+              <el-radio :label="1">支持</el-radio>
+              <el-radio :label="0">不支持</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -152,16 +152,20 @@ export default {
       type: Object,
       default: () => {},
     },
+    editData: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
       formInline: {
-        hebaoStatus: "1",
-        wechatPayApp: "1",
-        wechatPayH5: "1",
-        aliPayApp: "1",
-        wechatPayMp: "1",
-        aliPayH5: "1",
+        hebaoStatus: 1,
+        wechatPayApp: 1,
+        wechatPayH5: 1,
+        aliPayApp: 1,
+        wechatPayMp: 1,
+        aliPayH5: 1,
       },
       formRules: {
         name: [
@@ -185,12 +189,16 @@ export default {
       },
     };
   },
+  watch: {
+    editData(newData) {
+      this.initBaseData(newData);
+    },
+  },
   created() {},
   methods: {
     onSubmit() {
       this.$refs["baseForm"].validate((valid) => {
         if (valid) {
-          console.log("valid");
           this.$emit("next", this.formInline);
         } else {
           this.$nextTick(() => {
@@ -203,7 +211,23 @@ export default {
         }
       });
     },
-    onReset() {},
+    initBaseData(data) {
+      // let {
+      //   contractSignTime,
+      //   decision,
+      //   contract,
+      //   storedecision,
+      //   chinamdecision,
+      // } = data.payMenthodInfo;
+      this.formInline = data.payMenthodInfo || {
+        hebaoStatus: 1,
+        wechatPayApp: 1,
+        wechatPayH5: 1,
+        aliPayApp: 1,
+        wechatPayMp: 1,
+        aliPayH5: 1,
+      };
+    },
   },
 };
 </script>

@@ -29,6 +29,33 @@ export function storetAdd(option) {
   });
 }
 
+export function storetEditUpdate(option) {
+  return request({
+    url: "/store-center/manage/store/editupdate",
+    method: "post",
+    ...option,
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+}
+
+export function storetEdit(option) {
+  return request({
+    url: "/store-center/manage/store/edit",
+    method: "post",
+    ...option,
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+}
+
+export function storetFilesign(option) {
+  return request({
+    url: "/store-center/manage/store/filesign",
+    method: "post",
+    ...option,
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+}
+
 export function storetAddbyself(option) {
   return request({
     url: "/store-center/manage/store/addbyself",
@@ -128,14 +155,6 @@ export function storeAcountEdit(option) {
 export function storeAcountStopacount(option) {
   return request({
     url: "/store-center/acount/stopacount",
-    method: "post",
-    ...option,
-  });
-}
-
-export function storeManageChlidAdd(option) {
-  return request({
-    url: "/store-center/store/manage/chlid/add",
     method: "post",
     ...option,
   });

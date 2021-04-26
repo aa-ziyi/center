@@ -73,6 +73,16 @@ const routes = [
             },
           },
           {
+            path: "sign/:id/:status",
+            name: "MerchantListSign",
+            component: () => import("../views/merchant/list/join.vue"),
+            meta: {
+              title: "商户编辑",
+              hidden: true,
+              activeName: "MerchantList",
+            },
+          },
+          {
             path: "audit/:id/:status",
             name: "MerchantListAudit",
             component: () => import("../views/merchant/list/audit.vue"),

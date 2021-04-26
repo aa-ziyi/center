@@ -7,7 +7,6 @@
       class="demo-form-inline"
       label-width="150px"
     >
-      {{ formInline }}
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="结算账号类型:" prop="settleAcType">
@@ -180,6 +179,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    editData: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -228,6 +231,11 @@ export default {
       },
     };
   },
+  watch: {
+    editData(newData) {
+      this.initBaseData(newData);
+    },
+  },
   created() {},
   methods: {
     onSubmit() {
@@ -246,7 +254,44 @@ export default {
         }
       });
     },
-    onReset() {},
+    initBaseData(data) {
+      let {
+        settleAcType,
+        merOpBk,
+        withdrawBankid,
+        settleAc,
+        openbankDesc,
+        stlMode,
+        settleRate,
+        settlePeriod,
+        settleTrfdays,
+        settleBeginamt,
+        minRetainedamt,
+        settleBillType,
+        revPrv,
+        icpNo,
+        postAddress,
+        billAraeCode,
+      } = data.storeInfo;
+      this.formInline = {
+        billAraeCode: billAraeCode ? billAraeCode.split(",") : [],
+        settleAcType,
+        merOpBk,
+        withdrawBankid,
+        settleAc,
+        openbankDesc,
+        stlMode,
+        settleRate,
+        settlePeriod,
+        settleTrfdays,
+        settleBeginamt,
+        minRetainedamt,
+        settleBillType,
+        revPrv,
+        icpNo,
+        postAddress,
+      };
+    },
   },
 };
 </script>

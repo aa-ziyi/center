@@ -1,8 +1,12 @@
 <template>
   <div>
     <el-table :data="tableData" style="width: 100%" border>
-      <el-table-column prop="index" label="序号" />
-      <el-table-column prop="capitalTypeList" label="费率类型" />
+      <el-table-column type="index" label="序号"> </el-table-column>
+      <el-table-column label="费率类型">
+        <template slot-scope="scope">
+          <span>现金</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="feemothod" label="费率（%）" />
       <el-table-column prop="effortdate" label="生效日期" />
       <el-table-column prop="expirydate" label="失效日期" />
@@ -15,7 +19,6 @@
         </template>
       </el-table-column>
     </el-table>
-    {{ formInline }}
     <el-form
       ref="baseForm"
       :model="formInline"
@@ -86,6 +89,21 @@
 import { scrollTo } from "@/utils/scroll-to.js";
 import { validateSingleBit } from "@/utils/validate";
 export default {
+  props: {
+    prestoreinfoData: {
+      type: Object,
+      default: () => {},
+    },
+    editData: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  watch: {
+    editData(newData) {
+      this.initBaseData(newData);
+    },
+  },
   data() {
     return {
       formInline: {
@@ -152,7 +170,10 @@ export default {
         this.onSubmit(true);
       }
     },
-    onReset() {},
+    initBaseData(data) {
+      let { storeFreeList } = data.storeInfo;
+      this.tableData = storeFreeList || [];
+    },
   },
 };
 </script>

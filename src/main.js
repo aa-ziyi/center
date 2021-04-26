@@ -8,7 +8,11 @@ import "./permission"; // permission control
 import "@/filters/index.js";
 import "@/directive/index.js";
 import "@/components/Common";
+import { hasPermission } from "@/utils/tool";
+
 import "@/styles/main.less";
+
+Vue.prototype.$hasPermission = hasPermission;
 
 Vue.use(Element);
 Vue.config.productionTip = false;

@@ -9,25 +9,42 @@
       text-color="#fff"
       active-text-color="#fff"
     >
+      <!-- 角色判断 -->
       <el-menu-item index="myMerchantDetiles">我的商户详情</el-menu-item>
-      <el-submenu index="merchantApplyBySelf">
+      <el-submenu
+        index="merchantApplyBySelf"
+        v-if="$hasPermission('merchantsenter#opreate')"
+      >
         <template slot="title">
           <span>商户自主申请入驻</span>
         </template>
         <el-menu-item index="merchantApplyBySelf">首页</el-menu-item>
       </el-submenu>
-      <el-submenu index="MerchantList">
+      <el-submenu index="MerchantList" v-if="$hasPermission('storemange')">
         <template slot="title">
           <span>商户管理</span>
         </template>
-        <el-menu-item index="MerchantList">商户列表</el-menu-item>
-        <el-menu-item index="MerchantStore">门店列表</el-menu-item>
+        <el-menu-item
+          index="MerchantList"
+          v-if="$hasPermission('storemange#list')"
+          >商户列表</el-menu-item
+        >
+        <el-menu-item
+          index="MerchantStore"
+          v-if="$hasPermission('storemange#shopmanage')"
+          >门店列表</el-menu-item
+        >
       </el-submenu>
-      <el-submenu index="SettingPlay">
+      <el-submenu index="SettingPlay" v-if="$hasPermission('sysmanage')">
         <template slot="title">
           <span>系统管理</span>
         </template>
-        <el-menu-item index="SettingPlay">支付设置</el-menu-item>
+        <el-menu-item
+          index="SettingPlay"
+          v-if="$hasPermission('sysmanage#paymentset')"
+        >
+          支付设置
+        </el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
@@ -47,6 +64,32 @@ export default {
   },
   created() {
     this.defaultActive = this.$route.meta.activeName || this.$route.name;
+    let data = {
+      roleId: 0,
+      isAdmin: true,
+      ret: 0,
+      privage: [
+        "merchantsenter",
+        "merchantsenter#opreate",
+        "merchantsenter#opreate#addbyself",
+        "storemange",
+        "storemange#list",
+        "storemange#list#added",
+        "storemange#list#adding",
+        "storemange#list#aduitfirst",
+        "storemange#list#aduitsecond",
+        "storemange#list#filesgin",
+        "storemange#shopmanage",
+        "storemange#shopmanage#aduit",
+        "sysmanage",
+        "sysmanage#paymentset",
+        "sysmanage#paymentset#added",
+        "sysmanage#paymentset#adding",
+        "sysmanage#paymentset#aduitfirst",
+        "sysmanage#paymentset#aduitsecond",
+      ],
+      userName: "wulitest123",
+    };
   },
   methods: {
     handleSelect(key) {

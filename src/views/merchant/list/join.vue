@@ -28,7 +28,8 @@
           :baseRef="baseRef"
         />
       </el-tab-pane>
-      <el-tab-pane label="支付方式" name="playType" v-if="!isAdmin && !isSign">
+      <!-- <el-tab-pane label="支付方式" name="playType" v-if="!isAdmin && !isSign"> -->
+      <el-tab-pane label="支付方式" name="playType" v-if="false">
         <PlayType
           ref="playType"
           @next="PlayTypeNext"

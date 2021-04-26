@@ -25,11 +25,13 @@ export function jsToFormData(obj) {
 }
 
 export function hasPermission(userPermission) {
-  let { permissions = [] } = getCurrentUser || {};
-  if (!permissions.length) {
+  console.log("hasPermission", userPermission);
+  let { privage = [] } = getCurrentUser() || {};
+  console.log("hasPermission", privage);
+  if (!privage.length) {
     return false;
   }
-  return permissions.some((code) => {
+  return privage.some((code) => {
     return code === userPermission;
   });
 }

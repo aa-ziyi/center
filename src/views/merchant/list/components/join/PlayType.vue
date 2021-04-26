@@ -7,7 +7,6 @@
       class="demo-form-inline"
       label-width="150px"
     >
-      {{ formInline }}
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="支付渠道名称:" prop="name">

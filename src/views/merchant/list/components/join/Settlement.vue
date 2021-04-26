@@ -10,7 +10,11 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="结算账号类型:" prop="settleAcType">
-            <el-select v-model="formInline.settleAcType" placeholder="请选择">
+            <el-select
+              v-model="formInline.settleAcType"
+              placeholder="请选择"
+              style="width: 100%"
+            >
               <el-option
                 v-for="(option, index) in prestoreinfoData.settleAcTypeMap"
                 :key="index"
@@ -25,7 +29,12 @@
             <el-input
               v-model="formInline.merOpBk"
               placeholder="请输入"
+              style="display: none"
             ></el-input>
+            {{ formInline.merOpBk }}
+            <a class="link-primary" @click="handleCheckPaymentId">
+              {{ formInline.merOpBk ? "修改" : "选择" }}支付方式
+            </a>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -54,7 +63,11 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="结算方式:" prop="stlMode">
-            <el-select v-model="formInline.stlMode" placeholder="">
+            <el-select
+              v-model="formInline.stlMode"
+              placeholder=""
+              style="width: 100%"
+            >
               <el-option
                 v-for="(option, index) in prestoreinfoData.stlModeMap"
                 :key="index"
@@ -66,15 +79,24 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="结算比例:" prop="settleRate">
-            <el-input
-              v-model="formInline.settleRate"
-              placeholder="请输入"
-            ></el-input>
+            <el-row>
+              <el-col :span="16">
+                <el-input
+                  v-model="formInline.settleRate"
+                  placeholder="请输入"
+                ></el-input>
+              </el-col>
+              <el-col :span="8">（%） </el-col>
+            </el-row>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="结算周期:" prop="settlePeriod">
-            <el-select v-model="formInline.settlePeriod" placeholder="">
+            <el-select
+              v-model="formInline.settlePeriod"
+              placeholder=""
+              style="width: 100%"
+            >
               <el-option
                 v-for="(option, index) in prestoreinfoData.settlePeriod"
                 :key="index"
@@ -145,35 +167,37 @@
         </el-col>
         <el-col :span="24">
           <el-form-item label="发票邮寄地址:" prop="postAddress">
+            <el-checkbox @change="handleCheckChange">
+              与商户地址一致
+            </el-checkbox>
             <el-row>
               <el-col :span="8">
                 <area-cascader v-model="formInline.billAraeCode" />
               </el-col>
-              <el-col :span="8" :offset="1">
+              <el-col :span="16">
                 <el-input v-model="formInline.postAddress" placeholder="请输入">
                 </el-input>
-              </el-col>
-              <el-col :span="3" :offset="1">
-                <el-checkbox v-model="formInline.checked">
-                  与商户地址一致 （未知）
-                </el-checkbox>
               </el-col>
             </el-row>
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-form-item>
-        <el-button @click="onReset" class="ml20">重置</el-button>
-        <el-button type="primary" @click="validateForm()">下一项</el-button>
+        <el-button @click="onReset">重置</el-button>
+        <el-button type="primary" class="ml20" @click="validateForm()">
+          下一项
+        </el-button>
       </el-form-item>
     </el-form>
+    <merOpBkDialog v-model="bkialogVisible" @check="onCheckBkId" />
   </div>
 </template>
 <script>
 import { scrollTo } from "@/utils/scroll-to.js";
 import { validatePositiveInteger, validateSingleBit } from "@/utils/validate";
+import merOpBkDialog from "./merOpBkDialog";
 export default {
+  components: { merOpBkDialog },
   props: {
     prestoreinfoData: {
       type: Object,
@@ -183,9 +207,14 @@ export default {
       type: Object,
       default: () => {},
     },
+    baseRef: {
+      type: [Object, null],
+      default: null,
+    },
   },
   data() {
     return {
+      bkialogVisible: false,
       formInline: {
         billAraeCode: ["360000", "360100"],
       },
@@ -238,6 +267,27 @@ export default {
   },
   created() {},
   methods: {
+    handleCheckChange(value) {
+      if (value && this.baseRef) {
+        console.log(this.baseRef);
+        this.$set(
+          this.formInline,
+          "billAraeCode",
+          this.baseRef.formInline.companyAreaCode
+        );
+        this.$set(
+          this.formInline,
+          "postAddress",
+          this.baseRef.formInline.storeAddress
+        );
+      }
+    },
+    onCheckBkId(obj) {
+      this.$set(this.formInline, "merOpBk", obj.opBankCode);
+    },
+    handleCheckPaymentId() {
+      this.bkialogVisible = true;
+    },
     validateForm(callBack) {
       this.$refs["baseForm"].validate((valid) => {
         if (valid) {
@@ -278,6 +328,8 @@ export default {
       } = data.storeInfo;
       this.formInline = {
         billAraeCode: billAraeCode ? billAraeCode.split(",") : [],
+        settlePeriod:
+          settlePeriod || settlePeriod == 0 ? String(settlePeriod) : "",
         settleAcType,
         merOpBk,
         withdrawBankid,
@@ -285,7 +337,6 @@ export default {
         openbankDesc,
         stlMode,
         settleRate,
-        settlePeriod,
         settleTrfdays,
         settleBeginamt,
         minRetainedamt,

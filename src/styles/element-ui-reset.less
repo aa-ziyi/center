@@ -110,7 +110,7 @@
   margin-right: -20px;
   .el-form-item {
     margin-right: 0;
-    width: 33.33%;
+    width: 33.33%; // 默认三个一行
     margin-bottom: 12px;
     display: flex;
     .el-form-item__content {
@@ -119,6 +119,11 @@
       .el-select {
         width: 100%;
       }
+    }
+  }
+  &.half {
+    .el-form-item {
+      width: 50%;
     }
   }
 }
@@ -135,6 +140,17 @@
 .el-checkbox {
   color: #464c5b;
   font-weight: normal;
+}
+
+//el-dialog
+.el-dialog__header {
+  padding: 10px 15px 10px;
+}
+.el-dialog__body {
+  padding: 10px 15px;
+}
+.el-dialog__footer {
+  padding: 10px 15px 15px;
 }
 
 //ant-cascader

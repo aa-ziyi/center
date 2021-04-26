@@ -25,6 +25,7 @@
           @next="settlementNext"
           :prestoreinfoData="prestoreinfoData"
           :editData="editData"
+          :baseRef="baseRef"
         />
       </el-tab-pane>
       <el-tab-pane label="支付方式" name="playType" v-if="!isAdmin && !isSign">
@@ -90,11 +91,15 @@ export default {
       freeInfo: {},
       payMentInfo: {},
       agreementData: {},
-      isAdmin: false,
+      isAdmin: true,
       isSign: false,
       editData: {},
       loading: false,
+      baseRef: null,
     };
+  },
+  mounted() {
+    this.baseRef = this.$refs["base"];
   },
   created() {
     getPrestoreinfo().then((res) => {
@@ -171,13 +176,15 @@ export default {
       };
       // 校验前三个，校验不通过跳过去
       this.validateBaseForm(() => {
+        let { id, ...other } = this.formData;
         let data = {
           sgin: {
-            ...this.formData,
+            ...other,
+            oldStoreId: id,
             payMentInfo: this.payMentInfo,
           },
         };
-        let { id, status } = this.$route.params;
+        let { status } = this.$route.params;
         let _data = jsToFormData(data);
         id ? this.saveEditData(_data, status) : this.saveFormData(_data);
       });

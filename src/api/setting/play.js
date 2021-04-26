@@ -60,3 +60,10 @@ export function StoreGetPaymentChangeview(option) {
     ...option,
   });
 }
+export function storeBanklist(option) {
+  return request({
+    url: "/store-center/manage/store/banklist",
+    method: "post",
+    ...option,
+  });
+}

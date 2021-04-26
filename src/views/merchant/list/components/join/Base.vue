@@ -10,7 +10,7 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="商户编号:" v-if="formInline.id">
-            <el-input v-model="formInline.id" placeholder="请输入"></el-input>
+            {{ formInline.id }}
           </el-form-item>
         </el-col>
         <el-col :span="12" :offset="12"> </el-col>
@@ -29,7 +29,11 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="商户来源:" prop="createSource">
-            <el-select v-model="formInline.createSource" placeholder="请选择">
+            <el-select
+              v-model="formInline.createSource"
+              placeholder="请选择"
+              style="width: 100%"
+            >
               <el-option
                 v-for="(option, index) in prestoreinfoData.createSource"
                 :key="index"
@@ -41,7 +45,11 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="商户级别:" prop="storeLevel">
-            <el-select v-model="formInline.storeLevel" placeholder="请选择">
+            <el-select
+              v-model="formInline.storeLevel"
+              placeholder="请选择"
+              style="width: 100%"
+            >
               <el-option
                 v-for="(option, index) in prestoreinfoData.storeLevelMap"
                 :key="index"
@@ -67,31 +75,39 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="商户分类:" prop="storeType">
-            <el-select
-              v-model="formInline.storeTypeP"
-              placeholder="一级分类"
-              clearable
-              @change="storeTypePChange"
-            >
-              <el-option
-                v-for="(option, index) in storeTypeP"
-                :key="index"
-                :label="option.name"
-                :value="option.id"
-              ></el-option>
-            </el-select>
-            <el-select
-              v-model="formInline.storeType"
-              placeholder="二级分类"
-              clearable
-            >
-              <el-option
-                v-for="(option, index) in storeTypeC"
-                :key="index"
-                :label="option.name"
-                :value="option.id"
-              ></el-option>
-            </el-select>
+            <el-row>
+              <el-col :span="12">
+                <el-select
+                  v-model="formInline.storeTypeP"
+                  placeholder="一级分类"
+                  clearable
+                  @change="storeTypePChange"
+                  style="width: 100%"
+                >
+                  <el-option
+                    v-for="(option, index) in storeTypeP"
+                    :key="index"
+                    :label="option.name"
+                    :value="option.id"
+                  ></el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="12">
+                <el-select
+                  style="width: 100%"
+                  v-model="formInline.storeType"
+                  placeholder="二级分类"
+                  clearable
+                >
+                  <el-option
+                    v-for="(option, index) in storeTypeC"
+                    :key="index"
+                    :label="option.name"
+                    :value="option.id"
+                  ></el-option>
+                </el-select>
+              </el-col>
+            </el-row>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -157,9 +173,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="合同结束时间:" prop="contractEndtime">
+          <el-form-item label="合同开始时间:" prop="contractBegintime">
             <el-date-picker
-              v-model="formInline.contractEndtime"
+              v-model="formInline.contractBegintime"
+              style="width: 100%"
               type="datetime"
               placeholder="请选择"
               format="yyyy-MM-dd HH:mm:ss"
@@ -169,9 +186,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="合同开始时间:" prop="contractBegintime">
+          <el-form-item label="合同结束时间:" prop="contractEndtime">
             <el-date-picker
-              v-model="formInline.contractBegintime"
+              style="width: 100%"
+              v-model="formInline.contractEndtime"
               type="datetime"
               placeholder="请选择"
               format="yyyy-MM-dd HH:mm:ss"
@@ -195,6 +213,7 @@
                 <el-input
                   v-model="formInline.contractAmount"
                   placeholder="请输入"
+                  :maxlength="10"
                 ></el-input>
               </el-col>
               <el-col :span="8">（单位：元） </el-col>
@@ -282,6 +301,7 @@
             <el-input
               v-model="formInline.cityVipNum"
               placeholder="请输入"
+              :maxlength="10"
             ></el-input>
           </el-form-item>
         </el-col>
@@ -290,6 +310,7 @@
             <el-input
               v-model="formInline.provinceVipNum"
               placeholder="请输入"
+              :maxlength="10"
             ></el-input>
           </el-form-item>
         </el-col>
@@ -298,6 +319,7 @@
             <el-input
               v-model="formInline.countryVipNum"
               placeholder="请输入"
+              :maxlength="10"
             ></el-input>
           </el-form-item>
         </el-col>
@@ -305,6 +327,7 @@
           <el-form-item label="本地市用户数:" prop="cityUserNum">
             <el-input
               v-model="formInline.cityUserNum"
+              :maxlength="10"
               placeholder="请输入"
             ></el-input>
           </el-form-item>
@@ -314,6 +337,7 @@
             <el-input
               v-model="formInline.provinceUserNum"
               placeholder="请输入"
+              :maxlength="10"
             ></el-input>
           </el-form-item>
         </el-col>
@@ -322,6 +346,7 @@
             <el-input
               v-model="formInline.countryUserNum"
               placeholder="请输入"
+              :maxlength="10"
             ></el-input>
           </el-form-item>
         </el-col>
@@ -391,7 +416,11 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="商机类型:" prop="merchantType">
-            <el-select v-model="formInline.merchantType" placeholder="请选择">
+            <el-select
+              v-model="formInline.merchantType"
+              placeholder="请选择"
+              style="width: 100%"
+            >
               <el-option
                 v-for="(option, index) in prestoreinfoData.merchantType"
                 :key="index"
@@ -427,6 +456,7 @@ import {
   validateSingleBit,
   phoneNumber,
   validatePostalCode,
+  validatePositiveInteger,
 } from "@/utils/validate";
 export default {
   components: {
@@ -552,6 +582,36 @@ export default {
             validator: validatePostalCode,
           },
         ],
+        cityVipNum: [
+          {
+            validator: validatePositiveInteger,
+          },
+        ],
+        countryVipNum: [
+          {
+            validator: validatePositiveInteger,
+          },
+        ],
+        cityUserNum: [
+          {
+            validator: validatePositiveInteger,
+          },
+        ],
+        provinceUserNum: [
+          {
+            validator: validatePositiveInteger,
+          },
+        ],
+        countryUserNum: [
+          {
+            validator: validatePositiveInteger,
+          },
+        ],
+        provinceVipNum: [
+          {
+            validator: validatePositiveInteger,
+          },
+        ],
       },
     };
   },
@@ -665,16 +725,16 @@ export default {
         areaCode: areaCode ? areaCode.split(",") : [],
         serviceType: serviceType ? serviceType.split(",") : [],
         companyAreaCode: companyAreaCode ? companyAreaCode.split(",") : [],
-        storeType: storeType ? Number(storeType) : "",
-        isPstore: isPstore ? Number(isPstore) : 0,
-        invoiceForChanl: invoiceForChanl ? Number(invoiceForChanl) : 0,
-        vipSystem: vipSystem ? Number(vipSystem) : 0,
-        onLineContact: onLineContact ? Number(onLineContact) : 0,
+        storeType: storeType || storeType == 0 ? Number(storeType) : "", // 转化成Number
+        storeLevel: storeLevel || storeLevel == 0 ? String(storeLevel) : "", // 转化成String
+        isPstore: isPstore ? Number(isPstore) : 0, // 转化成Number默认值0
+        invoiceForChanl: invoiceForChanl ? Number(invoiceForChanl) : 0, // 转化成Number默认值0
+        vipSystem: vipSystem ? Number(vipSystem) : 0, // 转化成Number默认值0
+        onLineContact: onLineContact ? Number(onLineContact) : 0, // 转化成Number默认值0
         id,
         name,
         shortName,
         createSource,
-        storeLevel,
         paymentId,
         bsManagerPhone,
         bsManagerName,

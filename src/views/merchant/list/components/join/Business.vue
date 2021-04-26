@@ -10,7 +10,11 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="商户性质:" prop="merQual">
-            <el-select v-model="formInline.merQual" placeholder="请选择">
+            <el-select
+              v-model="formInline.merQual"
+              placeholder="请选择"
+              style="width: 100%"
+            >
               <el-option
                 v-for="(option, index) in prestoreinfoData.merQualMap"
                 :key="index"
@@ -30,26 +34,37 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="所属行业:" prop="merType">
-            <el-select
-              v-model="formInline.industryType"
-              placeholder="请选择"
-              @change="storeTypePChange"
-            >
-              <el-option
-                v-for="(option, index) in storeTypeP"
-                :key="index"
-                :label="option.name"
-                :value="option.id"
-              ></el-option>
-            </el-select>
-            <el-select v-model="formInline.merType" placeholder="请选择">
-              <el-option
-                v-for="(option, index) in storeTypeC"
-                :key="index"
-                :label="option.name"
-                :value="option.id"
-              ></el-option>
-            </el-select>
+            <el-row>
+              <el-col :span="12">
+                <el-select
+                  v-model="formInline.industryType"
+                  placeholder="请选择"
+                  @change="storeTypePChange"
+                  style="width: 100%"
+                >
+                  <el-option
+                    v-for="(option, index) in storeTypeP"
+                    :key="index"
+                    :label="option.name"
+                    :value="option.id"
+                  ></el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="12">
+                <el-select
+                  v-model="formInline.merType"
+                  placeholder="请选择"
+                  style="width: 100%"
+                >
+                  <el-option
+                    v-for="(option, index) in storeTypeC"
+                    :key="index"
+                    :label="option.name"
+                    :value="option.id"
+                  ></el-option>
+                </el-select>
+              </el-col>
+            </el-row>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -71,7 +86,7 @@
         <el-col :span="12">
           <el-form-item label="法人证件号码:" prop="corporationidno">
             <el-row>
-              <el-col :span="11">
+              <el-col :span="12">
                 <el-select
                   v-model="formInline.corporationidtype"
                   placeholder="证件类型"
@@ -86,10 +101,11 @@
                   ></el-option>
                 </el-select>
               </el-col>
-              <el-col :span="11" :offset="2">
+              <el-col :span="12">
                 <el-input
                   v-model="formInline.corporationidno"
                   placeholder=""
+                  :maxlength="18"
                 ></el-input>
               </el-col>
             </el-row>
@@ -129,10 +145,15 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="增值税率:">
-            <el-input
-              v-model="formInline.taxAddedRate"
-              placeholder="请输入"
-            ></el-input>
+            <el-row>
+              <el-col :span="18">
+                <el-input
+                  v-model="formInline.taxAddedRate"
+                  placeholder="请输入"
+                ></el-input>
+              </el-col>
+              <el-col :span="4">（%） </el-col>
+            </el-row>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -143,6 +164,7 @@
               placeholder="选择日期"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
+              style="width: 100%"
             >
             </el-date-picker>
           </el-form-item>
@@ -155,6 +177,7 @@
             ></el-input>
           </el-form-item>
         </el-col>
+        <el-col :span="12" :offset="12"></el-col>
         <el-col :span="12">
           <el-form-item label="公司简介:">
             <el-input
@@ -218,7 +241,11 @@ export default {
           { required: true, message: "请输入法人姓名", trigger: "blur" },
         ],
         corporationidno: [
-          { required: true, message: "请输入法人证件号码", trigger: "blur" },
+          {
+            required: true,
+            message: "请输入法人证件号码",
+            trigger: "blur",
+          },
         ],
         stafNum: [
           {

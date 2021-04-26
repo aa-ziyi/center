@@ -1,11 +1,11 @@
 <template>
   <div>
     <page-header title="商户入驻"></page-header>
-    <el-tabs v-model="activeName">
+    <el-tabs v-model="activeName" v-loading="loading">
       <el-tab-pane label="基本信息" name="base" v-if="!isSign">
         <Base
           ref="base"
-          @valid="baseNext"
+          @next="baseNext"
           :prestoreinfoData="prestoreinfoData"
           :isAdmin="isAdmin"
           :editData="editData"
@@ -21,6 +21,7 @@
       </el-tab-pane>
       <el-tab-pane label="结算信息" name="settlement" v-if="!isSign">
         <Settlement
+          ref="settlement"
           @next="settlementNext"
           :prestoreinfoData="prestoreinfoData"
           :editData="editData"
@@ -28,6 +29,7 @@
       </el-tab-pane>
       <el-tab-pane label="支付方式" name="playType" v-if="!isAdmin && !isSign">
         <PlayType
+          ref="playType"
           @next="PlayTypeNext"
           :prestoreinfoData="prestoreinfoData"
           :editData="editData"
@@ -35,6 +37,7 @@
       </el-tab-pane>
       <el-tab-pane label="费率" name="exchangeRate" v-if="isAdmin && !isSign">
         <ExchangeRate
+          ref="exchangeRate"
           @next="exchangeRateNext"
           :prestoreinfoData="prestoreinfoData"
           :editData="editData"
@@ -42,6 +45,7 @@
       </el-tab-pane>
       <el-tab-pane label="协议信息" name="agreement" v-if="isAdmin">
         <Agreement
+          ref="agreement"
           @next="AgreementNext"
           :prestoreinfoData="prestoreinfoData"
           :isSign="isSign"
@@ -89,6 +93,7 @@ export default {
       isAdmin: false,
       isSign: false,
       editData: {},
+      loading: false,
     };
   },
   created() {
@@ -108,11 +113,16 @@ export default {
     getData(status, id) {
       let method =
         String(status) == "3" ? storeGetstoreinfo : storeGetStoreTempInfo;
+      this.loading = true;
       method({
         data: { id },
-      }).then((res) => {
-        this.editData = res.data;
-      });
+      })
+        .then((res) => {
+          this.editData = res.data;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     baseNext(formData) {
       let {
@@ -160,10 +170,16 @@ export default {
         ...formData,
       };
       // 校验前三个，校验不通过跳过去
-      this.validateBaseForm((valid) => {
-        if (valid) {
-          this.saveFormData();
-        }
+      this.validateBaseForm(() => {
+        let data = {
+          sgin: {
+            ...this.formData,
+            payMentInfo: this.payMentInfo,
+          },
+        };
+        let { id, status } = this.$route.params;
+        let _data = jsToFormData(data);
+        id ? this.saveEditData(_data, status) : this.saveFormData(_data);
       });
     },
     exchangeRateNext(arryForm) {
@@ -194,38 +210,52 @@ export default {
       }
       this.validateBaseForm((valid) => {
         if (valid) {
-          this.saveAdminFormData();
+          let data = {
+            sgin: {
+              ...this.formData,
+              freeInfo: this.freeInfo,
+            },
+            ...this.agreementData,
+          };
+          let { id, status } = this.$route.params;
+          let _data = jsToFormData(data);
+          id ? this.saveEditData(_data, status) : this.saveAdminFormData(_data);
         }
       });
     },
-    saveFormData() {
-      let data = {
-        sgin: {
-          ...this.formData,
-          payMentInfo: this.payMentInfo,
-        },
-      };
-      let _data = jsToFormData(data);
+    saveFormData(data) {
       storetAddbyself({
-        data: _data,
-      }).then(() => {});
+        data,
+      }).then(() => {
+        this.back();
+      });
     },
-    saveAdminFormData() {
-      let data = {
-        sgin: {
-          ...this.formData,
-          freeInfo: this.freeInfo,
-        },
-        ...this.agreementData,
-      };
-      let _data = jsToFormData(data);
+    saveAdminFormData(data) {
       storetAdd({
-        data: _data,
-      }).then(() => {});
+        data,
+      }).then(() => {
+        this.back();
+      });
     },
     saveSign() {
       storetFilesign().then((res) => {
         console.log(res);
+      });
+    },
+    saveEditData(data, status) {
+      let method = String(status) == "3" ? storetEditUpdate : storetEdit;
+      method({
+        data,
+      }).then(() => {
+        this.back();
+      });
+    },
+    back() {
+      this.$router.push({
+        name: "MerchantList",
+        query: {
+          activeName: this.$route.query.activeName,
+        },
       });
     },
     validateBaseForm(callBack) {
@@ -242,7 +272,7 @@ export default {
         if (!valid) {
           this.activeName = "business";
         } else {
-          this.validateBaseForm(callBack);
+          this.validateSettlementForm(callBack);
         }
       });
     },
@@ -252,9 +282,9 @@ export default {
           this.activeName = "settlement";
         } else {
           if (this.isAdmin) {
-            callBack();
-          } else {
             this.validateExchangeRateForm(callBack);
+          } else {
+            callBack();
           }
         }
       });
@@ -264,7 +294,7 @@ export default {
         if (!valid) {
           this.activeName = "exchangeRate";
         } else {
-          this.validateBaseForm(callBack);
+          callBack();
         }
       });
     },

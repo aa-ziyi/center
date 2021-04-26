@@ -122,7 +122,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" v-if="!isSign">上一项</el-button>
-        <el-button type="primary" @click="onSubmit">提交</el-button>
+        <el-button type="primary" @click="validateForm()">提交</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -167,7 +167,7 @@ export default {
       let file = $event.target.files;
       this.$set(this.formInline, fileName, file);
     },
-    onSubmit() {
+    validateForm(callBack) {
       this.$refs["baseForm"].validate((valid) => {
         if (valid) {
           console.log("valid", this.formInline);
@@ -179,7 +179,9 @@ export default {
               scrollTo(isError[0].offsetTop - 130, 500);
             }
           });
-          return false;
+        }
+        if (callBack) {
+          callBack(valid);
         }
       });
     },

@@ -80,7 +80,7 @@
       </el-form-item>
     </el-form>
     <div>
-      <el-button type="primary">上一项</el-button>
+      <el-button class="ml20">上一项</el-button>
       <el-button type="primary" @click="saveData">下一项</el-button>
     </div>
   </div>
@@ -161,6 +161,14 @@ export default {
           return false;
         }
       });
+    },
+    validateForm(callBack) {
+      if (this.tableData.length) {
+        this.$emit("next", this.tableData);
+      }
+      if (callBack) {
+        callBack(!!this.tableData.length);
+      }
     },
     saveData() {
       if (this.tableData.length) {

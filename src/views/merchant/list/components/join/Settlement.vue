@@ -164,8 +164,8 @@
       </el-row>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">下一项</el-button>
         <el-button @click="onReset" class="ml20">重置</el-button>
+        <el-button type="primary" @click="validateForm()">下一项</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -238,7 +238,7 @@ export default {
   },
   created() {},
   methods: {
-    onSubmit() {
+    validateForm(callBack) {
       this.$refs["baseForm"].validate((valid) => {
         if (valid) {
           console.log("valid");
@@ -251,6 +251,9 @@ export default {
             }
           });
           return false;
+        }
+        if (callBack) {
+          callBack(valid);
         }
       });
     },

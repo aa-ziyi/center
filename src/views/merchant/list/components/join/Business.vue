@@ -177,8 +177,8 @@
         </el-col>
       </el-row>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">下一项</el-button>
-        <el-button @click="onReset" class="ml20">重置</el-button>
+        <el-button class="ml20">上一项</el-button>
+        <el-button type="primary" @click="validateForm()">下一项</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -309,7 +309,7 @@ export default {
         this.storeTypeC = res.data;
       });
     },
-    onSubmit() {
+    validateForm(callBack) {
       this.$refs["baseForm"].validate((valid) => {
         if (valid) {
           console.log("valid");
@@ -321,7 +321,9 @@ export default {
               scrollTo(isError[0].offsetTop - 130, 500);
             }
           });
-          return false;
+        }
+        if (callBack) {
+          callBack(valid);
         }
       });
     },

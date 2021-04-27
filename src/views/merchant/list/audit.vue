@@ -41,22 +41,17 @@ export default {
       dialogFormVisible: false,
       auditForm: {},
       loading: false,
-    };
-  },
-  computed: {
-    auditFormRules() {
-      return {
+      auditFormRules: {
         remark: [
           {
-            required: this.auditForm.status == "2",
-            message: "请输入商户名称",
+            required: true,
+            message: "请输入原因",
             trigger: "blur",
           },
         ],
-      };
-    },
+      },
+    };
   },
-
   methods: {
     handleAudit() {
       this.$refs["audit-form"].validate((valid) => {

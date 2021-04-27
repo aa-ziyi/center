@@ -91,11 +91,30 @@
       <el-table-column prop="storeType" label="分类" />
       <el-table-column prop="fixfee" label="费率" />
       <el-table-column prop="createTime" label="创建时间" />
-      <el-table-column prop="address" label="审核状态" />
+      <el-table-column prop="fileStatusDesc" label="协议状态" />
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="handleUpdate(scope.row)" type="text" size="small">
+          <el-button
+            v-if="
+              String(scope.row.fileStatus) == '0' ||
+              String(scope.row.fileStatus) == '1' ||
+              String(scope.row.fileStatus) == '2' ||
+              String(scope.row.fileStatus) == '3'
+            "
+            @click="handleSgin(scope.row)"
+            type="text"
+            size="small"
+          >
             签约
+          </el-button>
+          <!--  -->
+          <el-button
+            v-if="String(scope.row.fileStatus) == '2'"
+            @click="handleSginAudit(scope.row)"
+            type="text"
+            size="small"
+          >
+            确认签约
           </el-button>
         </template>
       </el-table-column>
@@ -178,9 +197,21 @@ export default {
         },
       });
     },
-    handleUpdate(row) {
+    handleSgin(row) {
       this.$router.push({
-        name: "MerchantListSign",
+        name: "MerchantListSignt",
+        params: {
+          id: row.storeId,
+          status: row.status,
+        },
+        query: {
+          activeName: "merchantThreeStep",
+        },
+      });
+    },
+    handleSginAudit(row) {
+      this.$router.push({
+        name: "MerchantListSignAudit",
         params: {
           id: row.storeId,
           status: row.status,
@@ -195,7 +226,7 @@ export default {
       getStoretList({
         data: {
           type: "2",
-          fileStatus: 0,
+          fileStatus: "4",
           page: this.curPage,
           pageSize: this.pageSize,
           ...this.submitForm,

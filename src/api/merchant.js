@@ -159,3 +159,11 @@ export function storeAcountStopacount(option) {
     ...option,
   });
 }
+
+export function manageStoreSuresgin(option) {
+  return request({
+    url: "/store-center/manage/store/suresgin",
+    method: "post",
+    ...option,
+  });
+}

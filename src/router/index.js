@@ -43,7 +43,7 @@ const routes = [
       name: "merchantApplyBySelf",
     },
     meta: {
-      title: "商户自主申请入驻",
+      title: "自主申请",
     },
     children: [
       {
@@ -51,7 +51,7 @@ const routes = [
         name: "merchantApplyBySelf",
         component: LayoutEmpty,
         meta: {
-          title: "首页",
+          title: "申请入驻",
         },
         redirect: {
           name: "merchantApplyBySelfIndex",
@@ -70,6 +70,26 @@ const routes = [
           {
             path: "join",
             name: "merchantApplyJoin",
+            component: () => import("../views/merchant/list/join.vue"),
+            meta: {
+              title: "商户入驻",
+              hidden: true,
+              activeName: "merchantApplyBySelf",
+            },
+          },
+          {
+            path: "edit/:id/:status",
+            name: "merchantApplyEdit",
+            component: () => import("../views/merchant/list/join.vue"),
+            meta: {
+              title: "商户编辑",
+              hidden: true,
+              activeName: "merchantApplyBySelf",
+            },
+          },
+          {
+            path: "sign",
+            name: "merchantApplySign",
             component: () => import("../views/merchant/list/join.vue"),
             meta: {
               title: "商户入驻",
@@ -136,10 +156,20 @@ const routes = [
           },
           {
             path: "sign/:id/:status",
-            name: "MerchantListSign",
+            name: "MerchantListSignt",
             component: () => import("../views/merchant/list/join.vue"),
             meta: {
-              title: "商户编辑",
+              title: "商户签约",
+              hidden: true,
+              activeName: "MerchantList",
+            },
+          },
+          {
+            path: "sign-audit/:id/:status",
+            name: "MerchantListSignAudit",
+            component: () => import("../views/merchant/list/join.vue"),
+            meta: {
+              title: "商户签约",
               hidden: true,
               activeName: "MerchantList",
             },

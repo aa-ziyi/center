@@ -2,7 +2,7 @@
   <div>
     <page-header title="商户入驻"></page-header>
     <el-tabs v-model="activeName" v-loading="loading">
-      <el-tab-pane label="基本信息" name="base" v-if="!isSign">
+      <el-tab-pane label="基本信息" name="base" v-if="!sginObj.type">
         <Base
           ref="base"
           @next="baseNext"
@@ -11,7 +11,7 @@
           :editData="editData"
         />
       </el-tab-pane>
-      <el-tab-pane label="业务信息" name="business" v-if="!isSign">
+      <el-tab-pane label="业务信息" name="business" v-if="!sginObj.type">
         <Business
           ref="business"
           @next="businessNext"
@@ -19,7 +19,7 @@
           :editData="editData"
         />
       </el-tab-pane>
-      <el-tab-pane label="结算信息" name="settlement" v-if="!isSign">
+      <el-tab-pane label="结算信息" name="settlement" v-if="!sginObj.type">
         <Settlement
           ref="settlement"
           @next="settlementNext"
@@ -28,8 +28,11 @@
           :baseRef="baseRef"
         />
       </el-tab-pane>
-      <!-- <el-tab-pane label="支付方式" name="playType" v-if="!isAdmin && !isSign"> -->
-      <el-tab-pane label="支付方式" name="playType" v-if="false">
+      <el-tab-pane
+        label="支付方式"
+        name="playType"
+        v-if="!isAdmin && !sginObj.type"
+      >
         <PlayType
           ref="playType"
           @next="PlayTypeNext"
@@ -37,7 +40,11 @@
           :editData="editData"
         />
       </el-tab-pane>
-      <el-tab-pane label="费率" name="exchangeRate" v-if="isAdmin && !isSign">
+      <el-tab-pane
+        label="费率"
+        name="exchangeRate"
+        v-if="isAdmin && !sginObj.type"
+      >
         <ExchangeRate
           ref="exchangeRate"
           @next="exchangeRateNext"
@@ -45,12 +52,16 @@
           :editData="editData"
         />
       </el-tab-pane>
-      <el-tab-pane label="协议信息" name="agreement" v-if="isAdmin">
+      <el-tab-pane
+        label="协议信息"
+        name="agreement"
+        v-if="isAdmin || sginObj.type"
+      >
         <Agreement
           ref="agreement"
           @next="AgreementNext"
           :prestoreinfoData="prestoreinfoData"
-          :isSign="isSign"
+          :sgin="sginObj"
           :editData="editData"
         />
       </el-tab-pane>
@@ -94,16 +105,19 @@ export default {
       payMentInfo: {},
       agreementData: {},
       isAdmin: true,
-      isSign: false,
       editData: {},
       loading: false,
       baseRef: null,
+      sginObj: {},
     };
   },
   mounted() {
     this.baseRef = this.$refs["base"];
   },
   created() {
+    this.initSginObj();
+    let user = getCurrentUser();
+    this.isAdmin = !!user.isAdmin;
     getPrestoreinfo().then((res) => {
       this.prestoreinfoData = res.data;
     });
@@ -111,15 +125,29 @@ export default {
     if (id) {
       this.getData(status, id);
     }
-    this.isSign = this.$route.name == "MerchantListSign";
-    if (this.isSign) {
-      this.activeName = "agreement";
-    }
-    let user = getCurrentUser();
-    console.log("user", user);
-    this.isAdmin = !!user.isAdmin;
   },
   methods: {
+    initSginObj() {
+      let route = this.$route.name;
+      if (route == "MerchantListSignAudit") {
+        this.sginObj = {
+          type: "signAudit",
+        };
+      }
+      if (route == "merchantApplySign") {
+        this.sginObj = {
+          type: "storeSign",
+        };
+      }
+      if (route == "MerchantListSignt") {
+        this.sginObj = {
+          type: "yiDongSign",
+        };
+      }
+      if (this.sginObj.type) {
+        this.activeName = "agreement";
+      }
+    },
     getData(status, id) {
       let method =
         String(status) == "3" ? storeGetstoreinfo : storeGetStoreTempInfo;
@@ -213,7 +241,8 @@ export default {
       this.agreementData = {
         ...other,
       };
-      if (this.isSign) {
+      //
+      if (this.sginObj.type) {
         this.saveSign(contractSignTime);
         return;
       }
@@ -257,6 +286,7 @@ export default {
         },
         ...this.agreementData,
       };
+      console.log("saveSign", data);
       let _data = jsToFormData(data);
       storetFilesign({ data: _data }).then((res) => {
         this.back();

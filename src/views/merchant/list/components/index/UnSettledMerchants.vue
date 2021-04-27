@@ -132,13 +132,13 @@ export default {
     },
     handleUpdate(row) {
       this.$router.push({
-        name: "SettingPlayUpdate",
+        name: "MerchantListUpdate",
         params: {
-          id: row.id,
+          id: row.storeId,
+          status: row.status,
         },
         query: {
-          status: row.status,
-          activeName: "unSettledMerchants",
+          activeName: "merchantTwoStep",
         },
       });
     },

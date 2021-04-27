@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ center }}
+    当前点位的经度：{{ center[0].toFixed(2) }},纬度{{ center[1].toFixed(2) }}
     <el-amap
       ref="map"
       vid="amapDemo"
@@ -33,6 +33,7 @@ export default {
         click: (e) => {
           console.log(e);
           this.center = [e.lnglat.lng, e.lnglat.lat]; //点击选择新地址为中心点
+          this.$emit("mark", this.center);
         },
       },
       plugin: [
@@ -60,6 +61,7 @@ export default {
                   self.center = [self.lng, self.lat];
                   self.loaded = true;
                   self.$nextTick();
+                  self.$emit("init", self.center);
                 }
               });
             },

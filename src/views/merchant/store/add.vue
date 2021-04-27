@@ -71,24 +71,6 @@
           </el-col>
 
           <el-col :span="12">
-            <el-form-item label="地图坐标经度:" prop="mapLong">
-              <Map />
-              呜呜呜
-              <el-input
-                v-model="formInline.mapLong"
-                placeholder="请输入"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="地图坐标纬度:" prop="mapDim">
-              <el-input
-                v-model="formInline.mapDim"
-                placeholder="请输入"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
             <el-form-item label="有效开始时间:" prop="startTime">
               <el-date-picker
                 v-model="formInline.startTime"
@@ -177,7 +159,7 @@
               </el-row>
             </el-form-item>
           </el-col>
-          <el-col :span="14">
+          <el-col :span="12">
             <el-form-item label="门店地址:" prop="address ">
               <el-row>
                 <el-col :span="12">
@@ -192,10 +174,11 @@
               </el-row>
             </el-form-item>
           </el-col>
-          <el-col :span="10"></el-col>
           <el-col :span="12">
             <el-form-item label="门店logo:" prop="log">
-              <div><img :src="prewiewUrl" style="width: 100px" /></div>
+              <div v-if="prewiewUrl">
+                <img :src="prewiewUrl" style="width: 100px" />
+              </div>
               <el-button @click="handleClickFile('log')">上传文件</el-button>
               <input
                 type="file"
@@ -207,7 +190,6 @@
               <div class="el-form-tip">支持扩展名：png、jpeg、jpg、gif</div>
             </el-form-item>
           </el-col>
-          <el-col :span="12"></el-col>
           <el-col :span="12">
             <el-form-item label="门店备注:" prop="remark">
               <el-input
@@ -217,6 +199,31 @@
                 placeholder="请输入"
               ></el-input>
             </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="地图坐标经度:" prop="mapLong">
+                  <el-input
+                    v-model="formInline.mapLong"
+                    placeholder="请输入"
+                  ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="地图坐标纬度:" prop="mapDim">
+                  <el-input
+                    v-model="formInline.mapDim"
+                    placeholder="请输入"
+                  ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="16">
+                <el-form-item label="" prop="" style="margin-top: -20px">
+                  <Map @init="handleMapInit" @mark="handleMapMark" />
+                </el-form-item>
+              </el-col>
+            </el-row>
           </el-col>
         </el-row>
         <el-form-item>
@@ -249,6 +256,7 @@ export default {
         companyAreaCode: ["360000", "360100"],
         areaCode: ["360000", "360100"],
       },
+      initCenter: [],
     };
   },
   computed: {
@@ -333,6 +341,17 @@ export default {
     }
   },
   methods: {
+    checkChange() {},
+    handleMapInit(center) {
+      this.initCenter = center;
+    },
+    handleMapMark(center) {
+      this.formInline = {
+        ...this.formInline,
+        mapLong: center[0].toFixed(2),
+        mapDim: center[1].toFixed(2),
+      };
+    },
     getData(id) {
       this.loading = true;
       shopManageView({

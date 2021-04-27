@@ -209,30 +209,30 @@ export default {
       });
     },
     AgreementNext(formData) {
-      if (this.isSign) {
-        this.saveSign();
-        return;
-      }
       let { contractSignTime, ...other } = formData;
       this.agreementData = {
         ...other,
       };
+      if (this.isSign) {
+        this.saveSign(contractSignTime);
+        return;
+      }
       if (contractSignTime) {
         this.$set(this.formData, "contractSignTime", contractSignTime);
       }
-      this.validateBaseForm((valid) => {
-        if (valid) {
-          let data = {
-            sgin: {
-              ...this.formData,
-              freeInfo: this.freeInfo,
-            },
-            ...this.agreementData,
-          };
-          let { id, status } = this.$route.params;
-          let _data = jsToFormData(data);
-          id ? this.saveEditData(_data, status) : this.saveAdminFormData(_data);
-        }
+      this.validateBaseForm(() => {
+        let { id, ...other } = this.formData;
+        let data = {
+          sgin: {
+            ...other,
+            oldStoreId: id,
+            freeInfo: this.freeInfo,
+          },
+          ...this.agreementData,
+        };
+        let { status } = this.$route.params;
+        let _data = jsToFormData(data);
+        id ? this.saveEditData(_data, status) : this.saveAdminFormData(_data);
       });
     },
     saveFormData(data) {
@@ -249,9 +249,17 @@ export default {
         this.back();
       });
     },
-    saveSign() {
-      storetFilesign().then((res) => {
-        console.log(res);
+    saveSign(contractSignTime) {
+      let data = {
+        sgin: {
+          id: this.$route.params.id,
+          contractSignTime,
+        },
+        ...this.agreementData,
+      };
+      let _data = jsToFormData(data);
+      storetFilesign({ data: _data }).then((res) => {
+        this.back();
       });
     },
     saveEditData(data, status) {

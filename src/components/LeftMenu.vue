@@ -64,32 +64,6 @@ export default {
   },
   created() {
     this.defaultActive = this.$route.meta.activeName || this.$route.name;
-    let data = {
-      roleId: 0,
-      isAdmin: true,
-      ret: 0,
-      privage: [
-        "merchantsenter",
-        "merchantsenter#opreate",
-        "merchantsenter#opreate#addbyself",
-        "storemange",
-        "storemange#list",
-        "storemange#list#added",
-        "storemange#list#adding",
-        "storemange#list#aduitfirst",
-        "storemange#list#aduitsecond",
-        "storemange#list#filesgin",
-        "storemange#shopmanage",
-        "storemange#shopmanage#aduit",
-        "sysmanage",
-        "sysmanage#paymentset",
-        "sysmanage#paymentset#added",
-        "sysmanage#paymentset#adding",
-        "sysmanage#paymentset#aduitfirst",
-        "sysmanage#paymentset#aduitsecond",
-      ],
-      userName: "wulitest123",
-    };
   },
   methods: {
     handleSelect(key) {

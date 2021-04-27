@@ -23,6 +23,7 @@ router.beforeEach(async (to, from, next) => {
     NProgress.done();
     return;
   }
+  // 判断路由权限
   next();
   NProgress.done();
 });

@@ -19,6 +19,12 @@
 import AMap from "vue-amap";
 let amapManager = new AMap.AMapManager();
 export default {
+  props: {
+    defaultCenter: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data() {
     const self = this;
     return {
@@ -54,10 +60,11 @@ export default {
             init(o) {
               // o 是高德地图定位插件实例
               o.getCurrentPosition((status, result) => {
-                console.log(result);
                 if (result && result.position) {
                   self.lng = result.position.lng;
                   self.lat = result.position.lat;
+                }
+                if (self.lng) {
                   self.center = [self.lng, self.lat];
                   self.loaded = true;
                   self.$nextTick();

@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ formInline }}
     <el-form
       ref="baseForm"
       :model="formInline"
@@ -8,7 +7,7 @@
       label-width="150px"
     >
       <div v-if="sgin.type == 'yiDongSign'">
-        <el-form-item label="协议签订日期:" prop="contractSignTime">
+        <el-form-item label="协议签订日期:">
           <el-date-picker
             v-model="formInline.contractSignTime"
             type="date"
@@ -59,9 +58,77 @@
         </el-form-item>
       </div>
       <div v-else-if="sgin.type == 'storeSign'">
-        <!--  -->
+        <el-form-item label="协议签订日期:">
+          <el-date-picker
+            v-model="formInline.contractSignTime"
+            type="date"
+            placeholder="选择日期"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+            :disabled="sgin.type == 'signAudit'"
+          >
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="移动签署协议:" prop="chinamdecision">
+          {{
+            formInline.chinamdecision && formInline.chinamdecision.length
+              ? formInline.chinamdecision[0].name ||
+                formInline.chinamdecision[0].fileName
+              : ""
+          }}
+        </el-form-item>
+        <el-form-item label="商户签署协议:" prop="storedecision">
+          <el-button @click="handleClickFile('file3')" type="medium">
+            {{
+              formInline.contract && formInline.contract.length
+                ? "重新选择"
+                : "选择文件"
+            }}
+          </el-button>
+          <div>
+            {{
+              formInline.storedecision && formInline.storedecision.length
+                ? formInline.storedecision[0].name ||
+                  formInline.contract[0].fileName
+                : ""
+            }}
+          </div>
+          <input
+            type="file"
+            :accept="accept"
+            @change="($event) => uploadImg($event, 'storedecision')"
+            ref="file3"
+            style="display: none"
+          />
+          <div class="el-form-tip">
+            支持扩展名：.rar .zip .doc .docx .pdf .jpg..
+          </div>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary">上一项</el-button>
+          <el-button type="primary" @click="validateForm()">提交</el-button>
+        </el-form-item>
       </div>
       <div v-else-if="sgin.type == 'signAudit'">
+        <el-form-item label="协议签订日期:">
+          {{ formInline.contractSignTime }}
+        </el-form-item>
+        <el-form-item label="移动签署协议:" prop="chinamdecision">
+          {{
+            formInline.chinamdecision && formInline.chinamdecision.length
+              ? formInline.chinamdecision[0].name ||
+                formInline.chinamdecision[0].fileName
+              : ""
+          }}
+        </el-form-item>
+        <el-form-item label="商户签署协议:" prop="storedecision">
+          {{
+            formInline.storedecision && formInline.storedecision.length
+              ? formInline.storedecision[0].name ||
+                formInline.storedecision[0].fileName
+              : ""
+          }}
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleShowAudit('1')">
             确认签约

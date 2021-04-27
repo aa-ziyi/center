@@ -12,7 +12,6 @@
         class="demo-form-inline"
         label-width="150px"
       >
-        {{ formInline }}
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="门店编号:" prop="id" v-if="formInline.id">
@@ -176,8 +175,11 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="门店logo:" prop="log">
-              <div v-if="prewiewUrl">
-                <img :src="prewiewUrl" style="width: 100px" />
+              <div v-if="prewiewUrl || formInline.logPath">
+                <img
+                  :src="prewiewUrl || formInline.logPath"
+                  style="width: 100px"
+                />
               </div>
               <el-button @click="handleClickFile('log')">上传文件</el-button>
               <input
@@ -220,7 +222,12 @@
               </el-col>
               <el-col :span="16">
                 <el-form-item label="" prop="" style="margin-top: -20px">
-                  <Map @init="handleMapInit" @mark="handleMapMark" />
+                  <Map
+                    :default-center="initCenter"
+                    v-if="initCenter.length"
+                    @init="handleMapInit"
+                    @mark="handleMapMark"
+                  />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -338,6 +345,8 @@ export default {
     });
     if (this.$route.params.storeId) {
       this.getData(this.$route.params.storeId);
+    } else {
+      this.initCenter = ["", ""];
     }
   },
   methods: {
@@ -375,6 +384,9 @@ export default {
             ...other,
             areaCode: areaCode ? areaCode.split(",") : [],
           };
+          if (this.formInline.mapLong) {
+            this.initCenter = [this.formInline.mapLong, this.formInline.mapDim];
+          }
         })
         .finally(() => {
           this.loading = false;

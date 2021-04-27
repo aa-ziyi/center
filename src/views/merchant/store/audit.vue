@@ -6,7 +6,6 @@
         <div>门店审核</div>
       </div>
       <el-form ref="baseForm" :model="formInline" label-width="150px">
-        {{ formInline }}
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="门店编号:" prop="id" v-if="formInline.id">
@@ -15,161 +14,94 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="门店名称:" prop="name">
-              <el-input
-                v-model="formInline.name"
-                placeholder="请输入"
-              ></el-input>
+              {{ formInline.name }}
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="门店简称:" prop="shortName">
-              <el-input
-                v-model="formInline.shortName"
-                placeholder="请输入"
-              ></el-input>
+              {{ formInline.shortName }}
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="门店分类:" prop="type"> </el-form-item>
+            <el-form-item label="门店分类:" prop="type">
+              {{ formInline.typeNameDesc }}
+            </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="归属城市:" prop="areaCode">
-              <area-cascader v-model="formInline.areaCode" />
+              {{ formInline.areaCode }}
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="地图坐标经度:" prop="mapLong">
-              <el-input
-                v-model="formInline.mapLong"
-                placeholder="请输入"
-              ></el-input>
+              {{ formInline.mapLong }}
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="地图坐标纬度:" prop="mapDim">
-              <el-input
-                v-model="formInline.mapDim"
-                placeholder="请输入"
-              ></el-input>
+              {{ formInline.mapDim }}
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="有效开始时间:" prop="startTime">
-              <el-date-picker
-                v-model="formInline.startTime"
-                type="datetime"
-                placeholder="请选择"
-                format="yyyy-MM-dd HH:mm:ss"
-                value-format="yyyy-MM-dd HH:mm:ss"
-              >
-              </el-date-picker>
+              {{ formInline.startTime }}
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="有效结束时间:" prop="stopTime">
-              <el-date-picker
-                v-model="formInline.stopTime"
-                type="datetime"
-                placeholder="请选择"
-                format="yyyy-MM-dd HH:mm:ss"
-                value-format="yyyy-MM-dd HH:mm:ss"
-              >
-              </el-date-picker>
+              {{ formInline.stopTime }}
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="营业时间:" prop="openTime">
-              <el-date-picker
-                v-model="formInline.openTime"
-                type="datetime"
-                placeholder="请选择"
-                format="yyyy-MM-dd HH:mm:ss"
-                value-format="yyyy-MM-dd HH:mm:ss"
-              >
-              </el-date-picker>
+              {{ formInline.openTime }}
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="人均消费:" prop="avgSpend">
-              <el-input
-                v-model="formInline.avgSpend"
-                placeholder="请输入"
-              ></el-input>
+              {{ formInline.avgSpend }}
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="门店手机号码:" prop="phone">
-              <el-input
-                v-model="formInline.phone"
-                placeholder="请输入"
-              ></el-input>
+              {{ formInline.phone }}
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="包间数:" prop="roomNum">
-              <el-input
-                v-model="formInline.roomNum"
-                placeholder="请输入"
-              ></el-input>
+              {{ formInline.roomNum }}
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="公交线路:" prop="busLine">
-              <el-input
-                v-model="formInline.busLine"
-                placeholder="请输入"
-              ></el-input>
+              {{ formInline.busLine }}
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="停车位:" prop="parkPlace">
-              <el-input
-                v-model="formInline.parkPlace"
-                placeholder="请输入"
-              ></el-input>
+              {{ formInline.parkPlace }}
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="面积:" prop="area">
-              <el-row>
-                <el-col :span="24">
-                  <el-input
-                    v-model="formInline.area"
-                    placeholder="请输入"
-                  ></el-input>
-                </el-col>
-                <!-- <el-col :span="8">（单位：） </el-col> -->
-              </el-row>
+              {{ formInline.area }}
             </el-form-item>
           </el-col>
           <el-col :span="14">
             <el-form-item label="门店地址:" prop="storeAddress">
-              <el-row>
-                <el-col :span="12">
-                  <area-cascader v-model="formInline.areaCode" />
-                </el-col>
-                <el-col :span="12">
-                  <el-input
-                    v-model="formInline.storeAddress"
-                    placeholder="请输入"
-                  ></el-input>
-                </el-col>
-              </el-row>
+              {{ formInline.areaCode }}{{ formInline.storeAddress }}
             </el-form-item>
           </el-col>
           <el-col :span="10"></el-col>
           <el-col :span="12">
-            <el-form-item label="门店logo:" prop="log"> </el-form-item>
+            <el-form-item label="门店logo:" prop="log">
+              <img :src="formInline.logPath" style="width: 100px" />
+            </el-form-item>
           </el-col>
           <el-col :span="12"></el-col>
           <el-col :span="12">
             <el-form-item label="门店备注:" prop="remark">
-              <el-input
-                type="textarea"
-                :rows="4"
-                v-model="formInline.remark"
-                placeholder="请输入"
-              ></el-input>
+              {{ formInline.remark }}
             </el-form-item>
           </el-col>
         </el-row>
@@ -229,7 +161,26 @@ export default {
       loading: false,
     };
   },
+  created() {
+    if (this.$route.params.storeId) {
+      this.getData(this.$route.params.storeId);
+    }
+  },
   methods: {
+    getData(id) {
+      this.loading = true;
+      shopManageView({
+        data: {
+          id,
+        },
+      })
+        .then((res) => {
+          this.formInline = res.data.shopInfo;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
     handleAudit() {
       this.$refs["audit-form"].validate((valid) => {
         if (valid) {
@@ -259,35 +210,6 @@ export default {
         status,
       };
       this.dialogFormVisible = true;
-    },
-    getData(id) {
-      this.loading = true;
-      shopManageView({
-        data: {
-          id,
-        },
-      })
-        .then((res) => {
-          let data = res.data.shopInfo;
-          let {
-            createTime,
-            createUserName,
-            logPath,
-            isValid,
-            status,
-            updateTime,
-            updateUserid,
-            areaCode,
-            ...other
-          } = data;
-          this.formInline = {
-            ...other,
-            areaCode: areaCode ? areaCode.split(",") : [],
-          };
-        })
-        .finally(() => {
-          this.loading = false;
-        });
     },
     back() {
       this.$router.push({

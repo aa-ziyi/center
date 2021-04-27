@@ -92,7 +92,7 @@
       <el-table-column prop="fixfee" label="费率" />
       <el-table-column prop="createTime" label="创建时间" />
       <el-table-column prop="fileStatusDesc" label="协议状态" />
-      <el-table-column fixed="right" label="操作" width="100">
+      <el-table-column fixed="right" label="操作" width="150">
         <template slot-scope="scope">
           <el-button
             v-if="

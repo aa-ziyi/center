@@ -192,18 +192,16 @@
           <el-col :span="10"></el-col>
           <el-col :span="12">
             <el-form-item label="门店logo:" prop="log">
-              {{ formInline.logPath }}
+              <div><img :src="prewiewUrl" style="width: 100px" /></div>
               <el-button @click="handleClickFile('log')">上传文件</el-button>
-              {{ formInline.file4 }}
               <input
                 type="file"
                 @change="($event) => uploadImg($event, 'log')"
                 ref="log"
                 style="display: none"
+                accept="image/png,image/jpeg,image/jpg,image/gif"
               />
-              <div class="el-upload__tip">
-                支持扩展名：.rar .zip .doc .docx .pdf .jpg..
-              </div>
+              <div class="el-form-tip">支持扩展名：png、jpeg、jpg、gif</div>
             </el-form-item>
           </el-col>
           <el-col :span="12"></el-col>
@@ -239,6 +237,7 @@ import { jsToFormData } from "@/utils/tool";
 export default {
   data() {
     return {
+      prewiewUrl: "",
       storeTypeP: [],
       storeTypeC: [],
       formInline: {
@@ -376,8 +375,14 @@ export default {
       this.$refs[file].click(); //上传文件
     },
     uploadImg($event, fileName) {
-      let file = $event.target.files;
-      this.$set(this.formInline, fileName, file);
+      let files = $event.target.files;
+      this.$set(this.formInline, fileName, files);
+      var reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      reader.onload = (e) => {
+        this.prewiewUrl = e.target.result;
+        console.log("prewiewUrl", this.prewiewUrl);
+      };
     },
     onSubmit() {
       this.$refs["baseForm"].validate((valid) => {

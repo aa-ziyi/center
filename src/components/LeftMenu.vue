@@ -9,17 +9,13 @@
       text-color="#fff"
       active-text-color="#fff"
     >
-      <!-- 角色判断 -->
-      <el-menu-item index="myMerchantDetiles">我的商户详情</el-menu-item>
-      <el-submenu
+      <el-menu-item
         index="merchantApplyBySelf"
-        v-if="$hasPermission('merchantsenter#opreate')"
+        v-if="$hasPermission('merchantsenter#opreate#addbyself')"
+        >商户自主申请入驻</el-menu-item
       >
-        <template slot="title">
-          <span>商户自主申请入驻</span>
-        </template>
-        <el-menu-item index="merchantApplyBySelf">首页</el-menu-item>
-      </el-submenu>
+      <!-- 角色判断 -->
+      <el-menu-item index="myMerchantDetiles">我的商户</el-menu-item>
       <el-submenu index="MerchantList" v-if="$hasPermission('storemange')">
         <template slot="title">
           <span>商户管理</span>

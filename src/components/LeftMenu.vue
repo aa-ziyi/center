@@ -12,8 +12,9 @@
       <el-menu-item
         index="merchantApplyBySelf"
         v-if="$hasPermission('merchantsenter#opreate#addbyself')"
-        >商户自主申请入驻</el-menu-item
       >
+        申请入驻
+      </el-menu-item>
       <!-- 角色判断 -->
       <el-menu-item index="myMerchantDetiles">我的商户</el-menu-item>
       <el-submenu index="MerchantList" v-if="$hasPermission('storemange')">

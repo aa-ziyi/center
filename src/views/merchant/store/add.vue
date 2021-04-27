@@ -69,8 +69,11 @@
               <area-cascader v-model="formInline.areaCode" />
             </el-form-item>
           </el-col>
+
           <el-col :span="12">
             <el-form-item label="地图坐标经度:" prop="mapLong">
+              <Map />
+              呜呜呜
               <el-input
                 v-model="formInline.mapLong"
                 placeholder="请输入"
@@ -234,7 +237,9 @@ import {
 import { getStoretype } from "@/api/merchant.js";
 import { shopManageAdd, shopManageView, shopManageEdit } from "@/api/shop";
 import { jsToFormData } from "@/utils/tool";
+import Map from "@/components/Map";
 export default {
+  components: { Map },
   data() {
     return {
       prewiewUrl: "",

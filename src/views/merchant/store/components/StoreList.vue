@@ -24,7 +24,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
-        <el-button @click="onSubmit" class="ml20">重置</el-button>
+        <el-button @click="onRest" class="ml20">重置</el-button>
       </el-form-item>
     </el-form>
     <el-table :data="tableData" style="width: 100%" border>
@@ -196,6 +196,11 @@ export default {
     },
     onSubmit() {
       this.submitForm = { ...this.formInline };
+      this.getData();
+    },
+    onRest() {
+      this.formInline = {};
+      this.submitForm = {};
       this.getData();
     },
   },

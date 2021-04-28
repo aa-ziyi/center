@@ -13,7 +13,7 @@
     </el-form>
     <el-table :data="tableData" border v-loading="tableLoading">
       <el-table-column prop="id" label="支付渠道ID" />
-      <el-table-column prop="name" label="门店名称">
+      <el-table-column prop="name" label="支付渠道名称">
         <template slot-scope="scope">
           <div class="link-primary" @click="handleGoDetails(scope.row)">
             {{ scope.row.name }}

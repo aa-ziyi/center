@@ -15,9 +15,7 @@
             <el-table-column prop="storeId" label="商户编号" />
             <el-table-column prop="name" label="商户名称">
               <template slot-scope="scope">
-                <div class="link-primary" @click="handleGoDetails(scope.row)">
-                  {{ scope.row.name }}
-                </div>
+                {{ scope.row.name }}
               </template>
             </el-table-column>
             <el-table-column prop="createSource" label="商户来源" />

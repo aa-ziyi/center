@@ -10,7 +10,7 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item label="支付渠道ID:" prop="id" v-if="formInline.id">
-            <el-input v-model="formInline.id" placeholder="请输入"></el-input>
+            {{ formInline.id }}
           </el-form-item>
         </el-col>
         <el-col :span="12">

@@ -13,7 +13,13 @@
     </el-form>
     <el-table :data="tableData" style="width: 100%" border>
       <el-table-column prop="id" label="支付渠道ID" />
-      <el-table-column prop="name" label="支付渠道名称" />
+      <el-table-column prop="name" label="支付渠道名称">
+        <template slot-scope="scope">
+          <div class="link-primary" @click="handleGoDetails(scope.row)">
+            {{ scope.row.name }}
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="address" label="是否有效">
         <template slot-scope="scope">
           {{ String(scope.row.isValid) == "0" ? "否" : "是" }}
@@ -72,6 +78,17 @@ export default {
     this.getData();
   },
   methods: {
+    handleGoDetails(row) {
+      this.$router.push({
+        name: "SettingPlayShow",
+        params: {
+          id: row.id,
+        },
+        query: {
+          type: "show",
+        },
+      });
+    },
     handleUpdate(row) {
       this.$router.push({
         name: "SettingPlayUpdate",

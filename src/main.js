@@ -41,9 +41,13 @@ new Vue({
 }).$mount("#app");
 
 function getDownFileUrl(fileId) {
-  return `http://118.24.122.189:8009/store-center/manage/store/downfile?id=${fileId}&token=${getToken()}`;
+  return `${
+    process.env.VUE_APP_BASE_API
+  }/store-center/manage/store/downfile?id=${fileId}&token=${getToken()}`;
 }
 
 function getVerifyCodeUrl() {
-  return `http://118.24.122.189:8009/store-center/image/code?rpid=2012&time=${new Date().getTime()}`;
+  return `${
+    process.env.VUE_APP_BASE_API
+  }/store-center/image/code?rpid=2012&time=${new Date().getTime()}`;
 }

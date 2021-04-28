@@ -13,8 +13,11 @@ import { hasPermission } from "@/utils/tool";
 import "element-ui/lib/theme-chalk/index.css";
 import "@/styles/main.less";
 
+import { getToken } from "./utils/auth";
+
 Vue.prototype.$hasPermission = hasPermission;
-Vue.prototype.$getDownFileUrl = downFileUrl;
+Vue.prototype.$getDownFileUrl = getDownFileUrl;
+Vue.prototype.$getVerifyCodeUrl = getVerifyCodeUrl;
 
 Vue.use(AMap);
 Vue.use(Element);
@@ -37,6 +40,10 @@ new Vue({
   render: (h) => h(App),
 }).$mount("#app");
 
-function downFileUrl(storeId, fileId) {
-  return `http://118.24.122.189:8009/store-center/manage/store/downfile?id=${storeId}&fileId=${fileId}`;
+function getDownFileUrl(fileId) {
+  return `http://118.24.122.189:8009/store-center/manage/store/downfile?id=${fileId}&token=${getToken()}`;
+}
+
+function getVerifyCodeUrl() {
+  return `http://118.24.122.189:8009/store-center/image/code?rpid=2012&time=${new Date().getTime()}`;
 }

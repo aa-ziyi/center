@@ -42,6 +42,7 @@
             <el-input
               v-model="formInline.withdrawBankid"
               placeholder="请输入"
+              disabled
             ></el-input>
           </el-form-item>
         </el-col>
@@ -142,10 +143,14 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="发票开具方式" prop="settleBillType">
+            {{ formInline.settleBillType }}
             <el-radio-group v-model="formInline.settleBillType">
-              <el-radio label="wechatPayH5">按季度开</el-radio>
-              <el-radio label="aliPayApp">按季度月开</el-radio>
-              <el-radio label="aliPayH5">按月开</el-radio>
+              <el-radio
+                v-for="(option, index) in prestoreinfoData.settleType"
+                :key="index"
+                :label="Object.keys(option)[0]"
+                >{{ option[Object.keys(option)[0]] }}</el-radio
+              >
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -183,13 +188,17 @@
         </el-col>
       </el-row>
       <el-form-item>
-        <el-button @click="onReset">重置</el-button>
+        <el-button>重置</el-button>
         <el-button type="primary" class="ml20" @click="validateForm()">
           下一项
         </el-button>
       </el-form-item>
     </el-form>
-    <merOpBkDialog v-model="bkialogVisible" @check="onCheckBkId" />
+    <merOpBkDialog
+      v-if="bkialogVisible"
+      v-model="bkialogVisible"
+      @check="onCheckBkId"
+    />
   </div>
 </template>
 <script>
@@ -284,6 +293,7 @@ export default {
     },
     onCheckBkId(obj) {
       this.$set(this.formInline, "merOpBk", obj.opBankCode);
+      this.$set(this.formInline, "withdrawBankid", obj.opBankName);
     },
     handleCheckPaymentId() {
       this.bkialogVisible = true;

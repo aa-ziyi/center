@@ -38,13 +38,21 @@
       <el-table-column prop="address" label="商户名称" />
       <el-table-column prop="areaCode" label="所在地" />
       <el-table-column prop="address" label="扫码付" />
-      <el-table-column prop="status" label="审核状态" />
       <el-table-column label="是否生效">
         <template slot-scope="scope">
           {{ String(scope.row.status) === "1" ? "是" : "否" }}
         </template>
+        <el-table-column prop="status" label="审核状态">
+          <template slot-scope="scope">
+            {{ scope.row.status | statusStoreString }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="createTime" label="创建时间" min-width="130">
+          <template slot-scope="scope">
+            {{ scope.row.createTime | dateFormatter }}
+          </template>
+        </el-table-column>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" />
       <el-table-column prop="createUserName" label="创建人" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">

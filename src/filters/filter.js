@@ -19,6 +19,15 @@ function get_unix_time(dateStr) {
   }
 }
 
+export function statusStoreString(number) {
+  let obj = {
+    ["1"]: "待审核",
+    ["3"]: "审核通过",
+    ["4"]: "审核驳回",
+  };
+  return obj[String(number)];
+}
+
 export function statusString(number) {
   // 2待终审3终审通过4初审驳回5复核通过6终审驳回 8.待签约 9.签约驳回10清退中
   let obj = {
@@ -37,15 +46,15 @@ export function statusString(number) {
 }
 
 export function dateFormatter(date) {
+  let str = date;
   if (date && date.length == 8) {
-    return `${date.substr(0, 3)}-${date.substr(4, 5)}-${date.substr(6, 7)}`;
-  } else if (date && date.length == 12) {
-    return `${date.substr(0, 3)}-${date.substr(4, 5)}-${date.substr(
-      6,
-      7
-    )} ${date.substr(6, 7)}:${date.substr(8, 9)}:${date.substr(10, 11)}`;
+    str = date.split("");
+    str = `${str[0]}${str[1]}${str[2]}${str[3]}-${str[4]}${str[5]}-${str[6]}${str[7]}`;
+  } else if (date && date.length == 14) {
+    str = date.split("");
+    str = `${str[0]}${str[1]}${str[2]}${str[3]}-${str[4]}${str[5]}-${str[6]}${str[7]} ${str[8]}${str[9]}:${str[10]}${str[10]}:${str[12]}${str[13]}`;
   }
-  return date;
+  return str;
 }
 
 /**

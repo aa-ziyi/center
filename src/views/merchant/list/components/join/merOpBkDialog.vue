@@ -1,62 +1,49 @@
 <template>
-  <div>
-    <el-dialog
-      title="提示"
-      :visible.sync="value"
-      :before-close="handleClose"
-      width="80%"
-      top="10px"
+  <el-dialog
+    title="提示"
+    :visible.sync="value"
+    :before-close="handleClose"
+    width="80%"
+    top="20px"
+  >
+    <el-form :inline="true" :model="formInline">
+      <el-form-item label="银行名称">
+        <el-input v-model="formInline.bankName" placeholder="请输入"></el-input>
+      </el-form-item>
+      <el-form-item label="省市区:">
+        <area-cascader v-model="formInline.regionCode" />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">查询</el-button>
+      </el-form-item>
+    </el-form>
+    <div class="table-content">
+      <el-table :data="tableData" border v-loading="tableLoading">
+        <el-table-column label="选择" width="55">
+          <template slot-scope="scope">
+            <el-radio v-model="tableRadio" :label="scope.row"><i></i></el-radio>
+          </template>
+        </el-table-column>
+        <el-table-column prop="opBankName" label="开户银行名称" />
+        <el-table-column prop="opBankCode" label="开户银行联号" />
+      </el-table>
+    </div>
+    <el-pagination
+      class="mt10"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="curPage"
+      :page-sizes="[10, 20, 50, 100]"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="totalCount"
     >
-      <el-form :inline="true" :model="formInline" class="half">
-        <el-form-item label="支行名称:">
-          <el-input
-            v-model="formInline.bankCode"
-            placeholder="请输入"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="总行名称">
-          <el-input
-            v-model="formInline.bankName"
-            placeholder="请输入"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="省市区:">
-          <area-cascader v-model="formInline.regionCode" />
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">查询</el-button>
-        </el-form-item>
-      </el-form>
-      <div class="table-content">
-        <el-table :data="tableData" border v-loading="tableLoading">
-          <el-table-column label="选择" width="55">
-            <template slot-scope="scope">
-              <el-radio v-model="tableRadio" :label="scope.row"
-                ><i></i
-              ></el-radio>
-            </template>
-          </el-table-column>
-          <el-table-column prop="opBankName" label="开户银行名称" />
-          <el-table-column prop="opBankCode" label="开户银行联号" />
-        </el-table>
-      </div>
-      <el-pagination
-        class="mt10"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="curPage"
-        :page-sizes="[10, 20, 50, 100]"
-        :page-size="pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="totalCount"
-      >
-      </el-pagination>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="handleClose">取 消</el-button>
-        <el-button type="primary" @click="handleOk">确 定</el-button>
-      </span>
-    </el-dialog>
-  </div>
+    </el-pagination>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="handleClose">取 消</el-button>
+      <el-button type="primary" @click="handleOk">确 定</el-button>
+    </span>
+  </el-dialog>
 </template>
 
 <script>
@@ -70,7 +57,7 @@ export default {
   },
   data() {
     return {
-      formInline: {},
+      formInline: { regionCode: ["360000", "360100"] },
       tableData: [],
       pageSize: 10,
       curPage: 1,
@@ -125,7 +112,10 @@ export default {
       this.getData();
     },
     onSubmit() {
-      this.submitForm = { ...this.formInline };
+      this.submitForm = {
+        ...this.formInline,
+        regionCode: this.formInline.regionCode.join(","),
+      };
       this.tableRadio = {};
       this.getData();
     },

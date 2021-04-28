@@ -17,12 +17,16 @@
           </el-breadcrumb-item>
         </el-breadcrumb>
         <div class="header-right">
+          {{ $route.meta && $route.meta.keepAlive }}
           欢迎您， {{ user.userName }}！
           <a class="login-out" @click="loginOut">退出登陆</a>
         </div>
       </el-header>
       <el-main class="main">
-        <router-view />
+        <keep-alive>
+          <router-view v-if="$route.meta && $route.meta.keepAlive" />
+        </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive" />
       </el-main>
     </el-container>
   </el-container>

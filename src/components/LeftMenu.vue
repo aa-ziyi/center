@@ -15,8 +15,10 @@
       >
         申请入驻
       </el-menu-item>
-      <!-- 角色判断 -->
-      <el-menu-item index="myMerchantDetiles">我的商户</el-menu-item>
+      <!-- 已入驻商户首页 -->
+      <el-menu-item v-if="user.isStore" index="myMerchantDetiles">
+        我的商户
+      </el-menu-item>
       <el-submenu index="MerchantList" v-if="$hasPermission('storemange')">
         <template slot="title">
           <span>商户管理</span>
@@ -47,10 +49,12 @@
   </div>
 </template>
 <script>
+import { getCurrentUser } from "@/utils/auth";
 export default {
   data() {
     return {
       defaultActive: "MerchantList",
+      user: {},
     };
   },
   watch: {
@@ -60,6 +64,7 @@ export default {
     },
   },
   created() {
+    this.user = getCurrentUser() || {};
     this.defaultActive = this.$route.meta.activeName || this.$route.name;
   },
   methods: {

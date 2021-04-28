@@ -531,22 +531,42 @@
             class="link-primary"
             v-if="formInline.decision && formInline.decision.fileName"
             :download="formInline.decision.fileName"
-            :href="$downFileUrl(formInline.id, formInline.decision.id)"
+            :href="$getDownFileUrl(formInline.decision.id)"
+            target="_blank"
             >{{ formInline.decision.fileName }}</a
           >
         </el-form-item>
         <el-form-item label="上传签署协议:" prop="contract">
-          {{ formInline.contract ? formInline.contract.fileName : "" }}
+          <a
+            class="link-primary"
+            v-if="formInline.contract && formInline.contract.fileName"
+            :download="formInline.contract.fileName"
+            :href="$getDownFileUrl(formInline.contract.id)"
+            target="_blank"
+            >{{ formInline.contract.fileName }}</a
+          >
         </el-form-item>
         <el-form-item label="商户签署协议:" prop="storedecision">
-          {{
-            formInline.storedecision ? formInline.storedecision.fileName : ""
-          }}
+          <a
+            class="link-primary"
+            v-if="formInline.storedecision && formInline.storedecision.fileName"
+            :download="formInline.storedecision.fileName"
+            :href="$getDownFileUrl(formInline.storedecision.id)"
+            target="_blank"
+            >{{ formInline.storedecision.fileName }}</a
+          >
         </el-form-item>
         <el-form-item label="移动签署协议:" prop="chinamdecision">
-          {{
-            formInline.chinamdecision ? formInline.chinamdecision.fileName : ""
-          }}
+          <a
+            class="link-primary"
+            v-if="
+              formInline.chinamdecision && formInline.chinamdecision.fileName
+            "
+            :download="formInline.chinamdecision.fileName"
+            :href="$getDownFileUrl(formInline.chinamdecision.id)"
+            target="_blank"
+            >{{ formInline.chinamdecision.fileName }}</a
+          >
         </el-form-item>
       </el-form>
     </el-card>

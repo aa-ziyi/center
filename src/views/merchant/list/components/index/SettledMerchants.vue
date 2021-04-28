@@ -131,6 +131,9 @@ export default {
       tableLoading: false,
     };
   },
+  activated() {
+    this.getData();
+  },
   created() {
     this.getData();
   },

@@ -40,4 +40,5 @@ export function getRolePathName(user) {
   if (user.isShop) {
     return "MerchantStoreIndex";
   }
+  return "403";
 }

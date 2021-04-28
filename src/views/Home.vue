@@ -8,7 +8,6 @@ export default {
   name: "Home",
   components: {},
   created() {
-    this.$router.push("/merchant");
     let user = getCurrentUser() || {};
     let name = getRolePathName(user);
     this.$router.push({

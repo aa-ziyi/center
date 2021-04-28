@@ -27,12 +27,27 @@
             }}
           </el-button>
           <div>
-            {{
-              formInline.chinamdecision && formInline.chinamdecision.length
-                ? formInline.chinamdecision[0].name ||
-                  formInline.chinamdecision[0].fileName
-                : ""
-            }}
+            <a
+              class="link-primary"
+              v-if="
+                formInline.chinamdecision &&
+                formInline.chinamdecision.length &&
+                formInline.chinamdecision[0].id
+              "
+              :download="formInline.chinamdecision[0].fileName"
+              :href="$getDownFileUrl(formInline.chinamdecision[0].id)"
+              target="_blank"
+              >{{ formInline.chinamdecision[0].fileName }}</a
+            >
+            <span
+              v-else-if="
+                formInline.chinamdecision &&
+                formInline.chinamdecision.length &&
+                formInline.chinamdecision[0].name
+              "
+            >
+              {{ formInline.chinamdecision[0].name }}
+            </span>
           </div>
           <input
             type="file"
@@ -46,11 +61,14 @@
           </div>
         </el-form-item>
         <el-form-item label="商户签署协议:" prop="storedecision">
-          {{
-            formInline.storedecision && formInline.storedecision.length
-              ? formInline.storedecision[0].name
-              : ""
-          }}
+          <a
+            class="link-primary"
+            v-if="formInline.storedecision && formInline.storedecision.length"
+            :download="formInline.storedecision[0].fileName"
+            :href="$getDownFileUrl(formInline.storedecision[0].id)"
+            target="_blank"
+            >{{ formInline.storedecision[0].fileName }}</a
+          >
         </el-form-item>
         <el-form-item>
           <el-button type="primary">上一项</el-button>
@@ -70,28 +88,45 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="移动签署协议:" prop="chinamdecision">
-          {{
-            formInline.chinamdecision && formInline.chinamdecision.length
-              ? formInline.chinamdecision[0].name ||
-                formInline.chinamdecision[0].fileName
-              : ""
-          }}
+          <a
+            class="link-primary"
+            v-if="formInline.chinamdecision && formInline.chinamdecision.length"
+            :download="formInline.chinamdecision[0].fileName"
+            :href="$getDownFileUrl(formInline.chinamdecision[0].id)"
+            target="_blank"
+            >{{ formInline.chinamdecision[0].fileName }}</a
+          >
         </el-form-item>
         <el-form-item label="商户签署协议:" prop="storedecision">
           <el-button @click="handleClickFile('file3')" type="medium">
             {{
-              formInline.contract && formInline.contract.length
+              formInline.chinamdecision && formInline.chinamdecision.length
                 ? "重新选择"
                 : "选择文件"
             }}
           </el-button>
           <div>
-            {{
-              formInline.storedecision && formInline.storedecision.length
-                ? formInline.storedecision[0].name ||
-                  formInline.contract[0].fileName
-                : ""
-            }}
+            <a
+              class="link-primary"
+              v-if="
+                formInline.storedecision &&
+                formInline.storedecision.length &&
+                formInline.storedecision[0].id
+              "
+              :download="formInline.storedecision[0].fileName"
+              :href="$getDownFileUrl(formInline.storedecision[0].id)"
+              target="_blank"
+              >{{ formInline.storedecision[0].fileName }}</a
+            >
+            <span
+              v-else-if="
+                formInline.storedecision &&
+                formInline.storedecision.length &&
+                formInline.storedecision[0].name
+              "
+            >
+              {{ formInline.storedecision[0].name }}
+            </span>
           </div>
           <input
             type="file"
@@ -114,20 +149,24 @@
           {{ formInline.contractSignTime }}
         </el-form-item>
         <el-form-item label="移动签署协议:" prop="chinamdecision">
-          {{
-            formInline.chinamdecision && formInline.chinamdecision.length
-              ? formInline.chinamdecision[0].name ||
-                formInline.chinamdecision[0].fileName
-              : ""
-          }}
+          <a
+            class="link-primary"
+            v-if="formInline.chinamdecision && formInline.chinamdecision.length"
+            :download="formInline.chinamdecision[0].fileName"
+            :href="$getDownFileUrl(formInline.chinamdecision[0].id)"
+            target="_blank"
+            >{{ formInline.chinamdecision[0].fileName }}</a
+          >
         </el-form-item>
         <el-form-item label="商户签署协议:" prop="storedecision">
-          {{
-            formInline.storedecision && formInline.storedecision.length
-              ? formInline.storedecision[0].name ||
-                formInline.storedecision[0].fileName
-              : ""
-          }}
+          <a
+            class="link-primary"
+            v-if="formInline.storedecision && formInline.storedecision.length"
+            :download="formInline.storedecision[0].fileName"
+            :href="$getDownFileUrl(formInline.storedecision[0].id)"
+            target="_blank"
+            >{{ formInline.storedecision[0].fileName }}</a
+          >
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleShowAudit('1')">

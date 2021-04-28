@@ -207,8 +207,7 @@ export default {
       },
       loading: false,
       showLogin: true,
-      verifyCodeUrl:
-        "http://118.24.122.189:8009/store-center/image/code?rpid=2012",
+      verifyCodeUrl: this.$getVerifyCodeUrl(),
       rules: {
         code: [{ required: true, message: "请输入用户名", trigger: "blur" }],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
@@ -313,7 +312,7 @@ export default {
     handleImgClick() {
       this.verifyCodeUrl = "";
       this.$nextTick(() => {
-        this.verifyCodeUrl = `http://118.24.122.189:8009/store-center/image/code?rpid=2012&time=${new Date().getTime()}`;
+        this.verifyCodeUrl = this.$getVerifyCodeUrl();
       });
     },
     onRegister() {

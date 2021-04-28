@@ -1,3 +1,8 @@
 <template>
-  <router-view />
+  <div>
+    <keep-alive>
+      <router-view v-if="$route.meta && $route.meta.keepAlive" />
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive" />
+  </div>
 </template>

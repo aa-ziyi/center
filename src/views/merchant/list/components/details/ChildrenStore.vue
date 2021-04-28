@@ -2,9 +2,11 @@
   <el-card class="box-card">
     <div slot="header" class="space-between">
       <div>
-        商户名称：九江权益商户<span class="ml20"> 商户编号： 1171309</span>
+        商户编号：{{ baseData.id }}
+        <span class="ml10">商户名称：{{ baseData.name }}</span>
+        <span class="ml10"> 状态：{{ baseData.status | statusString }}</span>
       </div>
-      <el-button type="primary" plain @click="handleAddStore">
+      <el-button type="text" plain @click="handleAddStore" icon="el-icon-plus">
         添加子商户
       </el-button>
     </div>
@@ -83,6 +85,12 @@
 <script>
 import { getStoretList } from "@/api/merchant";
 export default {
+  props: {
+    baseData: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
       formInline: {},
@@ -93,6 +101,9 @@ export default {
       submitForm: {},
       tableLoading: false,
     };
+  },
+  activated() {
+    this.getData();
   },
   created() {
     this.getData();

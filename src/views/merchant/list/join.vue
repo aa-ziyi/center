@@ -15,6 +15,7 @@
         <Business
           ref="business"
           @next="businessNext"
+          @prev="goPrve"
           :prestoreinfoData="prestoreinfoData"
           :editData="editData"
         />
@@ -23,6 +24,7 @@
         <Settlement
           ref="settlement"
           @next="settlementNext"
+          @prev="goPrve"
           :prestoreinfoData="prestoreinfoData"
           :editData="editData"
           :baseRef="baseRef"
@@ -36,6 +38,7 @@
         <PlayType
           ref="playType"
           @next="PlayTypeNext"
+          @prev="goPrve"
           :prestoreinfoData="prestoreinfoData"
           :editData="editData"
         />
@@ -48,6 +51,7 @@
         <ExchangeRate
           ref="exchangeRate"
           @next="exchangeRateNext"
+          @prev="goPrve"
           :prestoreinfoData="prestoreinfoData"
           :editData="editData"
         />
@@ -60,6 +64,7 @@
         <Agreement
           ref="agreement"
           @next="AgreementNext"
+          @prev="goPrve"
           :prestoreinfoData="prestoreinfoData"
           :sgin="sginObj"
           :editData="editData"
@@ -161,6 +166,9 @@ export default {
         .finally(() => {
           this.loading = false;
         });
+    },
+    goPrve(activeName) {
+      this.activeName = activeName;
     },
     baseNext(formData) {
       let {

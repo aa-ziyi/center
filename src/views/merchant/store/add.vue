@@ -1,244 +1,255 @@
 <template>
   <div>
-    <page-header title="添加门店"></page-header>
-    <el-card class="add-store-card">
-      <div slot="header" class="space-between">
-        <div>门店录入</div>
-      </div>
-      <el-form
-        ref="baseForm"
-        :model="formInline"
-        :rules="formRules"
-        class="demo-form-inline"
-        label-width="150px"
+    <page-header
+      :title="`${$route.params.storeId ? '修改' : '编辑'}门店`"
+    ></page-header>
+    <el-tabs v-model="activeName" class="details-el-tabs">
+      <el-tab-pane
+        :label="`${$route.params.storeId ? '修改' : '编辑'}门店`"
+        name="first"
       >
-        <el-row :gutter="20">
-          <el-col :span="24">
-            <el-form-item label="门店编号:" prop="id" v-if="formInline.id">
-              {{ formInline.id }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="门店名称:" prop="name">
-              <el-input
-                v-model="formInline.name"
-                placeholder="请输入"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="门店简称:" prop="shortName">
-              <el-input
-                v-model="formInline.shortName"
-                placeholder="请输入"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="门店分类:" prop="type">
-              <el-select
-                v-model="formInline.storeTypeP"
-                placeholder="一级分类"
-                clearable
-                @change="storeTypePChange"
-              >
-                <el-option
-                  v-for="(option, index) in storeTypeP"
-                  :key="index"
-                  :label="option.name"
-                  :value="option.id"
-                ></el-option>
-              </el-select>
-              <el-select
-                v-model="formInline.type"
-                placeholder="二级分类"
-                clearable
-              >
-                <el-option
-                  v-for="(option, index) in storeTypeC"
-                  :key="index"
-                  :label="option.name"
-                  :value="option.id"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="归属城市:" prop="areaCode">
-              <area-cascader v-model="formInline.areaCode" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="12">
-            <el-form-item label="有效开始时间:" prop="startTime">
-              <el-date-picker
-                v-model="formInline.startTime"
-                type="datetime"
-                placeholder="请选择"
-                format="yyyy-MM-dd HH:mm:ss"
-                value-format="yyyy-MM-dd HH:mm:ss"
-              >
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="有效结束时间:" prop="stopTime">
-              <el-date-picker
-                v-model="formInline.stopTime"
-                type="datetime"
-                placeholder="请选择"
-                format="yyyy-MM-dd HH:mm:ss"
-                value-format="yyyy-MM-dd HH:mm:ss"
-              >
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="营业时间:" prop="openTime">
-              <el-date-picker
-                v-model="formInline.openTime"
-                type="datetime"
-                placeholder="请选择"
-                format="yyyy-MM-dd HH:mm:ss"
-                value-format="yyyy-MM-dd HH:mm:ss"
-              >
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="人均消费:" prop="avgSpend">
-              <el-input
-                v-model="formInline.avgSpend"
-                placeholder="请输入"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="门店手机号码:" prop="phone">
-              <el-input
-                v-model="formInline.phone"
-                placeholder="请输入"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="包间数:" prop="roomNum">
-              <el-input
-                v-model="formInline.roomNum"
-                placeholder="请输入"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="公交线路:" prop="busLine">
-              <el-input
-                v-model="formInline.busLine"
-                placeholder="请输入"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="停车位:" prop="parkPlace">
-              <el-input
-                v-model="formInline.parkPlace"
-                placeholder="请输入"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="面积:" prop="area">
-              <el-row>
-                <el-col :span="24">
+        <el-card>
+          <div slot="header" class="space-between">
+            <div>门店录入</div>
+          </div>
+          <el-form
+            ref="baseForm"
+            :model="formInline"
+            :rules="formRules"
+            class="demo-form-inline"
+            label-width="150px"
+          >
+            <el-row :gutter="20">
+              <el-col :span="24">
+                <el-form-item label="门店编号:" prop="id" v-if="formInline.id">
+                  {{ formInline.id }}
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="门店名称:" prop="name">
                   <el-input
-                    v-model="formInline.area"
+                    v-model="formInline.name"
                     placeholder="请输入"
                   ></el-input>
-                </el-col>
-                <!-- <el-col :span="8">（单位：） </el-col> -->
-              </el-row>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="门店地址:" prop="address ">
-              <el-row>
-                <el-col :span="12">
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="门店简称:" prop="shortName">
+                  <el-input
+                    v-model="formInline.shortName"
+                    placeholder="请输入"
+                  ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="门店分类:" prop="type">
+                  <el-select
+                    v-model="formInline.storeTypeP"
+                    placeholder="一级分类"
+                    clearable
+                    @change="storeTypePChange"
+                  >
+                    <el-option
+                      v-for="(option, index) in storeTypeP"
+                      :key="index"
+                      :label="option.name"
+                      :value="option.id"
+                    ></el-option>
+                  </el-select>
+                  <el-select
+                    v-model="formInline.type"
+                    placeholder="二级分类"
+                    clearable
+                  >
+                    <el-option
+                      v-for="(option, index) in storeTypeC"
+                      :key="index"
+                      :label="option.name"
+                      :value="option.id"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="归属城市:" prop="areaCode">
                   <area-cascader v-model="formInline.areaCode" />
-                </el-col>
-                <el-col :span="12">
-                  <el-input
-                    v-model="formInline.address"
-                    placeholder="请输入"
-                  ></el-input>
-                </el-col>
-              </el-row>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="门店logo:" prop="log">
-              <div v-if="prewiewUrl || formInline.logPath">
-                <img
-                  :src="prewiewUrl || formInline.logPath"
-                  style="width: 100px"
-                />
-              </div>
-              <el-button @click="handleClickFile('log')">上传文件</el-button>
-              <input
-                type="file"
-                @change="($event) => uploadImg($event, 'log')"
-                ref="log"
-                style="display: none"
-                accept="image/png,image/jpeg,image/jpg,image/gif"
-              />
-              <div class="el-form-tip">支持扩展名：png、jpeg、jpg、gif</div>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="门店备注:" prop="remark">
-              <el-input
-                type="textarea"
-                :rows="4"
-                v-model="formInline.remark"
-                placeholder="请输入"
-              ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
-            <el-row>
+                </el-form-item>
+              </el-col>
+
               <el-col :span="12">
-                <el-form-item label="地图坐标经度:" prop="mapLong">
+                <el-form-item label="有效开始时间:" prop="startTime">
+                  <el-date-picker
+                    v-model="formInline.startTime"
+                    type="datetime"
+                    placeholder="请选择"
+                    format="yyyy-MM-dd HH:mm:ss"
+                    value-format="yyyy-MM-dd HH:mm:ss"
+                  >
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="有效结束时间:" prop="stopTime">
+                  <el-date-picker
+                    v-model="formInline.stopTime"
+                    type="datetime"
+                    placeholder="请选择"
+                    format="yyyy-MM-dd HH:mm:ss"
+                    value-format="yyyy-MM-dd HH:mm:ss"
+                  >
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="营业时间:" prop="openTime">
+                  <el-date-picker
+                    v-model="formInline.openTime"
+                    type="datetime"
+                    placeholder="请选择"
+                    format="yyyy-MM-dd HH:mm:ss"
+                    value-format="yyyy-MM-dd HH:mm:ss"
+                  >
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="人均消费:" prop="avgSpend">
                   <el-input
-                    v-model="formInline.mapLong"
+                    v-model="formInline.avgSpend"
                     placeholder="请输入"
                   ></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="地图坐标纬度:" prop="mapDim">
+                <el-form-item label="门店手机号码:" prop="phone">
                   <el-input
-                    v-model="formInline.mapDim"
+                    v-model="formInline.phone"
                     placeholder="请输入"
                   ></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="16">
-                <el-form-item label="" prop="" style="margin-top: -20px">
-                  <Map
-                    :default-center="initCenter"
-                    v-if="initCenter.length"
-                    @init="handleMapInit"
-                    @mark="handleMapMark"
+              <el-col :span="12">
+                <el-form-item label="包间数:" prop="roomNum">
+                  <el-input
+                    v-model="formInline.roomNum"
+                    placeholder="请输入"
+                  ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="公交线路:" prop="busLine">
+                  <el-input
+                    v-model="formInline.busLine"
+                    placeholder="请输入"
+                  ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="停车位:" prop="parkPlace">
+                  <el-input
+                    v-model="formInline.parkPlace"
+                    placeholder="请输入"
+                  ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="面积:" prop="area">
+                  <el-row>
+                    <el-col :span="24">
+                      <el-input
+                        v-model="formInline.area"
+                        placeholder="请输入"
+                      ></el-input>
+                    </el-col>
+                    <!-- <el-col :span="8">（单位：） </el-col> -->
+                  </el-row>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="门店地址:" prop="address ">
+                  <el-row>
+                    <el-col :span="12">
+                      <area-cascader v-model="formInline.areaCode" />
+                    </el-col>
+                    <el-col :span="12">
+                      <el-input
+                        v-model="formInline.address"
+                        placeholder="请输入"
+                      ></el-input>
+                    </el-col>
+                  </el-row>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="门店logo:" prop="log">
+                  <div v-if="prewiewUrl || formInline.logPath">
+                    <img
+                      :src="prewiewUrl || formInline.logPath"
+                      style="width: 100px"
+                    />
+                  </div>
+                  <el-button @click="handleClickFile('log')"
+                    >上传文件</el-button
+                  >
+                  <input
+                    type="file"
+                    @change="($event) => uploadImg($event, 'log')"
+                    ref="log"
+                    style="display: none"
+                    accept="image/png,image/jpeg,image/jpg,image/gif"
                   />
+                  <div class="el-form-tip">支持扩展名：png、jpeg、jpg、gif</div>
                 </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="门店备注:" prop="remark">
+                  <el-input
+                    type="textarea"
+                    :rows="4"
+                    v-model="formInline.remark"
+                    placeholder="请输入"
+                  ></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="24">
+                <el-row>
+                  <el-col :span="12">
+                    <el-form-item label="地图坐标经度:" prop="mapLong">
+                      <el-input
+                        v-model="formInline.mapLong"
+                        placeholder="请输入"
+                      ></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="地图坐标纬度:" prop="mapDim">
+                      <el-input
+                        v-model="formInline.mapDim"
+                        placeholder="请输入"
+                      ></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="16">
+                    <el-form-item label="" prop="" style="margin-top: -20px">
+                      <Map
+                        :default-center="initCenter"
+                        v-if="initCenter.length"
+                        @init="handleMapInit"
+                        @mark="handleMapMark"
+                      />
+                    </el-form-item>
+                  </el-col>
+                </el-row>
               </el-col>
             </el-row>
-          </el-col>
-        </el-row>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">提交</el-button>
-          <el-button @click="back" class="ml20">返回</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit">提交</el-button>
+              <el-button @click="back" class="ml20">返回</el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 <script>
@@ -256,6 +267,7 @@ export default {
   components: { Map },
   data() {
     return {
+      activeName: "first",
       prewiewUrl: "",
       storeTypeP: [],
       storeTypeC: [],

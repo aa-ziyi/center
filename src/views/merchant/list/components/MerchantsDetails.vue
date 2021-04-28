@@ -1,7 +1,11 @@
 <template>
   <div>
     <el-card class="mb20">
-      <div slot="header">商户编号： 商户名称： 状态：</div>
+      <div slot="header">
+        商户编号：{{ formInline.id }}
+        <span class="ml10">商户名称：{{ formInline.name }}</span>
+        <span class="ml10"> 状态：{{ formInline.status | statusString }}</span>
+      </div>
       <div>基本信息</div>
       <el-form :model="formInline" label-width="150px" class="el-form-static">
         <el-row :gutter="20">
@@ -591,11 +595,18 @@ export default {
       payMenthodInfo: {},
     };
   },
+  activated() {
+    // @TODO 移动到商户详情的页面中去处理
+    this.getFormData();
+  },
   created() {
     this.getFormData();
   },
   methods: {
     getFormData() {
+      if (!(this.id || (this.$route.params.id && this.status))) {
+        return;
+      }
       this.loading = true;
       let method =
         String(this.status) == "3" ? storeGetstoreinfo : storeGetStoreTempInfo;

@@ -188,7 +188,7 @@
         </el-col>
       </el-row>
       <el-form-item>
-        <el-button>重置</el-button>
+        <el-button @click="$emit('prev', 'business')">上一项</el-button>
         <el-button type="primary" class="ml20" @click="validateForm()">
           下一项
         </el-button>

@@ -1,69 +1,77 @@
 <template>
   <div>
-    <page-header title="添加商户账号"></page-header>
-    <el-card class="add-store-card">
-      <div slot="header" class="space-between">
-        <div>添加商户账号</div>
-      </div>
-      {{ formInline }}
-      <el-form
-        ref="baseForm"
-        :model="formInline"
-        :rules="formRules"
-        class="demo-form-inline"
-        label-width="150px"
+    <page-header
+      :title="`${$route.params.accountId ? '修改' : '编辑'}商户账号`"
+    ></page-header>
+    <el-tabs v-model="activeName" class="details-el-tabs">
+      <el-tab-pane
+        :label="`${$route.params.accountId ? '修改' : '编辑'}商户账号`"
+        name="first"
       >
-        <el-form-item label="账号:" prop="code">
-          <el-input
-            v-model="formInline.code"
-            placeholder="请输入"
-            v-if="!$route.params.accountId"
-          />
-          <div v-else>
-            {{ formInline.code }}
+        <el-card>
+          <div slot="header" class="space-between">
+            <div>添加商户账号</div>
           </div>
-        </el-form-item>
-        <el-form-item label="昵称:" prop="name">
-          <el-input v-model="formInline.name" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item
-          prop="password"
-          label="密码:"
-          v-if="!$route.params.accountId"
-        >
-          <el-input
-            type="password"
-            v-model="formInline.password"
-            placeholder="6-16位密码，区分大小写"
-            autocomplete="off"
-          />
-        </el-form-item>
-        <el-form-item
-          prop="cofpassword"
-          label="确认密码:"
-          v-if="!$route.params.accountId"
-        >
-          <el-input
-            v-model="formInline.cofpassword"
-            type="password"
-            placeholder="确认密码"
-            autocomplete="off"
-          />
-        </el-form-item>
-        <el-form-item prop="phone" label="手机号:">
-          <el-input v-model="formInline.phone" placeholder="11位手机号" />
-        </el-form-item>
-        <el-form-item prop="mail" label="注册邮箱:">
-          <el-input v-model="formInline.mail" placeholder="注册邮箱" />
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit" v-loading="loading"
-            >提交</el-button
+          <el-form
+            ref="baseForm"
+            :model="formInline"
+            :rules="formRules"
+            class="demo-form-inline"
+            label-width="150px"
           >
-          <el-button class="ml20" @click="back"> 返回 </el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+            <el-form-item label="账号:" prop="code">
+              <el-input
+                v-model="formInline.code"
+                placeholder="请输入"
+                v-if="!$route.params.accountId"
+              />
+              <div v-else>
+                {{ formInline.code }}
+              </div>
+            </el-form-item>
+            <el-form-item label="昵称:" prop="name">
+              <el-input v-model="formInline.name" placeholder="请输入" />
+            </el-form-item>
+            <el-form-item
+              prop="password"
+              label="密码:"
+              v-if="!$route.params.accountId"
+            >
+              <el-input
+                type="password"
+                v-model="formInline.password"
+                placeholder="6-16位密码，区分大小写"
+                autocomplete="off"
+              />
+            </el-form-item>
+            <el-form-item
+              prop="cofpassword"
+              label="确认密码:"
+              v-if="!$route.params.accountId"
+            >
+              <el-input
+                v-model="formInline.cofpassword"
+                type="password"
+                placeholder="确认密码"
+                autocomplete="off"
+              />
+            </el-form-item>
+            <el-form-item prop="phone" label="手机号:">
+              <el-input v-model="formInline.phone" placeholder="11位手机号" />
+            </el-form-item>
+            <el-form-item prop="mail" label="注册邮箱:">
+              <el-input v-model="formInline.mail" placeholder="注册邮箱" />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit" v-loading="loading"
+                >提交</el-button
+              >
+              <el-button class="ml20" @click="back"> 返回 </el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 <script>
@@ -112,6 +120,7 @@ export default {
       }
     };
     return {
+      activeName: "first",
       loading: false,
       formInline: {},
       formRules: {
@@ -231,8 +240,3 @@ export default {
   },
 };
 </script>
-<style lang="less" scoped>
-.add-store-card {
-  margin: 20px;
-}
-</style>

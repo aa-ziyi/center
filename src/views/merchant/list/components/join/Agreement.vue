@@ -71,7 +71,6 @@
           >
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">上一项</el-button>
           <el-button type="primary" @click="validateForm()">提交</el-button>
         </el-form-item>
       </div>
@@ -140,7 +139,6 @@
           </div>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">上一项</el-button>
           <el-button type="primary" @click="validateForm()">提交</el-button>
         </el-form-item>
       </div>
@@ -297,8 +295,10 @@
           </div>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">上一项</el-button>
-          <el-button type="primary" @click="validateForm()">提交</el-button>
+          <el-button @click="$emit('prev', 'exchangeRate')">上一项</el-button>
+          <el-button class="ml20" type="primary" @click="validateForm()"
+            >提交</el-button
+          >
         </el-form-item>
       </div>
     </el-form>

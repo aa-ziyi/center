@@ -200,8 +200,10 @@
         </el-col>
       </el-row>
       <el-form-item>
-        <el-button class="ml20">上一项</el-button>
-        <el-button type="primary" @click="validateForm()">下一项</el-button>
+        <el-button @click="$emit('prev', 'base')">上一项</el-button>
+        <el-button class="ml20" type="primary" @click="validateForm()"
+          >下一项</el-button
+        >
       </el-form-item>
     </el-form>
   </div>

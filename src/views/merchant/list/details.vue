@@ -20,18 +20,18 @@
           @change="onDataChange"
         />
       </el-tab-pane>
-      <el-tab-pane label="门店管理" name="second" v-if="showOp">
-        <Store />
+      <el-tab-pane label="门店管理" name="second" v-if="showMangeMenus">
+        <Store :base-data="baseData" />
       </el-tab-pane>
-      <el-tab-pane label="账户管理" name="third" v-if="showOp">
-        <Account />
+      <el-tab-pane label="账户管理" name="third" v-if="showMangeMenus">
+        <Account :base-data="baseData" />
       </el-tab-pane>
       <el-tab-pane
         label="子商户管理"
         name="fourth"
-        v-if="showOp && baseData && String(baseData.isPstore) == '1'"
+        v-if="showMangeMenus && baseData && String(baseData.isPstore) == '1'"
       >
-        <ChildrenStore />
+        <ChildrenStore :base-data="baseData" />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -48,33 +48,22 @@ export default {
     Account,
     ChildrenStore,
   },
+  beforeRouteEnter(to, from, next) {
+    to.meta.keepAlive = true;
+    next();
+  },
   data() {
     return {
       activeName: "first",
       baseData: {},
-      currentTabs: ["first", "second", "third", "fourth"],
-      showOp: false,
+      showMangeMenus: false,
     };
   },
   created() {
-    let { activeName } = this.$route.query;
-    this.activeName =
-      activeName && this.currentTabs.indexOf(activeName) > -1
-        ? activeName
-        : "first";
-    this.showOp = String(this.$route.params.status) == "3";
+    this.showMangeMenus = String(this.$route.params.status) == "3";
   },
   methods: {
-    tableClick() {
-      // 避免刷新没有到第一个tab
-      let { activeName } = this.$route.query;
-      if (activeName && this.currentTabs.indexOf(activeName) > -1) {
-        this.$router.push({
-          name: this.$route.name,
-          params: this.$route.params,
-        });
-      }
-    },
+    tableClick() {},
     onDataChange(data) {
       this.baseData = data;
     },

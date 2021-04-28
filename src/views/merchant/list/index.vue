@@ -46,13 +46,6 @@ export default {
     return {
       activeName: "settled",
       prestoreinfoData: {},
-      currentTabs: [
-        "settled",
-        "unSettledMerchants",
-        "merchantOneStep",
-        "merchantTwoStep",
-        "merchantThreeStep",
-      ],
     };
   },
   created() {

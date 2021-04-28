@@ -78,11 +78,13 @@
       <el-form-item>
         <el-button type="primary" @click="onSubmit(false)">保存费率</el-button>
       </el-form-item>
+      <el-form-item>
+        <el-button @click="$emit('prev', 'settlement')"> 上一项 </el-button>
+        <el-button class="ml20" type="primary" @click="saveData">
+          下一项
+        </el-button>
+      </el-form-item>
     </el-form>
-    <div>
-      <el-button class="ml20">上一项</el-button>
-      <el-button type="primary" @click="saveData">下一项</el-button>
-    </div>
   </div>
 </template>
 <script>

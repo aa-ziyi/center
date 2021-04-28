@@ -16,6 +16,10 @@
             {{ route.meta && route.meta.title }}
           </el-breadcrumb-item>
         </el-breadcrumb>
+        <div class="header-right">
+          欢迎您， {{ user.userName }}！
+          <a class="login-out" @click="loginOut">退出登陆</a>
+        </div>
       </el-header>
       <el-main class="main">
         <router-view />
@@ -26,6 +30,7 @@
 
 <script>
 import LeftMenu from "@/components/LeftMenu";
+import { getCurrentUser, removeToken, removeCurrentUser } from "@/utils/auth";
 export default {
   components: {
     LeftMenu,
@@ -33,6 +38,7 @@ export default {
   data() {
     return {
       currentMatched: [],
+      user: {},
     };
   },
   watch: {
@@ -44,12 +50,18 @@ export default {
   created() {
     let matched = this.$route.matched;
     this.initMatched(matched);
+    this.user = getCurrentUser() || {};
   },
   methods: {
     initMatched(matched) {
       this.currentMatched = matched.filter((route) => {
         return route.meta && !route.meta.hiddenBreadcrumb;
       });
+    },
+    loginOut() {
+      removeToken();
+      removeCurrentUser();
+      this.$router.push("/login");
     },
   },
 };
@@ -69,6 +81,18 @@ export default {
   top: 0;
   z-index: 10;
   background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .header-right {
+    color: #7e8fa0;
+    text-align: right;
+    .login-out {
+      padding-left: 5px;
+      margin-left: 20px;
+      cursor: pointer;
+    }
+  }
 }
 .el-aside {
   color: #333;

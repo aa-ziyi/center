@@ -1,7 +1,7 @@
 <template>
-  <div class="space-between header">
+  <div class="header">
     <span>{{ title }}</span>
-    <div>
+    <div class="header-op">
       <slot />
     </div>
   </div>
@@ -25,7 +25,12 @@ export default {
   left: 200px;
   right: 0;
   top: 50px;
-  z-index: 10;
+  z-index: 100;
   background-color: #fff;
+  .header-op {
+    position: absolute;
+    bottom: -20px;
+    right: 20px;
+  }
 }
 </style>

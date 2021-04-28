@@ -100,34 +100,35 @@
 }
 
 //el-form
-.el-form-item__label {
-  color: #464c5b;
-}
-//el-form-page
-.el-form.el-form--inline {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -20px;
-  .el-form-item {
-    margin-right: 0;
-    width: 33.33%; // 默认三个一行
-    margin-bottom: 12px;
+.el-form {
+  &.el-form--inline {
     display: flex;
-    .el-form-item__content {
-      flex: 1;
-      padding-right: 20px;
-      .el-select {
-        width: 100%;
+    flex-wrap: wrap;
+    margin-right: -20px;
+    .el-form-item {
+      margin-right: 0;
+      width: 33.33%; // 默认三个一行
+      margin-bottom: 12px;
+      display: flex;
+      .el-form-item__content {
+        flex: 1;
+        padding-right: 20px;
+        .el-select {
+          width: 100%;
+        }
+      }
+    }
+    &.half {
+      .el-form-item {
+        width: 50%;
       }
     }
   }
-  &.half {
+  &.el-form-static {
     .el-form-item {
-      width: 50%;
+      margin-bottom: 5px;
     }
   }
-}
-.el-form {
   .el-checkbox-group {
     max-height: 40px;
   }
@@ -137,11 +138,31 @@
     font-size: 12px;
   }
 }
+
+.el-form-item__label {
+  color: #464c5b;
+}
 .el-checkbox {
   color: #464c5b;
   font-weight: normal;
 }
-
+.el-radio__label {
+  color: #464c5b;
+  font-weight: normal;
+}
+.el-radio__input.is-disabled .el-radio__inner {
+  background-color: #fff;
+}
+.el-radio__input.is-disabled.is-checked .el-radio__inner {
+  background-color: #fff;
+  border-color: #16a085;
+}
+.el-radio__input.is-disabled.is-checked .el-radio__inner::after {
+  background-color: #16a085;
+}
+.el-radio__input.is-disabled + span.el-radio__label {
+  color: #464c5b;
+}
 //el-dialog
 .el-dialog__header {
   padding: 10px 15px 10px;
@@ -174,4 +195,8 @@
   transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
   width: 100%;
   border: 1px solid #d7dde4;
+}
+
+.el-card {
+  color: #464c5b;
 }

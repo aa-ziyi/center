@@ -14,6 +14,8 @@ import "element-ui/lib/theme-chalk/index.css";
 import "@/styles/main.less";
 
 Vue.prototype.$hasPermission = hasPermission;
+Vue.prototype.$getDownFileUrl = downFileUrl;
+
 Vue.use(AMap);
 Vue.use(Element);
 
@@ -34,3 +36,7 @@ new Vue({
   router,
   render: (h) => h(App),
 }).$mount("#app");
+
+function downFileUrl(storeId, fileId) {
+  return `http://118.24.122.189:8009/store-center/manage/store/downfile?id=${storeId}&fileId=${fileId}`;
+}

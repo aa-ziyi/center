@@ -126,6 +126,10 @@ export default {
     margin: 0 20px;
     background-color: #fff;
     padding: 15px;
+    .el-card {
+      box-shadow: none;
+      border-radius: 0;
+    }
   }
 }
 .el-container.is-vertical {

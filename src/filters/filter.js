@@ -19,6 +19,35 @@ function get_unix_time(dateStr) {
   }
 }
 
+export function statusString(number) {
+  // 2待终审3终审通过4初审驳回5复核通过6终审驳回 8.待签约 9.签约驳回10清退中
+  let obj = {
+    ["1"]: "待初审",
+    ["2"]: "待终审",
+    ["3"]: "终审通过",
+    ["4"]: "初审驳回",
+    ["5"]: "复核通过",
+    ["6"]: "终审驳回",
+    ["7"]: "--",
+    ["8"]: "待签约",
+    ["9"]: "签约驳回",
+    ["10"]: "清退中",
+  };
+  return obj[String(number)];
+}
+
+export function dateFormatter(date) {
+  if (date && date.length == 8) {
+    return `${date.substr(0, 3)}-${date.substr(4, 5)}-${date.substr(6, 7)}`;
+  } else if (date && date.length == 12) {
+    return `${date.substr(0, 3)}-${date.substr(4, 5)}-${date.substr(
+      6,
+      7
+    )} ${date.substr(6, 7)}:${date.substr(8, 9)}:${date.substr(10, 11)}`;
+  }
+  return date;
+}
+
 /**
  * @param {number} time
  */

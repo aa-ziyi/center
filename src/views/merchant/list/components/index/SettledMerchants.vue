@@ -62,8 +62,16 @@
       <el-table-column prop="storeLevel" label="商户级别" />
       <el-table-column prop="storeType" label="分类" />
       <el-table-column prop="fixfee" label="费率" />
-      <el-table-column prop="createTime" label="创建时间" min-width="120" />
-      <el-table-column prop="status" label="审核状态" />
+      <el-table-column prop="createTime" label="创建时间" min-width="120">
+        <template slot-scope="scope">
+          {{ scope.row.createTime | dateFormatter }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="status" label="审核状态">
+        <template slot-scope="scope">
+          {{ scope.row.status | statusString }}
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <div>

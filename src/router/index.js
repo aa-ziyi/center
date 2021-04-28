@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/home.vue";
 import Layout from "@/components/Layout";
 import LayoutEmpty from "@/components/LayoutEmpty";
 
@@ -10,7 +9,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: () => import("../views/home.vue"),
     hidden: true,
   },
   {
@@ -308,7 +307,7 @@ const routes = [
             name: "MerchantStoreAudit",
             component: () => import("../views/merchant/store/audit.vue"),
             meta: {
-              title: "审核门店",
+              title: "门店详情",
               hidden: true,
               activeName: "MerchantStore",
             },

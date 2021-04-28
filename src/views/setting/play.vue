@@ -32,6 +32,10 @@ export default {
     FirstStepAudit,
     SecondStepAudit,
   },
+  beforeRouteEnter(to, from, next) {
+    to.meta.keepAlive = true;
+    next();
+  },
   data() {
     return {
       activeName: "first",

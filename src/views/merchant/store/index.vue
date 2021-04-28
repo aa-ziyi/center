@@ -20,6 +20,10 @@ export default {
     StoreList,
     StoreAudit,
   },
+  beforeRouteEnter(to, from, next) {
+    to.meta.keepAlive = true;
+    next();
+  },
   data() {
     return {
       activeName: "first",

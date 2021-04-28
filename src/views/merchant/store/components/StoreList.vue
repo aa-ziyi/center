@@ -29,7 +29,13 @@
     </el-form>
     <el-table :data="tableData" style="width: 100%" border>
       <el-table-column prop="id" label="门店编号" />
-      <el-table-column prop="name" label="门店名称" />
+      <el-table-column prop="name" label="门店名称">
+        <template slot-scope="scope">
+          <div class="link-primary" @click="handleGoDetails(scope.row)">
+            {{ scope.row.name }}
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="address" label="商户名称" />
       <el-table-column prop="areaCode" label="所在地" />
       <el-table-column prop="address" label="扫码付" />
@@ -106,10 +112,24 @@ export default {
       tableLoading: false,
     };
   },
+  activated() {
+    this.getData();
+  },
   created() {
     this.getData();
   },
   methods: {
+    handleGoDetails(row) {
+      this.$router.push({
+        name: "MerchantStoreAudit",
+        params: {
+          storeId: row.id,
+        },
+        query: {
+          type: "show",
+        },
+      });
+    },
     handleChangeView(row) {
       this.$confirm(
         `此操作将${

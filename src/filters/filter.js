@@ -19,6 +19,18 @@ function get_unix_time(dateStr) {
   }
 }
 
+export function statusPlayString(number) {
+  // 1 待初审 4 初审驳回 5 初审通过 6 终审驳回 7 终审通过
+  let obj = {
+    ["1"]: "待初审",
+    ["4"]: "初审驳回",
+    ["5"]: "初审通过",
+    ["6"]: "终审驳回",
+    ["7"]: "终审通过",
+  };
+  return obj[String(number)];
+}
+
 export function statusStoreString(number) {
   let obj = {
     ["1"]: "待审核",

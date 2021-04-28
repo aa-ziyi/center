@@ -13,7 +13,13 @@
     </el-form>
     <el-table :data="tableData" border v-loading="tableLoading">
       <el-table-column prop="id" label="支付渠道ID" />
-      <el-table-column prop="name" label="支付渠道名称" />
+      <el-table-column prop="name" label="门店名称">
+        <template slot-scope="scope">
+          <div class="link-primary" @click="handleGoDetails(scope.row)">
+            {{ scope.row.name }}
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column label="是否有效">
         <template slot-scope="scope">
           {{ String(scope.row.isValid) == "0" ? "否" : "是" }}
@@ -22,7 +28,7 @@
       <el-table-column prop="createUserName" label="审核状态">
         <template slot-scope="scope">
           <div>
-            {{ scope.row.status }}<br />
+            {{ scope.row.status | statusPlayString }}<br />
             <span
               v-if="String(scope.row.updateStatus) == '1'"
               class="color-danger"
@@ -32,16 +38,15 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" />
+      <el-table-column prop="createTime" label="创建时间" min-width="130">
+        <template slot-scope="scope">
+          {{ scope.row.createTime | dateFormatter }}
+        </template>
+      </el-table-column>
       <el-table-column prop="address" label="创建人" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <div v-if="String(scope.row.updateStatus) == '1'">
-            <el-button type="text" size="small" @click="handleShow(scope.row)">
-              查看
-            </el-button>
-          </div>
-          <div v-else>
+          <div v-if="String(scope.row.updateStatus) == '0'">
             <el-button
               type="text"
               size="small"
@@ -93,11 +98,14 @@ export default {
       tableLoading: false,
     };
   },
+  activated() {
+    this.getData();
+  },
   created() {
     this.getData();
   },
   methods: {
-    handleShow(row) {
+    handleGoDetails(row) {
       this.$router.push({
         name: "SettingPlayShow",
         params: {
@@ -105,7 +113,6 @@ export default {
         },
         query: {
           type: "show",
-          activeName: "first",
         },
       });
     },

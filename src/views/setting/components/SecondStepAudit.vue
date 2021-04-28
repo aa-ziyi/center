@@ -19,8 +19,16 @@
           {{ String(scope.row.isValid) == "0" ? "否" : "是" }}
         </template>
       </el-table-column>
-      <el-table-column label="审核状态" />
-      <el-table-column prop="createTime" label="创建时间" />
+      <el-table-column prop="createUserName" label="审核状态">
+        <template slot-scope="scope">
+          <div>{{ scope.row.status | statusPlayString }}<br /></div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="createTime" label="创建时间" min-width="130">
+        <template slot-scope="scope">
+          {{ scope.row.createTime | dateFormatter }}
+        </template>
+      </el-table-column>
       <el-table-column prop="createUserName" label="创建人" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
@@ -66,6 +74,9 @@ export default {
       totalCount: 0,
       submitForm: {},
     };
+  },
+  activated() {
+    this.getData();
   },
   created() {
     this.getData();

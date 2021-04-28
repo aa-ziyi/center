@@ -8,10 +8,22 @@ export default {
   name: "Home",
   components: {},
   created() {
-    let user = getCurrentUser() || {};
+    let user = getCurrentUser();
+    if (!user) {
+      this.$router.push({
+        name: "Login",
+      });
+      return;
+    }
     let name = getRolePathName(user);
+    if (name) {
+      this.$router.push({
+        name,
+      });
+      return;
+    }
     this.$router.push({
-      name,
+      name: "403",
     });
   },
 };

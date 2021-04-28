@@ -1,119 +1,132 @@
 <template>
   <div>
-    <page-header title="门店审核"></page-header>
-    <el-card class="add-store-card">
-      <div slot="header" class="space-between">
-        <div>门店审核</div>
-      </div>
-      <el-form ref="baseForm" :model="formInline" label-width="150px">
-        <el-row :gutter="20">
-          <el-col :span="24">
-            <el-form-item label="门店编号:" prop="id" v-if="formInline.id">
-              {{ formInline.id }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="门店名称:" prop="name">
-              {{ formInline.name }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="门店简称:" prop="shortName">
-              {{ formInline.shortName }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="门店分类:" prop="type">
-              {{ formInline.typeNameDesc }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="归属城市:" prop="areaCode">
-              {{ formInline.areaCode }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="地图坐标经度:" prop="mapLong">
-              {{ formInline.mapLong }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="地图坐标纬度:" prop="mapDim">
-              {{ formInline.mapDim }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="有效开始时间:" prop="startTime">
-              {{ formInline.startTime }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="有效结束时间:" prop="stopTime">
-              {{ formInline.stopTime }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="营业时间:" prop="openTime">
-              {{ formInline.openTime }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="人均消费:" prop="avgSpend">
-              {{ formInline.avgSpend }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="门店手机号码:" prop="phone">
-              {{ formInline.phone }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="包间数:" prop="roomNum">
-              {{ formInline.roomNum }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="公交线路:" prop="busLine">
-              {{ formInline.busLine }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="停车位:" prop="parkPlace">
-              {{ formInline.parkPlace }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="面积:" prop="area">
-              {{ formInline.area }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="14">
-            <el-form-item label="门店地址:" prop="storeAddress">
-              {{ formInline.areaCode }}{{ formInline.storeAddress }}
-            </el-form-item>
-          </el-col>
-          <el-col :span="10"></el-col>
-          <el-col :span="12">
-            <el-form-item label="门店logo:" prop="log">
-              <img :src="formInline.logPath" style="width: 100px" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12"></el-col>
-          <el-col :span="12">
-            <el-form-item label="门店备注:" prop="remark">
-              {{ formInline.remark }}
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit('1')">审核通过</el-button>
-          <el-button class="ml20" type="primary" @click="onSubmit('0')">
-            审核驳回
-          </el-button>
-          <el-button class="ml20" @click="onBack">返回</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
+    <page-header title="门店详情"></page-header>
+    <el-tabs v-model="activeName" class="details-el-tabs">
+      <el-tab-pane label="门店详情" name="first">
+        <el-form
+          ref="baseForm"
+          :model="formInline"
+          label-width="150px"
+          class="el-form-static"
+        >
+          <el-row :gutter="20">
+            <el-col :span="24">
+              <el-form-item label="门店编号:" prop="id" v-if="formInline.id">
+                {{ formInline.id }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="门店名称:" prop="name">
+                {{ formInline.name }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="门店简称:" prop="shortName">
+                {{ formInline.shortName }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="门店分类:" prop="type">
+                {{ formInline.typeNameDesc }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="归属城市:" prop="areaCode">
+                {{ formInline.areaCode }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="地图坐标经度:" prop="mapLong">
+                {{ formInline.mapLong }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="地图坐标纬度:" prop="mapDim">
+                {{ formInline.mapDim }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="有效开始时间:" prop="startTime">
+                {{ formInline.startTime }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="有效结束时间:" prop="stopTime">
+                {{ formInline.stopTime }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="营业时间:" prop="openTime">
+                {{ formInline.openTime }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="人均消费:" prop="avgSpend">
+                {{ formInline.avgSpend }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="门店手机号码:" prop="phone">
+                {{ formInline.phone }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="包间数:" prop="roomNum">
+                {{ formInline.roomNum }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="公交线路:" prop="busLine">
+                {{ formInline.busLine }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="停车位:" prop="parkPlace">
+                {{ formInline.parkPlace }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="面积:" prop="area">
+                {{ formInline.area }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="门店地址:" prop="storeAddress">
+                {{ formInline.areaCode }}{{ formInline.storeAddress }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="16">
+              <el-form-item label="门店备注:" prop="remark">
+                {{ formInline.remark }}
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="门店logo:" prop="log">
+                <img :src="formInline.logPath" style="width: 100px" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-form-item>
+            <el-button
+              v-if="$route.query.type != 'show'"
+              type="primary"
+              @click="onSubmit('1')"
+              >审核通过</el-button
+            >
+            <el-button
+              v-if="$route.query.type != 'show'"
+              class="ml20"
+              type="primary"
+              @click="onSubmit('0')"
+            >
+              审核驳回
+            </el-button>
+            <el-button class="ml20" @click="back">返回</el-button>
+          </el-form-item>
+        </el-form>
+      </el-tab-pane>
+    </el-tabs>
+
     <el-dialog title="审核" :visible.sync="dialogFormVisible">
       <el-form
         ref="audit-form"
@@ -141,6 +154,7 @@ import { shopManageView, shopManageAduit } from "@/api/shop";
 export default {
   data() {
     return {
+      activeName: "first",
       storeTypeP: [],
       storeTypeC: [],
       formInline: {

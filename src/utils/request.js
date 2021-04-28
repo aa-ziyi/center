@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Message } from "element-ui";
-import { getToken, removeToken } from "@/utils/auth";
+import { getToken, removeToken, removeCurrentUser } from "@/utils/auth";
 import router from "@/router";
 
 // create an axios instance
@@ -35,6 +35,7 @@ service.interceptors.response.use(
     let { ret, msg } = data;
     if (ret == "401" || ret == 401) {
       removeToken();
+      removeCurrentUser();
       router.push({
         name: "login",
       });

@@ -39,10 +39,11 @@ const routes = [
     name: "merchantApply",
     component: Layout,
     redirect: {
-      name: "merchantApplyBySelf",
+      name: "merchantApply",
     },
     meta: {
       title: "自主申请",
+      permission: "merchantsenter",
     },
     children: [
       {
@@ -51,6 +52,7 @@ const routes = [
         component: LayoutEmpty,
         meta: {
           title: "申请入驻",
+          permission: "merchantsenter#opreate",
         },
         redirect: {
           name: "merchantApplyBySelfIndex",
@@ -64,6 +66,7 @@ const routes = [
               hidden: true,
               hiddenBreadcrumb: true,
               activeName: "merchantApplyBySelf",
+              permission: "merchantsenter#opreate",
             },
           },
           {
@@ -74,6 +77,7 @@ const routes = [
               title: "商户入驻",
               hidden: true,
               activeName: "merchantApplyBySelf",
+              permission: "merchantsenter#opreate#addbyself",
             },
           },
           {
@@ -109,6 +113,7 @@ const routes = [
     },
     meta: {
       title: "商品管理",
+      permission: "storemange",
     },
     children: [
       {
@@ -120,6 +125,7 @@ const routes = [
         },
         meta: {
           title: "商户列表",
+          permission: "storemange#list",
         },
         children: [
           {
@@ -131,6 +137,7 @@ const routes = [
               hidden: true,
               hiddenBreadcrumb: true,
               activeName: "MerchantList",
+              permission: "storemange#list",
             },
           },
           {
@@ -141,6 +148,7 @@ const routes = [
               title: "商户入驻",
               hidden: true,
               activeName: "MerchantList",
+              permission: "storemange#list#addstore",
             },
           },
           {
@@ -290,6 +298,7 @@ const routes = [
               hidden: true,
               hiddenBreadcrumb: true,
               activeName: "MerchantStore",
+              permission: "storemange#shopmanage",
             },
           },
           {
@@ -325,6 +334,7 @@ const routes = [
     },
     meta: {
       title: "系统管理",
+      permission: "sysmanage",
     },
     children: [
       {
@@ -333,6 +343,7 @@ const routes = [
         component: LayoutEmpty,
         meta: {
           title: "支付设置",
+          permission: "sysmanage#paymentset",
         },
         redirect: {
           name: "SettingPlayIndex",
@@ -346,6 +357,7 @@ const routes = [
               hiddenBreadcrumb: true,
               hidden: true,
               activeName: "SettingPlay",
+              permission: "sysmanage#paymentset",
             },
           },
           {
@@ -390,14 +402,48 @@ const routes = [
   {
     path: "/404",
     name: "404",
-    component: () => import("@/views/404"),
-    hidden: true,
+    component: Layout,
+    meta: {
+      title: "404",
+      hidden: true,
+    },
+    redirect: {
+      name: "404Home",
+    },
+    children: [
+      {
+        path: "home",
+        name: "404Home",
+        component: () => import("@/views/404"),
+        meta: {
+          title: "404",
+          hidden: true,
+        },
+      },
+    ],
   },
   {
     path: "/403",
     name: "403",
-    component: () => import("@/views/403"),
-    hidden: true,
+    component: Layout,
+    redirect: {
+      name: "403Home",
+    },
+    meta: {
+      title: "403",
+      hidden: true,
+    },
+    children: [
+      {
+        path: "home",
+        name: "403Home",
+        component: () => import("@/views/403"),
+        meta: {
+          title: "403",
+          hidden: true,
+        },
+      },
+    ],
   },
   { path: "*", redirect: "/404", hidden: true },
 ];

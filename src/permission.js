@@ -3,6 +3,7 @@ import NProgress from "nprogress"; // progress bar
 import "nprogress/nprogress.css"; // progress bar style
 import getPageTitle from "./utils/get-page-title";
 import { getToken, getCurrentUser } from "./utils/auth";
+import { hasPermission } from "@/utils/tool";
 
 NProgress.configure({ showSpinner: false }); // NProgress Configuration
 
@@ -18,6 +19,15 @@ router.beforeEach(async (to, from, next) => {
   if (!getToken() || !getCurrentUser()) {
     next({
       name: "Login",
+      replace: true,
+    });
+    NProgress.done();
+    return;
+  }
+  let { permission } = to.meta || {};
+  if (permission && !hasPermission(permission)) {
+    next({
+      name: "403",
       replace: true,
     });
     NProgress.done();

@@ -87,7 +87,6 @@
                 String(scope.row.isValid) === "1" ? "冻结" : "启用"
               }}</el-button
             >
-            <el-button type="text" size="small"> 添加账号 </el-button>
           </span>
         </template>
       </el-table-column>

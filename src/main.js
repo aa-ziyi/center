@@ -43,11 +43,11 @@ new Vue({
 function getDownFileUrl(fileId) {
   return `${
     process.env.VUE_APP_BASE_API
-  }/store-center/manage/store/downfile?id=${fileId}&token=${getToken()}`;
+  }store-center/manage/store/downfile?id=${fileId}&token=${getToken()}`;
 }
 
 function getVerifyCodeUrl() {
   return `${
     process.env.VUE_APP_BASE_API
-  }/store-center/image/code?rpid=2012&time=${new Date().getTime()}`;
+  }store-center/image/code?rpid=2012&time=${new Date().getTime()}`;
 }

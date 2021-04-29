@@ -1,8 +1,12 @@
 <template>
   <div class="login-page">
+    <div class="login-header">
+      <img src="@/assets/logo_pic.png" /> 江西移动商盟管理平台
+    </div>
     <div class="login-container">
       <div class="login-page-content">
         <div v-show="showLogin" class="login-form">
+          <div class="login-title">提示：多平台账号以商城管理后台密码为准</div>
           <el-form
             ref="form"
             :model="formData"
@@ -10,10 +14,15 @@
             label-position="left"
           >
             <el-form-item prop="code">
-              <el-input v-model="formData.code" placeholder="请输入账号" />
+              <el-input
+                v-model="formData.code"
+                placeholder="请输入账号"
+                size="medium"
+              />
             </el-form-item>
             <el-form-item prop="password">
               <el-input
+                size="medium"
                 v-model="formData.password"
                 type="password"
                 placeholder="请输入密码"
@@ -21,13 +30,18 @@
             </el-form-item>
             <el-form-item prop="smsCode">
               <el-col :span="12">
-                <el-input v-model="formData.smsCode" placeholder="验证码" />
+                <el-input
+                  v-model="formData.smsCode"
+                  placeholder="验证码"
+                  size="medium"
+                />
               </el-col>
               <el-col :span="12">
                 <el-button
                   class="ml20"
                   :loading="loading"
                   @click="handleLoginCode"
+                  size="medium"
                 >
                   获取手机验证码
                 </el-button>
@@ -35,13 +49,17 @@
             </el-form-item>
             <el-form-item prop="verifyCode">
               <el-col :span="12">
-                <el-input v-model="formData.verifyCode" placeholder="验证码" />
+                <el-input
+                  v-model="formData.verifyCode"
+                  placeholder="验证码"
+                  size="medium"
+                />
               </el-col>
               <el-col :span="12">
                 <el-image
                   v-loading="!verifyCodeUrl"
                   @click="handleImgClick"
-                  style="height: 40px"
+                  style="height: 30px"
                   :src="verifyCodeUrl"
                   class="link-primary ml20"
                 >
@@ -50,13 +68,18 @@
               </el-col>
             </el-form-item>
             <el-form-item>
-              <el-button :loading="loading" type="primary" @click="onSubmit">
+              <el-button
+                class="btn-block"
+                :loading="loading"
+                type="primary"
+                @click="onSubmit"
+              >
                 登陆
               </el-button>
             </el-form-item>
             <div class="space-between">
-              <el-link type="primary">忘记密码</el-link>
-              <el-link type="primary" @click="handleShowRegister">
+              <el-link class="login-link">忘记密码</el-link>
+              <el-link class="login-link" @click="handleShowRegister">
                 注册账号
               </el-link>
             </div>
@@ -73,16 +96,19 @@
               <el-input
                 v-model="registerFormData.code"
                 placeholder="请输入账号"
+                size="medium"
               />
             </el-form-item>
             <el-form-item prop="name">
               <el-input
+                size="medium"
                 v-model="registerFormData.name"
                 placeholder="请输入昵称"
               />
             </el-form-item>
             <el-form-item prop="password">
               <el-input
+                size="medium"
                 v-model="registerFormData.password"
                 placeholder="6-16位密码，区分大小写"
               />
@@ -92,12 +118,14 @@
                 v-model="registerFormData.cofpassword"
                 type="password"
                 placeholder="确认密码"
+                size="medium"
               />
             </el-form-item>
             <el-form-item prop="phone">
               <el-input
                 v-model="registerFormData.phone"
                 placeholder="11位手机号"
+                size="medium"
               />
             </el-form-item>
             <el-form-item prop="smsCode">
@@ -105,6 +133,7 @@
                 <el-input
                   v-model="registerFormData.smsCode"
                   placeholder="输入验证码"
+                  size="medium"
                 />
               </el-col>
               <el-col :span="12">
@@ -112,6 +141,7 @@
                   class="ml20"
                   :loading="loading"
                   @click="handleGetCode"
+                  size="medium"
                 >
                   获取手机验证码
                 </el-button>
@@ -122,6 +152,7 @@
                 <el-input
                   v-model="registerFormData.verifyCode"
                   placeholder="验证码"
+                  size="medium"
                 />
               </el-col>
               <el-col :span="12">
@@ -129,7 +160,7 @@
                   class="link-primary ml20"
                   v-loading="!verifyCodeUrl"
                   @click="handleImgClick"
-                  style="height: 40px"
+                  style="height: 30px"
                   :src="verifyCodeUrl"
                 >
                   <span slot="error">加载中</span>
@@ -140,16 +171,24 @@
               <el-input
                 v-model="registerFormData.mail"
                 placeholder="注册邮箱"
+                size="medium"
               />
             </el-form-item>
-            <div class="space-between">
-              <el-button :loading="loading" type="primary" @click="onRegister">
+            <el-form-item>
+              <el-button
+                :loading="loading"
+                class="btn-block"
+                type="primary"
+                @click="onRegister"
+              >
                 注册
               </el-button>
-              <el-link type="primary" @click="handleShowRegister">
+            </el-form-item>
+            <el-form-item>
+              <el-link class="login-link" @click="handleShowRegister">
                 使用已有账号登陆</el-link
               >
-            </div>
+            </el-form-item>
           </el-form>
         </div>
       </div>
@@ -201,10 +240,7 @@ export default {
       }
     };
     return {
-      formData: {
-        code: "wuli",
-        password: "123456",
-      },
+      formData: {},
       loading: false,
       showLogin: true,
       verifyCodeUrl: this.$getVerifyCodeUrl(),
@@ -214,14 +250,7 @@ export default {
         smsCode: [{ required: true, message: "请输入验证码" }],
         verifyCode: [{ required: true, message: "请输入图形验证码" }],
       },
-      registerFormData: {
-        code: "wulitest",
-        name: "wuli",
-        password: "123456",
-        cofpassword: "123456",
-        phone: "17682314600",
-        mail: "2298606212@qq.com",
-      },
+      registerFormData: {},
       registerFormRules: {
         code: [
           { required: true, message: "请输入用户名", trigger: "blur" },
@@ -264,23 +293,13 @@ export default {
   methods: {
     handleShowRegister() {
       this.showLogin = !this.showLogin;
-      this.registerFormData = {
-        code: "wulitest123",
-        name: "wulitest123",
-        password: "123456",
-        cofpassword: "123456",
-        phone: "17682314600",
-        mail: "2298606212@qq.com",
-      };
-      this.formData = {
-        code: "wuli",
-        password: "123456",
-      };
+      this.registerFormData = {};
+      this.formData = {};
       this.$refs["form"].resetFields();
       this.$refs["register-form"].resetFields();
     },
     handleLoginCode() {
-      if (!this.registerFormData.code) {
+      if (!this.formData.code) {
         this.$message("请输先入账号");
         return;
       }
@@ -402,35 +421,61 @@ export default {
   },
 };
 </script>
+<style lang="less">
+.login-page {
+  .el-form-item__content {
+    line-height: inherit;
+  }
+}
+.login-link.el-link.el-link--default {
+  color: #fff;
+}
+</style>
 <style lang="less" scoped>
 .login-page {
   height: 100vh;
-  // background: url("~@/assets/login.png") no-repeat;
-  background-size: cover;
-  background-position: center center;
+  background: url("~@/assets/body_bg.png") no-repeat;
+  background-size: contain;
+  background-position: center bottom;
+  background-color: #00081d;
+  .login-header {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    img {
+      height: 60px;
+      margin-right: 30px;
+    }
+  }
   .login-container {
     // #1ABC9C,#4FC1B0,#16A085,#0fce96
-    background: #4fc1b0;
+    // background: #4fc1b0;
     display: flex;
     align-items: center;
     height: 100vh;
     justify-content: center;
   }
   .login-page-content {
-    width: 70%;
+    width: 450px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     color: #fff;
+    background: rgba(255, 255, 255, 0.41);
+    border-radius: 10px;
     .login-form {
-      width: 470px;
-      background-color: #fff;
-      padding: 67px;
-      .login-form-title {
-        font-size: 30px;
-        font-weight: 400;
-        color: #397cf1;
-        line-height: 54px;
-        margin-bottom: 50px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 25px 30px;
+      .login-title {
+        font-size: 13px;
+        margin-bottom: 10px;
+        color: #ffa847;
       }
       .el-form {
         width: 100%;

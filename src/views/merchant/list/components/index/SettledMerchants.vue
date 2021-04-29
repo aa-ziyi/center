@@ -74,20 +74,17 @@
       <el-table-column prop="status" label="审核状态">
         <template slot-scope="scope">
           <div>
-            <div
-              v-if="String(scope.row.oldStoreId) == '0'"
-              class="color-danger"
-            >
+            <div v-if="String(scope.row.olderId) == '1'" class="color-danger">
               有变更
             </div>
             {{ scope.row.status | statusString }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="150">
+      <el-table-column fixed="right" label="操作" width="300">
         <template slot-scope="scope">
           <el-button
-            v-if="String(scope.row.oldStoreId) != '0'"
+            v-if="String(scope.row.olderId) != '1'"
             type="text"
             size="small"
             @click="handleUpdate(scope.row)"

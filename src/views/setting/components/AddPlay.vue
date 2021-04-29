@@ -215,7 +215,7 @@ export default {
         .then((res) => {
           this.formInline = res.data.paymentInfo;
         })
-        .fianlly(() => {
+        .finally(() => {
           this.loading = false;
         });
     },
@@ -282,7 +282,7 @@ export default {
             },
           });
         })
-        .fianlly(() => {
+        .finally(() => {
           this.btnLoading = false;
         });
     },

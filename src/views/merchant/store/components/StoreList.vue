@@ -61,7 +61,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="createUserName" label="创建人" />
-      <el-table-column fixed="right" label="操作" width="150">
+      <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button
             v-if="
@@ -73,11 +73,13 @@
             type="text"
             size="small"
             @click="handleUpdate(scope.row)"
+            class="ml20"
           >
             修改
           </el-button>
-          <span v-if="String(scope.row.status) === '3'" class="ml20">
+          <span v-if="String(scope.row.status) === '3'">
             <el-button
+              class="ml20"
               type="text"
               size="small"
               @click="handleChangeView(scope.row)"

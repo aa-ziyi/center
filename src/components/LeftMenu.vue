@@ -16,10 +16,7 @@
         <i class="el-icon-s-shop"> </i>申请入驻
       </el-menu-item>
       <!-- 已入驻商户首页 -->
-      <el-menu-item
-        v-if="user.isStore || user.isAdmin"
-        index="myMerchantDetiles"
-      >
+      <el-menu-item v-if="user.isStore" index="myMerchantDetiles">
         <i class="el-icon-s-platform"> </i> 我的商户
       </el-menu-item>
       <el-submenu index="MerchantList" v-if="$hasPermission('storemange')">

@@ -507,7 +507,7 @@
       </el-form>
     </el-card>
     <el-card class="mb20">
-      <div>费率</div>
+      <div slot="header">费率</div>
       <el-table :data="formInline.storeFreeList" style="width: 100%" border>
         <el-table-column type="index" label="序号"> </el-table-column>
         <el-table-column label="费率类型">
@@ -523,7 +523,7 @@
       </el-table>
     </el-card>
     <el-card>
-      <div>协议信息</div>
+      <div slot="header">协议信息</div>
       <el-form :model="formInline" label-width="150px" class="el-form-static">
         <el-form-item label="协议签订日期:" prop="contractSignTime">
           {{ formInline.contractSignTime }}
@@ -572,6 +572,20 @@
         </el-form-item>
       </el-form>
     </el-card>
+    <el-card class="mb20">
+      <div slot="header">其他信息</div>
+      <el-table :data="auditStep" style="width: 100%" border>
+        <el-table-column type="index" label="序号" min-width="80">
+        </el-table-column>
+        <el-table-column prop="updateTime" label="修改日期" min-width="140">
+          <template slot-scope="scope">
+            {{ scope.row.updateTime | dateFormatter }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="statusDesc" label="内容" />
+        <el-table-column prop="createUserName" label="操作人" />
+      </el-table>
+    </el-card>
   </div>
 </template>
 <script>
@@ -592,6 +606,7 @@ export default {
       formInline: {},
       payMenthodInfo: {},
       loading: false,
+      auditStep: [],
     };
   },
   activated() {
@@ -623,6 +638,7 @@ export default {
               : [],
           };
           this.payMenthodInfo = res.data.payMenthodInfo;
+          this.auditStep = res.data.auditStep || [];
           this.$emit("change", this.formInline);
         })
         .finally(() => {

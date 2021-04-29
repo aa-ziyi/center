@@ -206,12 +206,7 @@ export default {
           }).then(() => {
             this.$message.success("操作成功");
             this.dialogFormVisible = false;
-            this.$router.push({
-              name: "MerchantListIndex",
-              query: {
-                activeName: this.$route.query.activeName,
-              },
-            });
+            this.back();
           });
         }
       });
@@ -227,11 +222,7 @@ export default {
     },
     back() {
       this.$router.push({
-        name: this.$route.query.routeName,
-        params: this.$route.params,
-        query: {
-          activeName: this.$route.query.activeName,
-        },
+        name: "MerchantStoreIndex",
       });
     },
   },

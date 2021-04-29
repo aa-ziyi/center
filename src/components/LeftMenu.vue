@@ -13,15 +13,18 @@
         index="merchantApplyBySelf"
         v-if="$hasPermission('merchantsenter#opreate#addbyself')"
       >
-        申请入驻
+        <i class="el-icon-s-shop"> </i>申请入驻
       </el-menu-item>
       <!-- 已入驻商户首页 -->
-      <el-menu-item v-if="user.isStore" index="myMerchantDetiles">
-        我的商户
+      <el-menu-item
+        v-if="user.isStore || user.isAdmin"
+        index="myMerchantDetiles"
+      >
+        <i class="el-icon-s-platform"> </i> 我的商户
       </el-menu-item>
       <el-submenu index="MerchantList" v-if="$hasPermission('storemange')">
         <template slot="title">
-          <span>商户管理</span>
+          <span> <i class="el-icon-menu"> </i>商户管理</span>
         </template>
         <el-menu-item
           index="MerchantList"
@@ -36,7 +39,7 @@
       </el-submenu>
       <el-submenu index="SettingPlay" v-if="$hasPermission('sysmanage')">
         <template slot="title">
-          <span>系统管理</span>
+          <span> <i class="el-icon-s-tools"></i>系统管理</span>
         </template>
         <el-menu-item
           index="SettingPlay"
@@ -88,8 +91,13 @@ export default {
 <style lang="less">
 .left-menu.el-menu {
   border: none;
-  .el-submenu__title i {
+  .el-submenu .el-menu-item {
+    padding-left: 48px !important;
+  }
+  .el-submenu__title i,
+  .el-menu-item i {
     color: #fff;
+    margin-top: -4px;
   }
   .el-menu-item.is-active {
     background-color: darken(#16a085, 5%) !important;

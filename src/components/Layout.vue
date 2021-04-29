@@ -113,7 +113,7 @@ export default {
   min-height: 100vh;
   padding: 0;
   margin-top: 45px + 40px + 40px;
-  padding-top: 20px;
+  padding-top: 25px;
   .el-tabs__header {
     background-color: #fff;
     padding: 0 20px;
@@ -127,12 +127,15 @@ export default {
     }
   }
   .el-tabs__content {
-    margin: 0 20px;
+    margin: 0 25px;
     background-color: #fff;
-    padding: 15px;
+    padding: 20px;
     .el-card {
       box-shadow: none;
       border-radius: 0;
+    }
+    .el-form--inline {
+      margin-bottom: 20px;
     }
   }
 }

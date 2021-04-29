@@ -53,9 +53,13 @@
       <el-table-column prop="storeId" label="商户编号" />
       <el-table-column prop="name" label="商户名称">
         <template slot-scope="scope">
-          <div class="link-primary" @click="handleGoDetails(scope.row)">
+          <el-button
+            type="text"
+            size="small"
+            @click="handleGoDetails(scope.row)"
+          >
             {{ scope.row.name }}
-          </div>
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column prop="createSource" label="商户来源" />
@@ -72,7 +76,7 @@
           {{ scope.row.status | statusString }}
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column fixed="right" label="操作" width="150">
         <template slot-scope="scope">
           <div>
             <el-button

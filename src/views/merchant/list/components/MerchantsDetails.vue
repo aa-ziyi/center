@@ -1,12 +1,11 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <el-card class="mb20">
       <div slot="header">
         商户编号：{{ formInline.id }}
         <span class="ml10">商户名称：{{ formInline.name }}</span>
         <span class="ml10"> 状态：{{ formInline.status | statusString }}</span>
       </div>
-      <div>基本信息</div>
       <el-form :model="formInline" label-width="150px" class="el-form-static">
         <el-row :gutter="20">
           <el-col :span="8">
@@ -243,7 +242,7 @@
       </el-form>
     </el-card>
     <el-card class="mb20">
-      <div>业务信息</div>
+      <div slot="header">业务信息</div>
       <el-form :model="formInline" label-width="150px" class="el-form-static">
         <el-row :gutter="20">
           <el-col :span="8">
@@ -326,7 +325,7 @@
       </el-form>
     </el-card>
     <el-card class="mb20">
-      <div>结算信息</div>
+      <div slot="header">结算信息</div>
       <el-form :model="formInline" label-width="150px" class="el-form-static">
         <el-row :gutter="20">
           <el-col :span="8">
@@ -385,8 +384,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="发票开具方式" prop="settleBillType">
-              {{ formInline.settleBillTypeDesc }}
+            <el-form-item label="发票开具方式:" prop="settleBillType">
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -408,7 +406,7 @@
       </el-form>
     </el-card>
     <el-card class="mb20">
-      <div>支付信息</div>
+      <div slot="header">支付信息</div>
       <el-form
         :model="payMenthodInfo"
         label-width="150px"
@@ -593,6 +591,7 @@ export default {
     return {
       formInline: {},
       payMenthodInfo: {},
+      loading: false,
     };
   },
   activated() {

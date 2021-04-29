@@ -1,7 +1,13 @@
 <template>
   <div>
     <page-header title="支付设置">
-      <el-link type="primary" @click="handleJoinM">添加支付方式</el-link>
+      <el-button
+        type="primary"
+        size="mini"
+        icon="el-icon-circle-plus"
+        @click="handleJoinM"
+        >添加支付方式</el-button
+      >
     </page-header>
     <el-tabs v-model="activeName">
       <el-tab-pane label="已添加支付" name="first">
@@ -41,8 +47,12 @@ export default {
       activeName: "first",
     };
   },
+  activated() {
+    console.log("activated page");
+  },
   created() {
     this.activeName = this.$route.query.activeName || "first";
+    console.log("activated page created");
   },
   methods: {
     handleJoinM() {

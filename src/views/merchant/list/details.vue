@@ -60,9 +60,11 @@ export default {
     };
   },
   activated() {
+    console.log("activated page activated");
     this.showMangeMenus = String(this.$route.params.status) == "3";
   },
   created() {
+    console.log("activated page created");
     this.showMangeMenus = String(this.$route.params.status) == "3";
   },
   methods: {

@@ -1,11 +1,18 @@
 <template>
-  <div class="audit-content">
-    <MerchantsDetails :status="$route.params.status" />
-    <el-button type="primary" @click="onSubmit('1')">审核通过</el-button>
-    <el-button class="ml20" type="primary" @click="onSubmit('2')"
-      >审核驳回</el-button
-    >
-    <el-button class="ml20" @click="onBack">返回</el-button>
+  <div>
+    <page-header title="商户审核"> </page-header>
+    <el-tabs value="first" class="details-el-tabs">
+      <el-tab-pane label="商户审核" name="first">
+        <MerchantsDetails :status="$route.params.status" />
+        <div class="text-center mt20 mb20">
+          <el-button type="primary" @click="onSubmit('1')">审核通过</el-button>
+          <el-button class="ml20" type="primary" @click="onSubmit('2')"
+            >审核驳回</el-button
+          >
+          <el-button class="ml20" @click="onBack">返回</el-button>
+        </div>
+      </el-tab-pane>
+    </el-tabs>
     <el-dialog title="审核" :visible.sync="dialogFormVisible">
       <el-form
         ref="audit-form"
@@ -95,8 +102,3 @@ export default {
   },
 };
 </script>
-<style lang="less" scoped>
-.audit-content {
-  padding: 20px;
-}
-</style>

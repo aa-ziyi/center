@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="tableLoading">
     <page-header title="申请入驻"> </page-header>
     <el-tabs v-model="activeName" class="details-el-tabs">
       <el-tab-pane label="首页" name="first">
@@ -7,51 +7,55 @@
           <div class="apply-card" @click="handleClickCard">
             <div class="apply-card-content">
               <i class="apply-icon el-icon-circle-plus"></i>
-              <div>自主申请入驻平台</div>
+              <div>
+                {{ tableData.length ? "你已经申请过商户" : "自主申请入驻平台" }}
+              </div>
             </div>
           </div>
-          <div class="mb20">申请记录</div>
-          <el-table :data="tableData" style="width: 100%" border>
-            <el-table-column prop="storeId" label="商户编号" />
-            <el-table-column prop="name" label="商户名称">
-              <template slot-scope="scope">
-                {{ scope.row.name }}
-              </template>
-            </el-table-column>
-            <el-table-column prop="createSource" label="商户来源" />
-            <el-table-column prop="storeType" label="分类" />
-            <el-table-column prop="createTime" label="申请时间" />
-            <el-table-column prop="status" label="审核状态" />
-            <el-table-column fixed="right" label="操作" width="100">
-              <template slot-scope="scope">
-                <el-button
-                  @click="handleUpdate(scope.row)"
-                  type="text"
-                  size="small"
-                  >修改</el-button
-                >
-                <el-button
-                  v-if="String(scope.row.fileStatus) == '1'"
-                  @click="handleSgin(scope.row)"
-                  type="text"
-                  size="small"
-                  >签约</el-button
-                >
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-pagination
-            v-if="pageCount > 1"
-            class="mt20"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="curPage"
-            :page-sizes="[10, 20, 50, 100]"
-            :page-size="pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="totalCount"
-          >
-          </el-pagination>
+          <div v-if="tableData.length">
+            <div class="mb20">申请记录</div>
+            <el-table :data="tableData" style="width: 100%" border>
+              <el-table-column prop="storeId" label="商户编号" />
+              <el-table-column prop="name" label="商户名称">
+                <template slot-scope="scope">
+                  {{ scope.row.name }}
+                </template>
+              </el-table-column>
+              <el-table-column prop="createSource" label="商户来源" />
+              <el-table-column prop="storeType" label="分类" />
+              <el-table-column prop="createTime" label="申请时间" />
+              <el-table-column prop="status" label="审核状态" />
+              <el-table-column fixed="right" label="操作" width="100">
+                <template slot-scope="scope">
+                  <el-button
+                    @click="handleUpdate(scope.row)"
+                    type="text"
+                    size="small"
+                    >修改</el-button
+                  >
+                  <el-button
+                    v-if="String(scope.row.fileStatus) == '1'"
+                    @click="handleSgin(scope.row)"
+                    type="text"
+                    size="small"
+                    >签约</el-button
+                  >
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-pagination
+              v-if="pageCount > 1"
+              class="mt20"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="curPage"
+              :page-sizes="[10, 20, 50, 100]"
+              :page-size="pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="totalCount"
+            >
+            </el-pagination>
+          </div>
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -68,6 +72,7 @@ export default {
       curPage: 1,
       totalCount: 0,
       pageCount: 0,
+      tableLoading: false,
     };
   },
   created() {
@@ -99,6 +104,9 @@ export default {
       });
     },
     handleClickCard() {
+      if (this.tableData.length) {
+        return;
+      }
       this.$router.push({
         name: "merchantApplyJoin",
         query: {
@@ -117,7 +125,7 @@ export default {
       })
         .then((res) => {
           let { list, curPage, pageSize, totalCount, pageCount } = res.data;
-          this.tableData = list;
+          this.tableData = list || [];
           this.pageSize = pageSize;
           this.curPage = curPage;
           this.totalCount = totalCount;

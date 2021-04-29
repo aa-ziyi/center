@@ -1,13 +1,15 @@
 <template>
   <div>
     <page-header title="商户列表">
-      <el-link
+      <el-button
         type="primary"
+        size="mini"
+        icon="el-icon-circle-plus"
         @click="handleJoinM"
         v-if="$hasPermission('storemange#list#addstore')"
       >
         添加线上商户
-      </el-link>
+      </el-button>
     </page-header>
     <el-tabs v-model="activeName">
       <el-tab-pane label="已入驻" name="added" v-if="permission.added">

@@ -5,7 +5,7 @@
     </div>
     <div class="login-container">
       <div class="login-page-content">
-        <div v-show="showLogin" class="login-form">
+        <div v-show="formType == 'login'" class="login-form">
           <div class="login-title">提示：多平台账号以商城管理后台密码为准</div>
           <el-form
             ref="form"
@@ -37,12 +37,7 @@
                 />
               </el-col>
               <el-col :span="12">
-                <el-button
-                  class="ml20"
-                  :loading="loading"
-                  @click="handleLoginCode"
-                  size="medium"
-                >
+                <el-button class="ml20" @click="handleLoginCode" size="medium">
                   获取手机验证码
                 </el-button>
               </el-col>
@@ -78,14 +73,16 @@
               </el-button>
             </el-form-item>
             <div class="space-between">
-              <el-link class="login-link">忘记密码</el-link>
+              <el-link class="login-link" @click="handleShowPassword"
+                >忘记密码</el-link
+              >
               <el-link class="login-link" @click="handleShowRegister">
                 注册账号
               </el-link>
             </div>
           </el-form>
         </div>
-        <div v-show="!showLogin" class="login-form">
+        <div v-show="formType == 'register'" class="login-form">
           <el-form
             ref="register-form"
             :model="registerFormData"
@@ -137,12 +134,7 @@
                 />
               </el-col>
               <el-col :span="12">
-                <el-button
-                  class="ml20"
-                  :loading="loading"
-                  @click="handleGetCode"
-                  size="medium"
-                >
+                <el-button class="ml20" @click="handleGetCode" size="medium">
                   获取手机验证码
                 </el-button>
               </el-col>
@@ -179,15 +171,106 @@
                 :loading="loading"
                 class="btn-block"
                 type="primary"
-                @click="onRegister"
+                @click="onRegister()"
               >
                 注册
               </el-button>
             </el-form-item>
             <el-form-item>
-              <el-link class="login-link" @click="handleShowRegister">
+              <el-link class="login-link" @click="handleShowLogin">
                 使用已有账号登陆</el-link
               >
+            </el-form-item>
+          </el-form>
+        </div>
+        <div v-show="formType == 'password'" class="login-form">
+          <div class="login-title">
+            忘记密码了？没关系使用您绑定的手机号码找回密码吧。
+          </div>
+          <el-form
+            ref="password-form"
+            :model="passwordFormData"
+            :rules="passwordFormRules"
+            label-position="left"
+          >
+            <el-form-item prop="code">
+              <el-input
+                v-model="passwordFormData.code"
+                placeholder="请输入账号"
+                size="medium"
+              />
+            </el-form-item>
+
+            <el-form-item prop="smsCode">
+              <el-col :span="12">
+                <el-input
+                  v-model="passwordFormData.smsCode"
+                  placeholder="验证码"
+                  size="medium"
+                  name="smsCode"
+                />
+              </el-col>
+              <el-col :span="12">
+                <el-button
+                  class="ml20"
+                  @click="handlePasswordCode"
+                  size="medium"
+                >
+                  获取手机验证码
+                </el-button>
+              </el-col>
+            </el-form-item>
+            <el-form-item prop="verifyCode">
+              <el-col :span="12">
+                <el-input
+                  name="verifyCode"
+                  v-model="passwordFormData.verifyCode"
+                  placeholder="验证码"
+                  size="medium"
+                />
+              </el-col>
+              <el-col :span="12">
+                <el-image
+                  v-loading="!verifyCodeUrl"
+                  @click="handleImgClick"
+                  style="height: 30px"
+                  :src="verifyCodeUrl"
+                  class="link-primary ml20"
+                >
+                  <span slot="error">加载中</span>
+                </el-image>
+              </el-col>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input
+                size="medium"
+                v-model="passwordFormData.password"
+                type="password"
+                placeholder="请输入新密码"
+              />
+            </el-form-item>
+            <el-form-item prop="cofpassword">
+              <el-input
+                v-model="passwordFormData.cofpassword"
+                type="password"
+                placeholder="确认新密码"
+                size="medium"
+              />
+            </el-form-item>
+            <el-form-item>
+              <div class="space-between">
+                <el-button
+                  class="btn-block"
+                  :loading="loading"
+                  type="warning"
+                  @click="onSubmitPassword()"
+                >
+                  修改密码
+                </el-button>
+                <el-button :loading="loading" @click="handleShowLogin">
+                  返回
+                </el-button>
+              </div>
             </el-form-item>
           </el-form>
         </div>
@@ -203,6 +286,7 @@
 import {
   mainLogin,
   mainRegisty,
+  mainResetPwd,
   getNotSendMsg,
   getNotLoginmsg,
   mainCheckname,
@@ -234,9 +318,11 @@ export default {
       }
     };
     let validateCofPassword = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.registerFormData.password) {
+      let password = this.registerFormData.password;
+      if (this.formType == "password") {
+        password = this.passwordFormData.password;
+      }
+      if (value && password != value) {
         callback(new Error("两次输入密码不一致!"));
       } else {
         callback();
@@ -245,10 +331,10 @@ export default {
     return {
       formData: {},
       loading: false,
-      showLogin: true,
+      formType: this.$route.query.type || "login",
       verifyCodeUrl: this.$getVerifyCodeUrl(),
       rules: {
-        code: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+        code: [{ required: true, message: "请输入账号", trigger: "blur" }],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
         smsCode: [{ required: true, message: "请输入验证码" }],
         verifyCode: [{ required: true, message: "请输入图形验证码" }],
@@ -256,7 +342,7 @@ export default {
       registerFormData: {},
       registerFormRules: {
         code: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
+          { required: true, message: "请输入账号", trigger: "blur" },
           { validator: checkCode, trigger: "blur" },
           { validator: validateCode, trigger: "blur" },
         ],
@@ -290,16 +376,65 @@ export default {
           },
         ],
       },
+      passwordFormData: {},
+      passwordFormRules: {
+        code: [{ required: true, message: "请输入账号", trigger: "blur" }],
+        smsCode: [{ required: true, message: "请输入验证码" }],
+        verifyCode: [{ required: true, message: "请输入图形验证码" }],
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          {
+            validator: validatePassword,
+            trigger: "blur",
+          },
+        ],
+        cofpassword: [
+          { required: true, message: "请确认密码", trigger: "blur" },
+          {
+            validator: validateCofPassword,
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
   created() {},
   methods: {
-    handleShowRegister() {
-      this.showLogin = !this.showLogin;
+    restForm() {
       this.registerFormData = {};
       this.formData = {};
+      this.passwordFormData = {};
       this.$refs["form"].resetFields();
       this.$refs["register-form"].resetFields();
+      this.$refs["password-form"].resetFields();
+      this.verifyCodeUrl = this.$getVerifyCodeUrl();
+    },
+    handleShowPassword() {
+      this.formType = "password";
+      this.restForm();
+    },
+    handleShowLogin() {
+      this.formType = "login";
+      this.restForm();
+    },
+    handleShowRegister() {
+      this.formType = "register";
+      this.restForm();
+    },
+    handlePasswordCode() {
+      if (!this.passwordFormData.code) {
+        this.$message("请输先入账号");
+        return;
+      }
+      getNotLoginmsg({
+        data: {
+          code: this.passwordFormData.code,
+        },
+      }).then((res) => {
+        if (res.data) {
+          this.$set(this.passwordFormData, "smsCode", res.data);
+        }
+      });
     },
     handleLoginCode() {
       if (!this.formData.code) {
@@ -337,15 +472,26 @@ export default {
         this.verifyCodeUrl = this.$getVerifyCodeUrl();
       });
     },
-    onRegister() {
-      let code = jse.encrypt(this.registerFormData.code);
-      let password = jse.encrypt(this.registerFormData.password);
+    onSubmitPassword() {
+      this.onRegister(true);
+    },
+    onRegister(resetPassword) {
+      let formdata = this.registerFormData;
+      let _method = mainRegisty;
+      let form = "register-form";
+      if (resetPassword) {
+        formdata = this.passwordFormData;
+        _method = mainResetPwd;
+        form = "password-form";
+      }
+      let code = jse.encrypt(formdata.code);
+      let password = jse.encrypt(formdata.password);
       console.log(code);
-      this.$refs["register-form"].validate((validate) => {
+      this.$refs[form].validate((validate) => {
         if (validate) {
           this.loading = true;
-          let { cofpassword, ...other } = this.registerFormData;
-          mainRegisty({
+          let { cofpassword, ...other } = formdata;
+          _method({
             data: {
               ...other,
               rpid: "2012",
@@ -354,7 +500,7 @@ export default {
             },
           })
             .then(() => {
-              this.showLogin = !this.showLogin;
+              this.formType = "login";
             })
             .finally(() => {
               this.loading = false;
@@ -437,7 +583,7 @@ export default {
 <style lang="less" scoped>
 .login-page {
   position: relative;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 50px);
   background: url("~@/assets/body_bg.png") no-repeat;
   background-size: contain;
   background-position: center bottom;
@@ -460,10 +606,10 @@ export default {
   .login-bottom {
     position: absolute;
     left: 0;
-    bottom: -60px;
+    bottom: -50px;
     right: 0;
-    height: 60px;
-    line-height: 60px;
+    height: 50px;
+    line-height: 50px;
     text-align: center;
     color: #657180;
     font-size: 13px;
@@ -482,7 +628,6 @@ export default {
     justify-content: center;
     color: #fff;
     background: rgba(255, 255, 255, 0.41);
-    border-radius: 10px;
     .login-form {
       width: 100%;
       margin: 0 auto;

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <el-form
       ref="baseForm"
       :model="formInline"
@@ -139,7 +139,9 @@
         </el-col>
       </el-row>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">提交</el-button>
+        <el-button type="primary" @click="onSubmit" v-loading="btnLoading"
+          >提交</el-button
+        >
         <el-button class="ml20" @click="onBack">返回</el-button>
         <!-- <el-button @click="onReset" class="ml20">重置</el-button> -->
       </el-form-item>
@@ -159,6 +161,8 @@ import {
 export default {
   data() {
     return {
+      loading: false,
+      btnLoading: false,
       formInline: {
         hebaoStatus: 1,
         wechatPayApp: 1,
@@ -202,13 +206,18 @@ export default {
       let { status } = this.$route.query;
       let method =
         String(status) === "3" ? storeGetpaymentinfo : storeGetpaymenttempinfo;
+      this.loading = true;
       method({
         data: {
           id,
         },
-      }).then((res) => {
-        this.formInline = res.data.paymentInfo;
-      });
+      })
+        .then((res) => {
+          this.formInline = res.data.paymentInfo;
+        })
+        .fianlly(() => {
+          this.loading = false;
+        });
     },
     initFormData() {
       this.formInline = {
@@ -259,18 +268,23 @@ export default {
         updateStatus,
         ...form
       } = this.formInline;
-      method({ data: { ...form } }).then((res) => {
-        this.$message({
-          type: "success",
-          message: res.msg,
+      this.btnLoading = true;
+      method({ data: { ...form } })
+        .then((res) => {
+          this.$message({
+            type: "success",
+            message: res.msg,
+          });
+          this.$router.push({
+            name: "SettingPlay",
+            query: {
+              activeName: this.$route.query.activeName,
+            },
+          });
+        })
+        .fianlly(() => {
+          this.btnLoading = false;
         });
-        this.$router.push({
-          name: "SettingPlay",
-          query: {
-            activeName: this.$route.query.activeName,
-          },
-        });
-      });
     },
     onReset() {
       this.initFormData();

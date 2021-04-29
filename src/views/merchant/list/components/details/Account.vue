@@ -6,7 +6,12 @@
         <span class="ml10">商户名称：{{ baseData.name }}</span>
         <span class="ml10"> 状态：{{ baseData.status | statusString }}</span>
       </div>
-      <el-button type="text" plain @click="handleAddStore" icon="el-icon-plus">
+      <el-button
+        type="primary"
+        size="mini"
+        icon="el-icon-circle-plus"
+        @click="handleAddStore"
+      >
         添加账号
       </el-button>
     </div>

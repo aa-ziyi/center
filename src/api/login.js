@@ -52,6 +52,15 @@ export function mainLogin(option) {
     ...option,
   });
 }
+
+export function mainResetPwd(option) {
+  return request({
+    url: "/store-center/main/resetpwd",
+    method: "post",
+    ...option,
+  });
+}
+
 export function getRegion(option) {
   return request({
     url: "/store-center/sys/region/findall",

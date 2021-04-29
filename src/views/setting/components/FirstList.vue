@@ -15,9 +15,13 @@
       <el-table-column prop="id" label="支付渠道ID" />
       <el-table-column prop="name" label="支付渠道名称">
         <template slot-scope="scope">
-          <div class="link-primary" @click="handleGoDetails(scope.row)">
+          <el-button
+            type="text"
+            size="small"
+            @click="handleGoDetails(scope.row)"
+          >
             {{ scope.row.name }}
-          </div>
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column label="是否有效">
@@ -100,9 +104,11 @@ export default {
   },
   activated() {
     this.getData();
+    console.log("activated list");
   },
   created() {
     this.getData();
+    console.log("activated list created");
   },
   methods: {
     handleGoDetails(row) {

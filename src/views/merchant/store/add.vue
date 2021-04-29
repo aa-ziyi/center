@@ -389,15 +389,25 @@ export default {
             status,
             updateTime,
             updateUserid,
+            typeName,
             areaCode,
             ...other
           } = data;
+          let storeTypeP = typeName ? typeName.split(",") : [];
+          storeTypeP = storeTypeP.length > 1 ? Number(storeTypeP[1]) : "";
           this.formInline = {
             ...other,
+            storeTypeP,
             areaCode: areaCode ? areaCode.split(",") : [],
           };
           if (this.formInline.mapLong) {
             this.initCenter = [this.formInline.mapLong, this.formInline.mapDim];
+          }
+          if (this.formInline.storeTypeP) {
+            this.storeTypePChange(
+              this.formInline.storeTypeP,
+              this.formInline.type
+            );
           }
         })
         .finally(() => {

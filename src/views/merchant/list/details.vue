@@ -59,6 +59,9 @@ export default {
       showMangeMenus: false,
     };
   },
+  activated() {
+    this.showMangeMenus = String(this.$route.params.status) == "3";
+  },
   created() {
     this.showMangeMenus = String(this.$route.params.status) == "3";
   },

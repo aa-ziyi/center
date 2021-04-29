@@ -14,8 +14,15 @@
       <el-table-column prop="minfeeamount" label="最低收费金额（元）" />
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
-          <el-button type="text" size="small">修改</el-button>
-          <el-button type="text" size="small">删除</el-button>
+          <el-button type="text" size="small" @click="handleEdit(scope.$index)"
+            >修改</el-button
+          >
+          <el-button
+            type="text"
+            size="small"
+            @click="handleDelete(scope.$index)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -76,7 +83,9 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit(false)">保存费率</el-button>
+        <el-button class="mb20" type="primary" @click="onSubmit(false)"
+          >保存费率</el-button
+        >
       </el-form-item>
       <el-form-item>
         <el-button @click="$emit('prev', 'settlement')"> 上一项 </el-button>
@@ -90,6 +99,7 @@
 <script>
 import { scrollTo } from "@/utils/scroll-to.js";
 import { validateSingleBit } from "@/utils/validate";
+import { isDateIntersection } from "@/utils/tool";
 export default {
   props: {
     prestoreinfoData: {
@@ -107,6 +117,32 @@ export default {
     },
   },
   data() {
+    let checkDate = async (rule, value, callback) => {
+      if (value && this.formInline.expirydate) {
+        let startDate = this.formInline.effortdate;
+        if (value <= startDate) {
+          callback(new Error("失效日期需大于生效日期"));
+          return;
+        }
+        let bool = this.tableData.some((item) => {
+          return isDateIntersection(
+            this.formInline.effortdate,
+            value,
+            item.effortdate,
+            item.expirydate
+          );
+        });
+        if (bool) {
+          callback(
+            new Error("生效日期/失效日期与列表中添加的费率时间段存在重合")
+          );
+        } else {
+          callback();
+        }
+      } else {
+        callback();
+      }
+    };
     return {
       formInline: {
         capitalTypeList: [],
@@ -137,6 +173,9 @@ export default {
         ],
         expirydate: [
           { required: true, message: "请输入失效日期", trigger: "blur" },
+          {
+            validator: checkDate,
+          },
         ],
       },
       tableData: [],
@@ -144,12 +183,26 @@ export default {
   },
   created() {},
   methods: {
+    handleEdit(index) {
+      let form = { ...this.tableData[index] };
+      let { capitalType1, ...other } = form;
+      this.formInline = {
+        ...other,
+        capitalTypeList: ["capitalType1"],
+      };
+      this.tableData.splice(index, 1);
+    },
+    handleDelete(index) {
+      this.tableData.splice(index, 1);
+    },
     onSubmit(isNext) {
       this.$refs["baseForm"].validate((valid) => {
         if (valid) {
           console.log("valid");
           this.tableData.push(this.formInline);
-          this.formInline = {};
+          this.formInline = {
+            capitalTypeList: [],
+          };
           if (isNext) {
             this.$emit("next", this.tableData);
           }

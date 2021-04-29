@@ -23,22 +23,38 @@
               </el-table-column>
               <el-table-column prop="createSource" label="商户来源" />
               <el-table-column prop="storeType" label="分类" />
-              <el-table-column prop="createTime" label="申请时间" />
-              <el-table-column prop="status" label="审核状态" />
+              <el-table-column
+                prop="createTime"
+                label="申请时间"
+                min-width="120"
+              >
+                <template slot-scope="scope">
+                  {{ scope.row.createTime | dateFormatter }}
+                </template>
+              </el-table-column>
+              <el-table-column prop="status" label="审核状态">
+                <template slot-scope="scope">
+                  {{ scope.row.status | statusString }}
+                </template>
+              </el-table-column>
               <el-table-column fixed="right" label="操作" width="100">
                 <template slot-scope="scope">
                   <el-button
-                    @click="handleUpdate(scope.row)"
-                    type="text"
-                    size="small"
-                    >修改</el-button
-                  >
-                  <el-button
-                    v-if="String(scope.row.fileStatus) == '1'"
+                    v-if="
+                      String(scope.row.fileStatus) == '1' ||
+                      String(scope.row.fileStatus) == '3'
+                    "
                     @click="handleSgin(scope.row)"
                     type="text"
                     size="small"
                     >签约</el-button
+                  >
+                  <el-button
+                    v-else
+                    @click="handleUpdate(scope.row)"
+                    type="text"
+                    size="small"
+                    >修改</el-button
                   >
                 </template>
               </el-table-column>

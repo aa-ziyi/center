@@ -73,27 +73,34 @@
       </el-table-column>
       <el-table-column prop="status" label="审核状态">
         <template slot-scope="scope">
-          {{ scope.row.status | statusString }}
+          <div>
+            <div
+              v-if="String(scope.row.oldStoreId) == '0'"
+              class="color-danger"
+            >
+              有变更
+            </div>
+            {{ scope.row.status | statusString }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="150">
         <template slot-scope="scope">
-          <div>
-            <el-button
-              type="text"
-              size="small"
-              @click="handleUpdate(scope.row)"
-            >
-              修改
-            </el-button>
-            <el-button
-              type="text"
-              size="small"
-              @click="handleChangeView(scope.row)"
-            >
-              {{ String(scope.row.isValid) == "0" ? "上架" : "下架" }}
-            </el-button>
-          </div>
+          <el-button
+            v-if="String(scope.row.oldStoreId) != '0'"
+            type="text"
+            size="small"
+            @click="handleUpdate(scope.row)"
+          >
+            修改
+          </el-button>
+          <el-button
+            type="text"
+            size="small"
+            @click="handleChangeView(scope.row)"
+          >
+            {{ String(scope.row.isValid) == "0" ? "上架" : "下架" }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>

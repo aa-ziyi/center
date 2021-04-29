@@ -170,10 +170,10 @@
           <el-button type="primary" @click="handleShowAudit('1')">
             确认签约
           </el-button>
-          <el-button type="primary" @click="handleShowAudit('0')">
+          <el-button class="ml20" type="primary" @click="handleShowAudit('0')">
             驳回签约
           </el-button>
-          <el-button type="primary" @click="back"> 返回 </el-button>
+          <el-button class="ml20" @click="back"> 返回 </el-button>
         </el-form-item>
       </div>
       <div v-else>
@@ -252,7 +252,7 @@
             {{
               formInline.storedecision && formInline.storedecision.length
                 ? formInline.storedecision[0].name ||
-                  formInline.contract[0].fileName
+                  formInline.storedecision[0].fileName
                 : ""
             }}
           </div>
@@ -279,7 +279,7 @@
             {{
               formInline.chinamdecision && formInline.chinamdecision.length
                 ? formInline.chinamdecision[0].name ||
-                  formInline.contract[0].fileName
+                  formInline.chinamdecision[0].fileName
                 : ""
             }}
           </div>

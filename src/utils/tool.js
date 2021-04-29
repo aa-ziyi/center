@@ -45,3 +45,24 @@ export function isArray(arg) {
 export function isObject(obj) {
   return Object.prototype.toString.call(obj) === "[object Object]";
 }
+
+export function isDateIntersection(start1, end1, start2, end2) {
+  var startdate1 = new Date(start1.replace("-", "/").replace("-", "/"));
+  var enddate1 = new Date(end1.replace("-", "/").replace("-", "/"));
+
+  var startdate2 = new Date(start2.replace("-", "/").replace("-", "/"));
+  var enddate2 = new Date(end2.replace("-", "/").replace("-", "/"));
+
+  if (startdate1 >= startdate2 && startdate1 <= enddate2) {
+    return true;
+  }
+
+  if (enddate1 >= startdate2 && enddate1 <= enddate2) {
+    return true;
+  }
+
+  if (startdate1 <= startdate2 && enddate1 >= enddate2) {
+    return true;
+  }
+  return false;
+}

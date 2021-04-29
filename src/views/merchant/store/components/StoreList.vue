@@ -19,6 +19,8 @@
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
         >
         </el-date-picker>
       </el-form-item>
@@ -195,7 +197,12 @@ export default {
       this.getData();
     },
     onSubmit() {
-      this.submitForm = { ...this.formInline };
+      let { date = [], ...other } = this.formInline;
+      this.submitForm = {
+        startTime: date && date.length > 1 ? date[0] : "",
+        endTime: date && date.length > 1 ? date[1] : "",
+        ...other,
+      };
       this.getData();
     },
     onRest() {

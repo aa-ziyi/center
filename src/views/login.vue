@@ -193,6 +193,9 @@
         </div>
       </div>
     </div>
+    <div class="login-bottom">
+      Copyright 20172015 All Reserved. 中国移动通信集团江西有限公司版权所有
+    </div>
   </div>
 </template>
 
@@ -433,7 +436,8 @@ export default {
 </style>
 <style lang="less" scoped>
 .login-page {
-  height: 100vh;
+  position: relative;
+  height: calc(100vh - 60px);
   background: url("~@/assets/body_bg.png") no-repeat;
   background-size: contain;
   background-position: center bottom;
@@ -453,6 +457,17 @@ export default {
       margin-right: 30px;
     }
   }
+  .login-bottom {
+    position: absolute;
+    left: 0;
+    bottom: -60px;
+    right: 0;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    color: #657180;
+    font-size: 13px;
+  }
   .login-container {
     // #1ABC9C,#4FC1B0,#16A085,#0fce96
     // background: #4fc1b0;
@@ -462,7 +477,7 @@ export default {
     justify-content: center;
   }
   .login-page-content {
-    width: 450px;
+    width: 460px;
     display: flex;
     justify-content: center;
     color: #fff;

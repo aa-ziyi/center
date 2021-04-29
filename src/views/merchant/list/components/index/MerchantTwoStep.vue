@@ -77,8 +77,8 @@
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
-          format="yyyy-MM-dd HH:mm:ss"
-          value-format="yyyy-MM-dd HH:mm:ss"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
         >
         </el-date-picker>
       </el-form-item>
@@ -261,8 +261,8 @@ export default {
       let { areaCode = [], date = [], ...other } = this.formInline;
       this.submitForm = {
         areaCode: areaCode.length ? areaCode[areaCode.length - 1] : "",
-        startTime: date.length ? date[0] : "",
-        endTime: date.length ? date[1] : "",
+        startTime: date && date.length ? date[0] : "",
+        endTime: date && date.length ? date[1] : "",
         ...other,
       };
       this.getData();

@@ -18,7 +18,12 @@
       </el-form-item>
     </el-form>
     <div class="table-content">
-      <el-table :data="tableData" border v-loading="tableLoading">
+      <el-table
+        :data="tableData"
+        border
+        v-loading="tableLoading"
+        @row-click="handleRowClick"
+      >
         <el-table-column label="选择" width="55">
           <template slot-scope="scope">
             <el-radio v-model="tableRadio" :label="scope.row"><i></i></el-radio>
@@ -71,6 +76,9 @@ export default {
     this.getData();
   },
   methods: {
+    handleRowClick(row) {
+      this.tableRadio = row;
+    },
     handleClose() {
       this.$emit("input", false);
     },
@@ -114,7 +122,10 @@ export default {
     onSubmit() {
       this.submitForm = {
         ...this.formInline,
-        regionCode: this.formInline.regionCode.join(","),
+        regionCode:
+          this.formInline.regionCode && this.formInline.regionCode.length
+            ? this.formInline.regionCode[this.formInline.regionCode.length - 1]
+            : "",
       };
       this.tableRadio = {};
       this.getData();

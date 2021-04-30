@@ -13,7 +13,11 @@
         <el-input v-model="formInline.name" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="商户来源:" prop="createSource">
-        <el-select v-model="formInline.createSource" placeholder="请选择">
+        <el-select
+          v-model="formInline.createSource"
+          placeholder="请选择"
+          clearable
+        >
           <el-option
             v-for="(option, index) in prestoreinfoData.createSource"
             :key="index"
@@ -66,7 +70,7 @@
       <el-table-column prop="storeLevel" label="商户级别" />
       <el-table-column prop="storeType" label="分类" />
       <el-table-column prop="fixfee" label="费率" />
-      <el-table-column prop="createTime" label="创建时间" min-width="120">
+      <el-table-column prop="createTime" label="创建时间" min-width="130">
         <template slot-scope="scope">
           {{ scope.row.createTime | dateFormatter }}
         </template>
@@ -186,7 +190,8 @@ export default {
     onSubmit() {
       let { areaCode = [], date = [], status = [], ...other } = this.formInline;
       this.submitForm = {
-        areaCode: areaCode.length ? areaCode[areaCode.length - 1] : "",
+        areaCode:
+          areaCode && areaCode.length ? areaCode[areaCode.length - 1] : "",
         startTime: date && date.length ? date[0] : "",
         endTime: date && date.length ? date[1] : "",
         status: status.length ? status.join(",") : "",

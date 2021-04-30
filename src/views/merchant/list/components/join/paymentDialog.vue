@@ -12,7 +12,12 @@
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
       </el-form>
-      <el-table :data="tableData" border v-loading="tableLoading">
+      <el-table
+        :data="tableData"
+        border
+        v-loading="tableLoading"
+        @row-click="handleRowClick"
+      >
         <el-table-column label="选择" width="55">
           <template slot-scope="scope">
             <el-radio v-model="tableRadio" :label="scope.row"><i></i></el-radio>
@@ -65,6 +70,9 @@ export default {
     this.getData();
   },
   methods: {
+    handleRowClick(row) {
+      this.tableRadio = row;
+    },
     handleClose() {
       this.$emit("input", false);
     },

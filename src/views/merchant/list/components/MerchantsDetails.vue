@@ -47,7 +47,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="服务类型:" prop="serviceType">
-              {{ formInline.serviceType }}
+              {{ formInline.serviceTypeDesc }}
             </el-form-item>
           </el-col>
 

@@ -2,7 +2,15 @@
   <div>
     <page-header
       :title="`${$route.params.accountId ? '修改' : '编辑'}商户账号`"
-    ></page-header>
+    >
+      <el-button
+        icon="el-icon-back"
+        circle
+        size="mini"
+        type="primary"
+        @click="back"
+      ></el-button>
+    </page-header>
     <el-tabs v-model="activeName" class="details-el-tabs">
       <el-tab-pane
         :label="`${$route.params.accountId ? '修改' : '编辑'}商户账号`"

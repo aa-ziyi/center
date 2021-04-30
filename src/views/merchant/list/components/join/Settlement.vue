@@ -143,7 +143,6 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="发票开具方式" prop="settleBillType">
-            {{ formInline.settleBillType }}
             <el-radio-group v-model="formInline.settleBillType">
               <el-radio
                 v-for="(option, index) in prestoreinfoData.settleType"

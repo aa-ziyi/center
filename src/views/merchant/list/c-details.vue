@@ -1,6 +1,14 @@
 <template>
   <div>
-    <page-header title="商户列表"> </page-header>
+    <page-header title="商户列表">
+      <el-button
+        icon="el-icon-back"
+        circle
+        size="mini"
+        type="primary"
+        @click="back"
+      ></el-button>
+    </page-header>
     <el-tabs
       v-model="activeName"
       class="details-el-tabs"
@@ -25,6 +33,13 @@ export default {
     return {
       activeName: "first",
     };
+  },
+  methods: {
+    back() {
+      this.$router.push({
+        name: "MerchantListDetailsIndex",
+      });
+    },
   },
 };
 </script>

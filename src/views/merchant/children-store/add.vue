@@ -1,8 +1,14 @@
 <template>
   <div>
-    <page-header
-      :title="`${$route.params.storeId ? '修改' : '编辑'}子商户`"
-    ></page-header>
+    <page-header :title="`${$route.params.storeId ? '修改' : '编辑'}子商户`">
+      <el-button
+        icon="el-icon-back"
+        circle
+        size="mini"
+        type="primary"
+        @click="back"
+      ></el-button>
+    </page-header>
     <el-tabs value="first" class="details-el-tabs">
       <el-tab-pane
         :label="`${$route.params.storeId ? '修改' : '编辑'}子商户`"

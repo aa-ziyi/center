@@ -32,7 +32,7 @@ const config = {
     },
     proxy: {
       "/api": {
-        target: "http://118.24.122.189:8009",
+        target: "http://117.169.64.37",
         changeOrigin: true,
         pathRewrite: {
           "^/api": "",

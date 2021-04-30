@@ -1,6 +1,6 @@
 <template>
-  <div v-loading="loading">
-    <el-card class="mb20">
+  <div>
+    <el-card class="mb20" v-loading="loading">
       <div slot="header">
         商户编号：{{ formInline.id }}
         <span class="ml10">商户名称：{{ formInline.name }}</span>
@@ -360,7 +360,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="结算比例:" prop="settleRate">
-              {{ formInline.settleRate }}
+              {{ formInline.settleRate }}%
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -375,16 +375,17 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="起始金额:" prop="settleBeginamt">
-              {{ formInline.settleBeginamt }}
+              {{ formInline.settleBeginamt }}元
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="最低收费金额:" prop="minRetainedamt">
-              {{ formInline.minRetainedamt }}
+              {{ formInline.minRetainedamt }} 元
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="发票开具方式:" prop="settleBillType">
+              {{ formInline.settleBillTypeDesc }}
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -522,7 +523,7 @@
         <el-table-column prop="minfeeamount" label="最低收费金额（元）" />
       </el-table>
     </el-card>
-    <el-card>
+    <el-card class="mb20">
       <div slot="header">协议信息</div>
       <el-form :model="formInline" label-width="150px" class="el-form-static">
         <el-form-item label="协议签订日期:" prop="contractSignTime">

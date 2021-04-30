@@ -170,7 +170,7 @@ export default {
     this.getData();
   },
   created() {
-    this.getData();
+    // this.getData();
     getStoretype({
       data: {
         pId: 0,

@@ -19,7 +19,7 @@
       :inline="true"
       :model="formInline"
       class="demo-form-inline"
-      label-width="80px"
+      label-width="100px"
     >
       <el-form-item label="子商户编号:">
         <el-input v-model="formInline.user" placeholder="请输入"></el-input>

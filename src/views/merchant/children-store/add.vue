@@ -1,90 +1,99 @@
 <template>
   <div>
-    <el-form
-      ref="baseForm"
-      :model="formInline"
-      :rules="formRules"
-      class="demo-form-inline"
-      label-width="150px"
-    >
-      {{ formInline }}
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item label="商户名称:" prop="storeName">
-            <el-input
-              v-model="formInline.storeName"
-              placeholder="请输入"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="商户简称:" prop="storeShortName">
-            <el-input
-              v-model="formInline.storeShortName"
-              placeholder="请输入"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="归属地市:" prop="areaCode">
-            <area-cascader v-model="formInline.areaCode" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="业务联系人电话:" prop="linkPhone">
-            <el-input
-              v-model="formInline.linkPhone"
-              placeholder="请输入"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="业务联系人:" prop="linkName">
-            <el-input
-              v-model="formInline.linkName"
-              placeholder="请输入"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="财务主管联系电话:" prop="bsManagePhone">
-            <el-input
-              v-model="formInline.bsManagePhone"
-              placeholder="请输入"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="财务主管:" prop="bsManageName">
-            <el-input
-              v-model="formInline.bsManageName"
-              placeholder="请输入"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="公司地址:" prop="storeAddress">
-            <el-row>
-              <el-col :span="12">
-                <area-cascader v-model="formInline.companyAreaCode" />
-              </el-col>
-              <el-col :span="12">
+    <page-header
+      :title="`${$route.params.storeId ? '修改' : '编辑'}子商户`"
+    ></page-header>
+    <el-tabs value="first" class="details-el-tabs">
+      <el-tab-pane
+        :label="`${$route.params.storeId ? '修改' : '编辑'}子商户`"
+        name="first"
+      >
+        <el-form
+          ref="baseForm"
+          :model="formInline"
+          :rules="formRules"
+          class="demo-form-inline"
+          label-width="150px"
+        >
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <el-form-item label="商户名称:" prop="storeName">
                 <el-input
-                  v-model="formInline.storeAddress"
+                  v-model="formInline.storeName"
                   placeholder="请输入"
                 ></el-input>
-              </el-col>
-            </el-row>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="商户简称:" prop="storeShortName">
+                <el-input
+                  v-model="formInline.storeShortName"
+                  placeholder="请输入"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="归属地市:" prop="areaCode">
+                <area-cascader v-model="formInline.areaCode" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="业务联系人电话:" prop="linkPhone">
+                <el-input
+                  v-model="formInline.linkPhone"
+                  placeholder="请输入"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="业务联系人:" prop="linkName">
+                <el-input
+                  v-model="formInline.linkName"
+                  placeholder="请输入"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="财务主管联系电话:" prop="bsManagePhone">
+                <el-input
+                  v-model="formInline.bsManagePhone"
+                  placeholder="请输入"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="财务主管:" prop="bsManageName">
+                <el-input
+                  v-model="formInline.bsManageName"
+                  placeholder="请输入"
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="公司地址:" prop="storeAddress">
+                <el-row>
+                  <el-col :span="12">
+                    <area-cascader v-model="formInline.companyAreaCode" />
+                  </el-col>
+                  <el-col :span="12">
+                    <el-input
+                      v-model="formInline.storeAddress"
+                      placeholder="请输入"
+                    ></el-input>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit" v-loading="loading">
+              提交
+            </el-button>
+            <el-button class="ml20" @click="back"> 返回 </el-button>
           </el-form-item>
-        </el-col>
-      </el-row>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit" v-loading="loading">
-          提交
-        </el-button>
-        <el-button class="ml20" @click="back"> 返回 </el-button>
-      </el-form-item>
-    </el-form>
+        </el-form>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 <script>
@@ -162,10 +171,7 @@ export default {
     },
     back() {
       this.$router.push({
-        params: this.$route.params,
-        query: {
-          activeName: this.$route.query.activeName,
-        },
+        name: "MerchantListDetailsIndex",
       });
     },
     saveData() {

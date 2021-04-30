@@ -614,6 +614,7 @@ export default {
     this.getFormData();
   },
   created() {
+    this.isCreated = true;
     this.getFormData();
   },
   methods: {

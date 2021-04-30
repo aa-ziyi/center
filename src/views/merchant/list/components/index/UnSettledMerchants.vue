@@ -129,9 +129,9 @@ export default {
   activated() {
     this.getData();
   },
-  created() {
-    this.getData();
-  },
+  // created() {
+  //   this.getData();
+  // },
   methods: {
     handleGoDetails(row) {
       this.$router.push({

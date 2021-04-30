@@ -487,11 +487,7 @@ export default {
     },
     back() {
       this.$router.push({
-        name: this.$route.query.routeName,
-        params: this.$route.params,
-        query: {
-          activeName: this.$route.query.activeName,
-        },
+        name: "MerchantListDetailsIndex",
       });
     },
   },

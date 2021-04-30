@@ -103,9 +103,9 @@ export default {
   activated() {
     this.getData();
   },
-  created() {
-    this.getData();
-  },
+  // created() {
+  //   this.getData();
+  // },
   methods: {
     handleChangeView(row) {
       this.$confirm(

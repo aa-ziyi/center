@@ -127,10 +127,10 @@ export default {
     console.log("activated storelist activated");
     this.getData();
   },
-  created() {
-    console.log("activated storelist created");
-    this.getData();
-  },
+  // created() {
+  //   console.log("activated storelist created");
+  //   this.getData();
+  // },
   methods: {
     handleChangeView(row) {
       this.$confirm(

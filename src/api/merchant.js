@@ -167,3 +167,11 @@ export function manageStoreSuresgin(option) {
     ...option,
   });
 }
+
+export function storeManageChlidAdd(option) {
+  return request({
+    url: "/store-center/store/manage/chlid/add",
+    method: "post",
+    ...option,
+  });
+}

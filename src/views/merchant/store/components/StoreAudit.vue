@@ -41,8 +41,8 @@
         </template>
       </el-table-column>
       <el-table-column prop="address" label="商户名称" />
-      <el-table-column prop="areaCode" label="所在地" />
-      <el-table-column prop="address" label="扫码付" />
+      <el-table-column prop="areaCodeDesc" label="所在地" />
+      <!-- <el-table-column prop="address" label="扫码付" /> -->
       <el-table-column label="是否生效">
         <template slot-scope="scope">
           {{ String(scope.row.status) === "1" ? "是" : "否" }}

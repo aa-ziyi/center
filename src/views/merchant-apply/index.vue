@@ -18,7 +18,13 @@
               <el-table-column prop="storeId" label="商户编号" />
               <el-table-column prop="name" label="商户名称">
                 <template slot-scope="scope">
-                  {{ scope.row.name }}
+                  <el-button
+                    type="text"
+                    size="small"
+                    @click="handleGoDetails(scope.row)"
+                  >
+                    {{ scope.row.name }}
+                  </el-button>
                 </template>
               </el-table-column>
               <el-table-column prop="createSource" label="商户来源" />
@@ -95,6 +101,15 @@ export default {
     this.getData();
   },
   methods: {
+    handleGoDetails(row) {
+      this.$router.push({
+        name: "merchantApplyDetails",
+        params: {
+          id: row.storeId,
+          status: row.status,
+        },
+      });
+    },
     handleUpdate(row) {
       this.$router.push({
         name: "merchantApplyEdit",

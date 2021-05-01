@@ -584,6 +584,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="statusDesc" label="内容" />
+        <el-table-column prop="remark" label="审核描述" />
         <el-table-column prop="createUserName" label="操作人" />
       </el-table>
     </el-card>
@@ -620,15 +621,17 @@ export default {
   },
   methods: {
     getFormData() {
-      if (!(this.id || (this.$route.params.id && this.status))) {
+      let id = this.id || this.$route.params.id;
+      let status = this.status || this.$route.params.status;
+      if (!status || !id) {
         return;
       }
       this.loading = true;
       let method =
-        String(this.status) == "3" ? storeGetstoreinfo : storeGetStoreTempInfo;
+        String(status) == "3" ? storeGetstoreinfo : storeGetStoreTempInfo;
       method({
         data: {
-          id: this.id || this.$route.params.id,
+          id: id,
         },
       })
         .then((res) => {

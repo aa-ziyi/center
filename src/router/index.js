@@ -100,6 +100,16 @@ const routes = [
               activeName: "merchantApplyBySelf",
             },
           },
+          {
+            path: "details/:id/:status",
+            name: "merchantApplyDetails",
+            component: () => import("../views/merchant-apply/details.vue"),
+            meta: {
+              title: "商户入驻",
+              hidden: true,
+              activeName: "merchantApplyBySelf",
+            },
+          },
         ],
       },
     ],

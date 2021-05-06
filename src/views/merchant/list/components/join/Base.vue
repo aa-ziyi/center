@@ -8,12 +8,11 @@
       label-width="150px"
     >
       <el-row :gutter="20">
-        <el-col :span="12">
+        <el-col :span="24">
           <el-form-item label="商户编号:" v-if="formInline.id">
             {{ formInline.id }}
           </el-form-item>
         </el-col>
-        <el-col :span="12" :offset="12"> </el-col>
         <el-col :span="12">
           <el-form-item label="商户名称:" prop="name">
             <el-input v-model="formInline.name" placeholder="请输入"></el-input>
@@ -62,15 +61,20 @@
 
         <el-col :span="12">
           <el-form-item label="支付信息编号:" prop="paymentId" v-if="isAdmin">
-            <el-input
-              v-model="formInline.paymentId"
-              placeholder="请输入"
-              style="display: none"
-            ></el-input>
-            {{ formInline.paymentId }}
-            <a class="link-primary" @click="handleCheckPaymentId">
-              {{ formInline.paymentId ? "修改" : "选择" }}支付方式
-            </a>
+            <el-row :gutter="2">
+              <el-col :span="10">
+                <el-input
+                  v-model="formInline.paymentId"
+                  placeholder="请选择支付方式"
+                  disabled
+                ></el-input>
+              </el-col>
+              <el-col :span="12">
+                <a class="link-primary" @click="handleCheckPaymentId">
+                  {{ formInline.paymentId ? "修改" : "选择" }}支付方式
+                </a>
+              </el-col>
+            </el-row>
           </el-form-item>
         </el-col>
         <el-col :span="12">

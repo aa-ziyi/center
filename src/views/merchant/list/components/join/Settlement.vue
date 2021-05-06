@@ -26,15 +26,19 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="开户行联行号:" prop="merOpBk">
-            <el-input
-              v-model="formInline.merOpBk"
-              placeholder="请输入"
-              style="display: none"
-            ></el-input>
-            {{ formInline.merOpBk }}
-            <a class="link-primary" @click="handleCheckPaymentId">
-              {{ formInline.merOpBk ? "修改" : "选择" }}支付方式
-            </a>
+            <el-row :gutter="5">
+              <el-col :span="12">
+                <el-input
+                  v-model="formInline.merOpBk"
+                  placeholder="请选择或输入开户行联行号"
+                ></el-input>
+              </el-col>
+              <el-col :span="8">
+                <a class="link-primary" @click="handleCheckPaymentId">
+                  {{ formInline.merOpBk ? "修改" : "选择" }}银行
+                </a>
+              </el-col>
+            </el-row>
           </el-form-item>
         </el-col>
         <el-col :span="12">

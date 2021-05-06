@@ -78,7 +78,7 @@
       </el-form-item>
     </el-form>
     <el-table :data="tableData" style="width: 100%" border>
-      <el-table-column prop="storeId" label="商户编号" />
+      <el-table-column prop="storeId" label="商户编号" width="80px" />
       <el-table-column prop="name" label="商户名称">
         <template slot-scope="scope">
           <el-button
@@ -94,7 +94,7 @@
       <el-table-column prop="storeLevel" label="商户级别" />
       <el-table-column prop="storeType" label="分类" />
       <el-table-column prop="fixfee" label="费率" />
-      <el-table-column prop="createTime" label="创建时间" min-width="130">
+      <el-table-column prop="createTime" label="创建时间" width="160">
         <template slot-scope="scope">
           {{ scope.row.createTime | dateFormatter }}
         </template>

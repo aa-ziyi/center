@@ -12,7 +12,7 @@
       </el-form-item>
     </el-form>
     <el-table :data="tableData" style="width: 100%" border>
-      <el-table-column prop="id" label="支付渠道ID" />
+      <el-table-column prop="id" label="支付渠道ID" width="80px" />
       <el-table-column prop="name" label="支付渠道名称">
         <template slot-scope="scope">
           <el-button

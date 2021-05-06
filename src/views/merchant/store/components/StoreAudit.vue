@@ -28,7 +28,7 @@
       </el-form-item>
     </el-form>
     <el-table :data="tableData" style="width: 100%" border>
-      <el-table-column prop="id" label="门店编号" />
+      <el-table-column prop="id" label="门店编号" width="80px" />
       <el-table-column prop="name" label="门店名称">
         <template slot-scope="scope">
           <el-button
@@ -53,7 +53,7 @@
           {{ scope.row.status | statusStoreString }}
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" min-width="130">
+      <el-table-column prop="createTime" label="创建时间" width="160">
         <template slot-scope="scope">
           {{ scope.row.createTime | dateFormatter }}
         </template>

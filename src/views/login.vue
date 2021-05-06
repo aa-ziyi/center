@@ -37,8 +37,17 @@
                 />
               </el-col>
               <el-col :span="12">
-                <el-button class="ml20" @click="handleLoginCode" size="medium">
-                  获取手机验证码
+                <el-button
+                  class="ml20"
+                  @click="handleLoginCode"
+                  size="medium"
+                  :disabled="downCountTime > 0"
+                >
+                  {{
+                    downCountTime
+                      ? `${downCountTime}秒后重试`
+                      : "获取手机验证码"
+                  }}
                 </el-button>
               </el-col>
             </el-form-item>
@@ -134,8 +143,17 @@
                 />
               </el-col>
               <el-col :span="12">
-                <el-button class="ml20" @click="handleGetCode" size="medium">
-                  获取手机验证码
+                <el-button
+                  class="ml20"
+                  @click="handleGetCode"
+                  size="medium"
+                  :disabled="downCountTime > 0"
+                >
+                  {{
+                    downCountTime
+                      ? `${downCountTime}秒后重试`
+                      : "获取手机验证码"
+                  }}
                 </el-button>
               </el-col>
             </el-form-item>
@@ -215,8 +233,13 @@
                   class="ml20"
                   @click="handlePasswordCode"
                   size="medium"
+                  :disabled="downCountTime > 0"
                 >
-                  获取手机验证码
+                  {{
+                    downCountTime
+                      ? `${downCountTime}秒后重试`
+                      : "获取手机验证码"
+                  }}
                 </el-button>
               </el-col>
             </el-form-item>
@@ -329,7 +352,9 @@ export default {
       }
     };
     return {
+      timeClock: null,
       formData: {},
+      downCountTime: 0,
       loading: false,
       formType: this.$route.query.type || "login",
       verifyCodeUrl: this.$getVerifyCodeUrl(),
@@ -408,6 +433,8 @@ export default {
       this.$refs["register-form"].resetFields();
       this.$refs["password-form"].resetFields();
       this.verifyCodeUrl = this.$getVerifyCodeUrl();
+      this.downCountTime = 0;
+      clearInterval(this.timeClock);
     },
     handleShowPassword() {
       this.formType = "password";
@@ -426,6 +453,7 @@ export default {
         this.$message("请输先入账号");
         return;
       }
+      this.startDownCountTime();
       getNotLoginmsg({
         data: {
           code: this.passwordFormData.code,
@@ -441,6 +469,7 @@ export default {
         this.$message("请输先入账号");
         return;
       }
+      this.startDownCountTime();
       getNotLoginmsg({
         data: {
           code: this.formData.code,
@@ -456,6 +485,7 @@ export default {
         this.$message("请输入手机号");
         return;
       }
+      this.startDownCountTime();
       getNotSendMsg({
         data: {
           phone: this.registerFormData.phone,
@@ -465,6 +495,16 @@ export default {
           this.$set(this.registerFormData, "smsCode", res.data);
         }
       });
+    },
+    startDownCountTime() {
+      this.downCountTime = 60;
+      clearInterval(this.timeClock);
+      this.timeClock = setInterval(() => {
+        this.downCountTime--;
+        if (this.downCountTime == 0) {
+          clearInterval(this.timeClock);
+        }
+      }, 1000);
     },
     handleImgClick() {
       this.verifyCodeUrl = "";
@@ -583,13 +623,9 @@ export default {
 <style lang="less" scoped>
 .login-page {
   position: relative;
-  height: calc(100vh - 50px);
-  background: url("~@/assets/body_bg.png") no-repeat;
-  background-size: contain;
-  background-position: center bottom;
-  background-color: #00081d;
+  height: 100vh;
   .login-header {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     right: 0;
@@ -604,26 +640,32 @@ export default {
     }
   }
   .login-bottom {
-    position: absolute;
+    position: fixed;
     left: 0;
-    bottom: -50px;
+    bottom: 0;
     right: 0;
     height: 50px;
     line-height: 50px;
     text-align: center;
     color: #657180;
     font-size: 13px;
+    background-color: #fff;
   }
   .login-container {
-    // #1ABC9C,#4FC1B0,#16A085,#0fce96
-    // background: #4fc1b0;
     display: flex;
     align-items: center;
     height: 100vh;
+    min-height: 740px;
     justify-content: center;
+    box-sizing: border-box;
+    background: url("~@/assets/body_bg.png") no-repeat;
+    background-size: contain;
+    background-position: center bottom;
+    background-color: #00081d;
   }
   .login-page-content {
     width: 460px;
+    margin: 60px 0 50px;
     display: flex;
     justify-content: center;
     color: #fff;
